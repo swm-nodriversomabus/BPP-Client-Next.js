@@ -1,0 +1,260 @@
+{
+  "ssrModuleMapping": {
+    "(app-client)/./.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/client/components/error-boundary.js": {
+      "*": {
+        "id": "(sc_client)/./.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/client/components/error-boundary.js",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/client/components/app-router.js": {
+      "*": {
+        "id": "(sc_client)/./.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/client/components/app-router.js",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/client/components/layout-router.js": {
+      "*": {
+        "id": "(sc_client)/./.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/client/components/layout-router.js",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/client/components/render-from-template-context.js": {
+      "*": {
+        "id": "(sc_client)/./.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/client/components/render-from-template-context.js",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/client/components/static-generation-searchparams-bailout-provider.js": {
+      "*": {
+        "id": "(sc_client)/./.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/client/components/static-generation-searchparams-bailout-provider.js",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/client/link.js": {
+      "*": {
+        "id": "(sc_client)/./.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/client/link.js",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./src/(component)/moreButton.tsx": {
+      "*": {
+        "id": "(sc_client)/./src/(component)/moreButton.tsx",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./src/(component)/backButton.tsx": {
+      "*": {
+        "id": "(sc_client)/./src/(component)/backButton.tsx",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    }
+  },
+  "edgeSSRModuleMapping": {},
+  "clientModules": {
+    "/Users/jh/dev/BPP-Client-Next.js/.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/client/components/error-boundary.js": {
+      "id": "(app-client)/./.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/client/components/error-boundary.js",
+      "name": "*",
+      "chunks": [
+        "app-client-internals:static/chunks/app-client-internals.js"
+      ],
+      "async": false
+    },
+    "/Users/jh/dev/BPP-Client-Next.js/.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/esm/client/components/error-boundary.js": {
+      "id": "(app-client)/./.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/client/components/error-boundary.js",
+      "name": "*",
+      "chunks": [
+        "app-client-internals:static/chunks/app-client-internals.js"
+      ],
+      "async": false
+    },
+    "/Users/jh/dev/BPP-Client-Next.js/.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/client/components/app-router.js": {
+      "id": "(app-client)/./.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/client/components/app-router.js",
+      "name": "*",
+      "chunks": [
+        "app-client-internals:static/chunks/app-client-internals.js"
+      ],
+      "async": false
+    },
+    "/Users/jh/dev/BPP-Client-Next.js/.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/esm/client/components/app-router.js": {
+      "id": "(app-client)/./.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/client/components/app-router.js",
+      "name": "*",
+      "chunks": [
+        "app-client-internals:static/chunks/app-client-internals.js"
+      ],
+      "async": false
+    },
+    "/Users/jh/dev/BPP-Client-Next.js/.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/client/components/layout-router.js": {
+      "id": "(app-client)/./.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/client/components/layout-router.js",
+      "name": "*",
+      "chunks": [
+        "app-client-internals:static/chunks/app-client-internals.js"
+      ],
+      "async": false
+    },
+    "/Users/jh/dev/BPP-Client-Next.js/.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/esm/client/components/layout-router.js": {
+      "id": "(app-client)/./.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/client/components/layout-router.js",
+      "name": "*",
+      "chunks": [
+        "app-client-internals:static/chunks/app-client-internals.js"
+      ],
+      "async": false
+    },
+    "/Users/jh/dev/BPP-Client-Next.js/.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/client/components/render-from-template-context.js": {
+      "id": "(app-client)/./.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/client/components/render-from-template-context.js",
+      "name": "*",
+      "chunks": [
+        "app-client-internals:static/chunks/app-client-internals.js"
+      ],
+      "async": false
+    },
+    "/Users/jh/dev/BPP-Client-Next.js/.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/esm/client/components/render-from-template-context.js": {
+      "id": "(app-client)/./.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/client/components/render-from-template-context.js",
+      "name": "*",
+      "chunks": [
+        "app-client-internals:static/chunks/app-client-internals.js"
+      ],
+      "async": false
+    },
+    "/Users/jh/dev/BPP-Client-Next.js/.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/client/components/static-generation-searchparams-bailout-provider.js": {
+      "id": "(app-client)/./.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/client/components/static-generation-searchparams-bailout-provider.js",
+      "name": "*",
+      "chunks": [
+        "app-client-internals:static/chunks/app-client-internals.js"
+      ],
+      "async": false
+    },
+    "/Users/jh/dev/BPP-Client-Next.js/.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/esm/client/components/static-generation-searchparams-bailout-provider.js": {
+      "id": "(app-client)/./.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/client/components/static-generation-searchparams-bailout-provider.js",
+      "name": "*",
+      "chunks": [
+        "app-client-internals:static/chunks/app-client-internals.js"
+      ],
+      "async": false
+    },
+    "/Users/jh/dev/BPP-Client-Next.js/.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/client/link.js": {
+      "id": "(app-client)/./.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/client/link.js",
+      "name": "*",
+      "chunks": [
+        "app/travel/page:static/chunks/app/travel/page.js"
+      ],
+      "async": false
+    },
+    "/Users/jh/dev/BPP-Client-Next.js/.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/esm/client/link.js": {
+      "id": "(app-client)/./.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/dist/client/link.js",
+      "name": "*",
+      "chunks": [
+        "app/travel/page:static/chunks/app/travel/page.js"
+      ],
+      "async": false
+    },
+    "/Users/jh/dev/BPP-Client-Next.js/src/(component)/moreButton.tsx": {
+      "id": "(app-client)/./src/(component)/moreButton.tsx",
+      "name": "*",
+      "chunks": [
+        "app/travel/page:static/chunks/app/travel/page.js"
+      ],
+      "async": false
+    },
+    "/Users/jh/dev/BPP-Client-Next.js/src/(component)/backButton.tsx": {
+      "id": "(app-client)/./src/(component)/backButton.tsx",
+      "name": "*",
+      "chunks": [
+        "app/travel/page:static/chunks/app/travel/page.js"
+      ],
+      "async": false
+    },
+    "/Users/jh/dev/BPP-Client-Next.js/.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/font/google/target.css?{\"path\":\"src/app/layout.tsx\",\"import\":\"Inter\",\"arguments\":[{\"subsets\":[\"latin\"]}],\"variableName\":\"inter\"}": {
+      "id": "(app-client)/./.yarn/__virtual__/next-virtual-c105412961/0/cache/next-npm-13.4.9-5c37513773-7adb9919dc.zip/node_modules/next/font/google/target.css?{\"path\":\"src/app/layout.tsx\",\"import\":\"Inter\",\"arguments\":[{\"subsets\":[\"latin\"]}],\"variableName\":\"inter\"}",
+      "name": "*",
+      "chunks": [
+        "app/layout:static/chunks/app/layout.js"
+      ],
+      "async": false
+    },
+    "/Users/jh/dev/BPP-Client-Next.js/src/app/globals.css": {
+      "id": "(app-client)/./src/app/globals.css",
+      "name": "*",
+      "chunks": [
+        "app/layout:static/chunks/app/layout.js"
+      ],
+      "async": false
+    },
+    "/Users/jh/dev/BPP-Client-Next.js/src/app/join/style.css": {
+      "id": "(app-client)/./src/app/join/style.css",
+      "name": "*",
+      "chunks": [
+        "app/join/page:static/chunks/app/join/page.js"
+      ],
+      "async": false
+    },
+    "/Users/jh/dev/BPP-Client-Next.js/src/app/talk/room/style.css": {
+      "id": "(app-client)/./src/app/talk/room/style.css",
+      "name": "*",
+      "chunks": [
+        "app/talk/room/page:static/chunks/app/talk/room/page.js"
+      ],
+      "async": false
+    },
+    "/Users/jh/dev/BPP-Client-Next.js/src/app/talk/style.css": {
+      "id": "(app-client)/./src/app/talk/style.css",
+      "name": "*",
+      "chunks": [
+        "app/talk/page:static/chunks/app/talk/page.js"
+      ],
+      "async": false
+    },
+    "/Users/jh/dev/BPP-Client-Next.js/src/app/match/style.css": {
+      "id": "(app-client)/./src/app/match/style.css",
+      "name": "*",
+      "chunks": [
+        "app/match/page:static/chunks/app/match/page.js"
+      ],
+      "async": false
+    },
+    "/Users/jh/dev/BPP-Client-Next.js/src/app/travel/style.css": {
+      "id": "(app-client)/./src/app/travel/style.css",
+      "name": "*",
+      "chunks": [
+        "app/travel/page:static/chunks/app/travel/page.js"
+      ],
+      "async": false
+    }
+  },
+  "entryCSSFiles": {
+    "/Users/jh/dev/BPP-Client-Next.js/src/app/page": [],
+    "/Users/jh/dev/BPP-Client-Next.js/src/app/layout": [
+      "static/css/app/layout.css"
+    ],
+    "/Users/jh/dev/BPP-Client-Next.js/src/app/join/page": [
+      "static/css/app/join/page.css"
+    ],
+    "/Users/jh/dev/BPP-Client-Next.js/src/app/talk/room/page": [
+      "static/css/app/talk/room/page.css"
+    ],
+    "/Users/jh/dev/BPP-Client-Next.js/src/app/talk/page": [
+      "static/css/app/talk/page.css"
+    ],
+    "/Users/jh/dev/BPP-Client-Next.js/src/app/match/page": [
+      "static/css/app/match/page.css"
+    ],
+    "/Users/jh/dev/BPP-Client-Next.js/src/app/travel/page": [
+      "static/css/app/travel/page.css"
+    ]
+  }
+}

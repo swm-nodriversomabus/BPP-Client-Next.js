@@ -1,0 +1,40 @@
+.chatMessageArea {
+  padding: 20px;
+}
+
+.message {
+  box-sizing: border-box;
+  background: #eee;
+  border-radius: 16px;
+  padding: 10px;
+  margin-left: 10%;
+  width: 60%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.sent {
+  background: #09f;
+  color: #fff;
+  margin-left: 30%;
+}
+
+.chatTool {
+  position: absolute;
+  bottom: 24px;
+  background: #fff;
+  height: 48px;
+  width: 100%;
+  > input {
+    font-size: 16px;
+    box-sizing: border-box;
+    margin: 8px;
+    background: #fff;
+    border: solid 1px rgba(0, 0, 0, 0.15);
+    border-radius: 16px;
+    height: 32px;
+    margin-left: 50px;
+    width: calc(100% - 140px);
+    padding: 10px;
+  }
+}
