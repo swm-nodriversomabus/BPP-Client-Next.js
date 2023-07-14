@@ -1,8 +1,8 @@
-import Link from "next/link";
-import Navbar from "@/(component)/navigationBar";
-import Tabbar from "@/(component)/tabBar";
-import ListView from "@/(view)/listView";
-import ContentBox from "@/(component)/contentBox";
+import Link from 'next/link';
+import Navbar from '@/(component)/navigationBar';
+import Tabbar from '@/(component)/tabBar';
+import ListView from '@/(view)/listView';
+import ContentBox from '@/(component)/contentBox';
 
 export default function Home(): any {
   return (

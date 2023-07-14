@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import Image from "next/image";
+import Image from 'next/image';
 
 const BackButton: any = (Props: { children: string | undefined }) => {
   return (

@@ -1,4 +1,4 @@
-import TabItem from "./tabItem";
+import TabItem from './tabItem';
 
 const TabBar: any = (Props: { children: number | undefined }) => {
   let tabNum: number = 1;

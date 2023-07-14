@@ -1,7 +1,7 @@
-import "./style.css";
-import Navbar from "@/(component)/navigationBar";
-import ContentBox from "@/(component)/contentBox";
-import Tabbar from "@/(component)/tabBar";
+import './style.css';
+import Navbar from '@/(component)/navigationBar';
+import ContentBox from '@/(component)/contentBox';
+import Tabbar from '@/(component)/tabBar';
 
 export default function Home(): any {
   return (
@@ -9,7 +9,7 @@ export default function Home(): any {
       <Navbar
         more
         segmentIndex={0}
-        segment={{ 여행: "match", 식사: "match", 숙소: "match" }}
+        segment={{ 여행: 'match', 식사: 'match', 숙소: 'match' }}
       >
         Match
       </Navbar>

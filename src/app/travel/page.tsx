@@ -1,7 +1,7 @@
-import "./style.css";
-import Navbar from "@/(component)/navigationBar";
-import ContentBox from "@/(component)/contentBox";
-import Tabbar from "@/(component)/tabBar";
+import './style.css';
+import Navbar from '@/(component)/navigationBar';
+import ContentBox from '@/(component)/contentBox';
+import Tabbar from '@/(component)/tabBar';
 
 interface propsType {
   children: JSX.Element;

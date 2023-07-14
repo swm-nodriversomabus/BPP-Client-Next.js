@@ -1,5 +1,5 @@
-import "./style.css";
-import Navbar from "@/(component)/navigationBar";
+import './style.css';
+import Navbar from '@/(component)/navigationBar';
 
 interface propsType {
   children: string;
@@ -13,8 +13,8 @@ const SocialBtn: any = ({ children, background, color }: propsType) => {
       <br></br>
       <button
         style={{
-          backgroundColor: background ? "#" + background : "#FFFFFF",
-          color: color ? "#" + color : "#000000",
+          backgroundColor: background ? '#' + background : '#FFFFFF',
+          color: color ? '#' + color : '#000000',
         }}
       >
         {children}

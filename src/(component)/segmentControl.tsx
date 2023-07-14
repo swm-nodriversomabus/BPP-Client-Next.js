@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from 'next/link';
 
 const SegmentControl: any = ({
   segment,
@@ -16,7 +16,7 @@ const SegmentControl: any = ({
           <>
             <>{ret}</>
             <Link
-              className={index == i ? "highlight" : ""}
+              className={index == i ? 'highlight' : ''}
               href={Object.values(segment)[index]}
             >
               {value}
