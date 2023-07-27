@@ -14,7 +14,7 @@ const SegmentControl: any = ({
       (value: string, index: number, array: string[]) => {
         ret = (
           <>
-            <>{ret}</>
+            {ret}
             <Link
               className={index == i ? 'highlight' : ''}
               href={Object.values(segment)[index]}

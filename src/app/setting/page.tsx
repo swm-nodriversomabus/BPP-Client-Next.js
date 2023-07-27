@@ -1,19 +1,12 @@
 import './style.css';
 import Navbar from '../../component/navigationBar';
 import ContentBox from '../../component/contentBox';
-import Tabbar from '../../component/tabBar';
 
 export default function Home(): any {
   return (
     <>
-      <Navbar
-        more
-        segment={{ '추천 여행지': '/travel', '버킷 목록': '/travel/bucket' }}
-      >
-        Travel
-      </Navbar>
+      <Navbar back="뒤로가기">설정</Navbar>
       <ContentBox></ContentBox>
-      <Tabbar>4</Tabbar>
     </>
   );
 }
