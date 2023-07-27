@@ -6,7 +6,10 @@ import ContentBox from '@/component/contentBox';
 import useSWRInfinite, { SWRInfiniteResponse } from 'swr/infinite';
 import {
   DOMElement,
+  MutableRefObject,
   Ref,
+  RefAttributes,
+  RefCallback,
   RefObject,
   UIEventHandler,
   useEffect,
@@ -16,7 +19,7 @@ import { useRef } from 'react';
 
 const getKey = (pageIndex: any, previousPageData: any) => {
   if (previousPageData && !previousPageData.length) return null;
-  return `http://godjh.dothome.co.kr/chat_test.php?page=${pageIndex}`;
+  return `http://godjh.dothome.co.kr/api/talk/room/?page=${pageIndex}`;
 };
 
 const fetcher = (url: RequestInfo | URL) => fetch(url).then((r) => r.json());
@@ -24,11 +27,22 @@ interface propsType {
   children: JSX.Element;
   onScroll: UIEventHandler;
   onClick: UIEventHandler;
+  inheritRef: any;
 }
 
-const ChatMessageArea: any = ({ children, onScroll, onClick }: propsType) => {
+const ChatMessageArea: any = ({
+  children,
+  onScroll,
+  onClick,
+  inheritRef,
+}: propsType) => {
   return (
-    <div onClick={onClick} onScroll={onScroll} className="chatMessageArea">
+    <div
+      onClick={onClick}
+      onScroll={onScroll}
+      className="chatMessageArea"
+      ref={inheritRef}
+    >
       {children}
     </div>
   );
@@ -73,6 +87,8 @@ const ChatTool: any = () => {
   );
 };
 
+let loadState = false;
+
 export default function Home(): any {
   // 임시 더미 넣으려고 let으로 바꿔둠.. const로 바꾸기
   const { data, size, setSize }: SWRInfiniteResponse = useSWRInfinite(
@@ -84,36 +100,46 @@ export default function Home(): any {
   const isReachingEnd = isEmpty || (data && data[data.length - 1]?.length < 20);
 
   const myName = 'me';
-  const [loadState, setLoadState] = useState(false);
-  const [chatData, setChatData] = useState();
+  const [chatData, setChatData] = useState<Array<Array<object>>>();
 
-  let scrollRef = useRef(null);
+  const scrollRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
 
   const scrollEvent = (e: any) => {
-    scrollRef.current = e.currentTarget;
-    if (e.currentTarget.scrollTop < 99 && !loadState) {
-      setLoadState(true);
+    if (
+      scrollRef?.current?.scrollTop &&
+      scrollRef?.current?.scrollTop < 200 &&
+      !loadState
+    ) {
+      loadState = true;
       localStorage.setItem('currentScrollHeight', e.currentTarget.scrollHeight);
       setSize(size + 1);
+      console.log(size);
     }
   };
 
   useEffect(() => {
-    const arr = data?.slice();
-    setChatData(arr?.reverse());
+    const arr: Array<Array<object>> | undefined = data?.slice();
+    if (arr) setChatData(arr?.reverse());
   }, [data]);
 
   useEffect(() => {
-    if (scrollRef) {
+    if (
+      scrollRef?.current &&
+      scrollRef?.current?.scrollHeight <=
+        scrollRef?.current?.offsetHeight + 200 &&
+      !loadState
+    ) {
+      loadState = true;
+      setSize(size + 1);
+    } else if (scrollRef) {
       scrollRef.current?.scrollTo(
         0,
         scrollRef.current.scrollHeight -
-          localStorage.getItem('currentScrollHeight')
+          Number(localStorage.getItem('currentScrollHeight')) +
+          scrollRef.current.scrollTop
       );
-    } else {
-      scrollRef.current?.scrollTo(0, 101);
+      loadState = false;
     }
-    setLoadState(false);
   }, [chatData]);
 
   if (!chatData) return 'loading';
@@ -124,9 +150,9 @@ export default function Home(): any {
       <ContentBox>
         <ChatMessageArea
           className="chatMessageArea"
-          onClick={scrollEvent}
           onScroll={scrollEvent}
           isReachingEnd={isReachingEnd}
+          inheritRef={scrollRef}
         >
           {chatData.map((msgs, index) => {
             return msgs?.map((msg: any) => {

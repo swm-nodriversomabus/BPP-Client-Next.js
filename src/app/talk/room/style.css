@@ -15,7 +15,7 @@
   padding: 20px;
   padding-bottom: 10px;
   &:first-of-type {
-    padding-top: 100px;
+    padding-top: 200px;
   }
   & > div:first-of-type {
     float: left;
