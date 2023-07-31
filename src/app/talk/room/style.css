@@ -1,7 +1,7 @@
 .chatMessageArea {
   padding: 0;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 170px);
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -15,7 +15,7 @@
   padding: 20px;
   padding-bottom: 10px;
   &:first-of-type {
-    padding-top: 200px;
+    padding-top: 20px;
   }
   & > div:first-of-type {
     float: left;

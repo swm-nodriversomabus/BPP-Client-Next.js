@@ -11,7 +11,7 @@ export default function Home(): any {
       <Navbar more segment={{ 친구: '/talk', 채팅방: '/talk/list' }}>
         Talk
       </Navbar>
-      <ContentBox>
+      <ContentBox withSegment>
         <ListView>
           <div className="section">
             <Link href="/talk/room">용용이</Link>

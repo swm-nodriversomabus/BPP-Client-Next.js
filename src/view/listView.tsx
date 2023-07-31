@@ -1,9 +1,6 @@
-import React from 'react';
+import React, { UIEventHandler } from 'react';
 
-const ListView: any = (Props: {
-  children: string | undefined;
-  link: string | undefined;
-}) => {
+const ListView: any = (Props: { children: string | undefined }) => {
   return <div className="ListView">{Props.children}</div>;
 };
 

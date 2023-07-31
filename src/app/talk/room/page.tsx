@@ -16,6 +16,8 @@ import {
   useState,
 } from 'react';
 import { useRef } from 'react';
+import ChatMessageArea from './chatMessageArea';
+import ChatMessage from './chatMessage';
 
 const getKey = (pageIndex: any, previousPageData: any) => {
   if (previousPageData && !previousPageData.length) return null;
@@ -23,61 +25,6 @@ const getKey = (pageIndex: any, previousPageData: any) => {
 };
 
 const fetcher = (url: RequestInfo | URL) => fetch(url).then((r) => r.json());
-interface propsType {
-  children: JSX.Element;
-  onScroll: UIEventHandler;
-  onClick: UIEventHandler;
-  inheritRef: any;
-}
-
-const ChatMessageArea: any = ({
-  children,
-  onScroll,
-  onClick,
-  inheritRef,
-}: propsType) => {
-  return (
-    <div
-      onClick={onClick}
-      onScroll={onScroll}
-      className="chatMessageArea"
-      ref={inheritRef}
-    >
-      {children}
-    </div>
-  );
-};
-
-const ChatMessage: any = (Props: {
-  received: string | undefined;
-  children: JSX.Element;
-}) => {
-  const texts = Props.children + '';
-  if (Props.received) return <MessageReceived>{texts}</MessageReceived>;
-  else return <MessageSent>{texts}</MessageSent>;
-};
-
-const MessageReceived: any = (Props: { children: JSX.Element }) => {
-  return (
-    <>
-      <div className="message received">
-        <div></div>
-        <div>{Props.children}</div>
-      </div>
-    </>
-  );
-};
-
-const MessageSent: any = (Props: { children: JSX.Element }) => {
-  return (
-    <>
-      <div className="message sent">
-        <div></div>
-        <div>{Props.children}</div>
-      </div>
-    </>
-  );
-};
 
 const ChatTool: any = () => {
   return (
@@ -90,7 +37,6 @@ const ChatTool: any = () => {
 let loadState = false;
 
 export default function Home(): any {
-  // 임시 더미 넣으려고 let으로 바꿔둠.. const로 바꾸기
   const { data, size, setSize }: SWRInfiniteResponse = useSWRInfinite(
     getKey,
     fetcher
@@ -101,6 +47,7 @@ export default function Home(): any {
 
   const myName = 'me';
   const [chatData, setChatData] = useState<Array<Array<object>>>();
+  const [scrollHeight, setScrollHeight] = useState<number>(0);
 
   const scrollRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
 
@@ -111,9 +58,8 @@ export default function Home(): any {
       !loadState
     ) {
       loadState = true;
-      localStorage.setItem('currentScrollHeight', e.currentTarget.scrollHeight);
+      setScrollHeight(scrollRef?.current?.scrollHeight);
       setSize(size + 1);
-      console.log(size);
     }
   };
 
@@ -135,39 +81,41 @@ export default function Home(): any {
       scrollRef.current?.scrollTo(
         0,
         scrollRef.current.scrollHeight -
-          Number(localStorage.getItem('currentScrollHeight')) +
+          scrollHeight +
           scrollRef.current.scrollTop
       );
       loadState = false;
     }
   }, [chatData]);
 
-  if (!chatData) return 'loading';
-
+  let i = 0;
   return (
     <>
       <Navbar back="Talk">채팅방</Navbar>
-      <ContentBox>
-        <ChatMessageArea
-          className="chatMessageArea"
-          onScroll={scrollEvent}
-          isReachingEnd={isReachingEnd}
-          inheritRef={scrollRef}
-        >
-          {chatData.map((msgs, index) => {
+      <ChatMessageArea
+        onScroll={scrollEvent}
+        isReachingEnd={isReachingEnd}
+        inheritRef={scrollRef}
+      >
+        <>
+          {chatData?.map((msgs, index) => {
             return msgs?.map((msg: any) => {
               if (msg.sender == myName) {
-                return <ChatMessage key={msg.id}>{msg.message}</ChatMessage>;
+                return (
+                  <ChatMessage key={i++} received={undefined}>
+                    {msg.message}
+                  </ChatMessage>
+                );
               }
               return (
-                <ChatMessage key={msg.id} received={msg.sender}>
+                <ChatMessage key={i++} received={msg.sender}>
                   {msg.message}
                 </ChatMessage>
               );
             });
           })}
-        </ChatMessageArea>
-      </ContentBox>
+        </>
+      </ChatMessageArea>
       <ChatTool></ChatTool>
     </>
   );
