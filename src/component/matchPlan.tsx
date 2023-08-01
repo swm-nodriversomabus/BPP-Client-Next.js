@@ -1,3 +1,7 @@
+import Image from 'next/image';
+import period from 'public/period.svg';
+import pin from 'public/pin.svg';
+
 interface props {
   place: string | undefined;
   startDate: string | undefined;
@@ -24,6 +28,8 @@ const MatchPlan: any = ({
         {endDate}
         <div>{endTime}</div>
       </div>
+      <Image src={pin} alt="pin"></Image>
+      <Image src={period} alt="period"></Image>
     </div>
   );
 };
