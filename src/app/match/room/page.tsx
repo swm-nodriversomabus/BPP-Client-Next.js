@@ -1,7 +1,6 @@
 import './style.css';
 import Navbar from '@/component/navigationBar';
 import ContentBox from '@/component/contentBox';
-import Tabbar from '@/component/tabBar';
 import MapPreview from '@/component/mapPreview';
 import MatchTitle from '@/component/matchTitle';
 import MatchPlan from '@/component/matchPlan';

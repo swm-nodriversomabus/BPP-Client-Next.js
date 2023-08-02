@@ -6,7 +6,7 @@ interface props {}
 const MatchBar: any = ({}: props) => {
   return (
     <div className="MatchBar">
-      <div>1231명이 연락함</div>
+      <div>32명이 연락함</div>
       <div>
         <div>모집 인원</div>
         <div>

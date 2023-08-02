@@ -4,7 +4,7 @@
   background-color: #fff;
   display: grid;
 }
-.MathScrollView {
+.MatchScrollView {
   height: 100%;
   width: 100%;
   overflow-y: auto;
@@ -54,7 +54,7 @@
   & > div:nth-child(1) {
     margin-left: 23px;
     font-weight: bold;
-    color: #62e;
+    color: #8638ea;
   }
   & > div:nth-child(2) {
     padding-left: 26px;
@@ -194,7 +194,7 @@ hr {
   & > div:first-child {
     background-color: #f4ecff;
     font-size: 12px;
-    color: #aa67ff;
+    color: #8638ea;
     height: 24px;
     line-height: 26px;
     text-align: center;
@@ -248,10 +248,13 @@ hr {
       float: right;
       border: none;
       border-radius: 8px;
-      background-color: #aa67ff;
+      background-color: #8638ea;
       color: #fff;
       font-size: 16px;
       font-weight: bold;
+      &:disabled {
+        background-color: #a8a8a8;
+      }
     }
   }
 }

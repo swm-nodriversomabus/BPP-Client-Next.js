@@ -1,7 +1,7 @@
 import React, { UIEventHandler } from 'react';
 
-const MathScrollView: any = (Props: { children: string | undefined }) => {
-  return <div className="MathScrollView">{Props.children}</div>;
+const MatchScrollView: any = (Props: { children: string | undefined }) => {
+  return <div className="MatchScrollView">{Props.children}</div>;
 };
 
-export default MathScrollView;
+export default MatchScrollView;
