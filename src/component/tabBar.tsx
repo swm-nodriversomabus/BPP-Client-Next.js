@@ -7,16 +7,16 @@ const TabBar: any = (Props: { children: number | undefined }) => {
   }
   return (
     <div className="TabBar">
-      <TabItem link="/" highlight={tabNum == 1}>
+      <TabItem link="/" highlight={tabNum == 1} img="home">
         Home
       </TabItem>
-      <TabItem link="/talk" highlight={tabNum == 2}>
+      <TabItem link="/talk" highlight={tabNum == 2} img="talk">
         Talk
       </TabItem>
-      <TabItem link="/match" highlight={tabNum == 3}>
+      <TabItem link="/match" highlight={tabNum == 3} img="match">
         Match
       </TabItem>
-      <TabItem link="/travel" highlight={tabNum == 4}>
+      <TabItem link="/travel" highlight={tabNum == 4} img="travel">
         Travel
       </TabItem>
     </div>
