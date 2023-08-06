@@ -1,39 +1,49 @@
+import Image from 'next/image';
 import Link from 'next/link';
+import usercheck from 'public/usercheck.svg';
 
-interface props {}
+interface props {
+  link: string;
+  title: string;
+  period: string;
+  type: string;
+  currentUser: number;
+  maxUser: number;
+}
 
-const MyMatch: any = ({}: props) => {
+const MyMatchItem: any = ({
+  link,
+  title,
+  period,
+  type,
+  currentUser,
+  maxUser,
+}: props) => {
+  return (
+    <Link href={link}>
+      <div>
+        <div>{title}</div>
+        <div>{period}</div>
+        <div>{type}</div>
+        <div>
+          <Image src={usercheck} alt="users" />
+          <div>{currentUser}</div>
+          <div>/</div>
+          <div>{maxUser}</div>
+        </div>
+      </div>
+    </Link>
+  );
+};
+
+const MyMatch: any = ({ children }: { children: string | undefined }) => {
   return (
     <div className="MyMatch">
       <div>내가 한 요청</div>
-      <div>
-        <Link href="/match/room">
-          <div>
-            <div>아르헨티나</div>
-            <div>23.12.24~24.01.01</div>
-            <div>🎒 여행</div>
-            <div>2/3</div>
-          </div>
-        </Link>
-        <Link href="/match/room">
-          <div>
-            <div>아르헨티나</div>
-            <div>23.12.24~24.01.01</div>
-            <div>🎒 여행</div>
-            <div>2/3</div>
-          </div>
-        </Link>
-        <Link href="/match/room">
-          <div>
-            <div>아르헨티나</div>
-            <div>23.12.24~24.01.01</div>
-            <div>🎒 여행</div>
-            <div>2/3</div>
-          </div>
-        </Link>
-      </div>
+      <div>{children}</div>
     </div>
   );
 };
 
 export default MyMatch;
+export { MyMatchItem };
