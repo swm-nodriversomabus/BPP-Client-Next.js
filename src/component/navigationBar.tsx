@@ -14,7 +14,6 @@ const NavigationBar: any = (Props: {
 }) => {
   return (
     <>
-      <StatusBar></StatusBar>
       <div className={`NavigationBar ${Props.segment ? 'extended' : ''}`}>
         <div>
           {Props.children ? Props.children : <Image src={logo} alt="logo" />}

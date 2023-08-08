@@ -1,3 +1,4 @@
+import StatusBar from '@/component/statusBar';
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
@@ -16,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body style={{ background: '#555' }} className={inter.className}>
+      <body style={{ background: '#666669' }} className={inter.className}>
         <div
           style={{
             position: 'absolute',
@@ -30,20 +31,34 @@ export default function RootLayout({
             transformOrigin: 'top left',
           }}
         >
-          {children}
+          <StatusBar></StatusBar>
           <div
             style={{
+              display: 'flex',
+              flexDirection: 'column',
               position: 'absolute',
-              bottom: '8px',
-              height: '6px',
-              width: '140px',
-              background: '#000',
-              borderRadius: '10px',
-              left: '50%',
-              marginLeft: '-70px',
+              top: '50px',
+              margin: '0px',
+              width: '390px',
+              height: '764px',
+              overflow: 'hidden',
             }}
-          ></div>
+          >
+            {children}
+          </div>
         </div>
+        <div
+          style={{
+            position: 'absolute',
+            top: '840px',
+            height: '6px',
+            width: '140px',
+            background: '#000',
+            borderRadius: '10px',
+            left: '205px',
+            marginLeft: '-70px',
+          }}
+        ></div>
       </body>
     </html>
   );

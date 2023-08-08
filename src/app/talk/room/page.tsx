@@ -18,6 +18,8 @@ import {
 import { useRef } from 'react';
 import ChatMessageArea from './chatMessageArea';
 import ChatMessage from './chatMessage';
+import Image from 'next/image';
+import add from 'public/add.svg';
 
 const getKey = (pageIndex: any, previousPageData: any) => {
   if (previousPageData && !previousPageData.length) return null;
@@ -29,7 +31,8 @@ const fetcher = (url: RequestInfo | URL) => fetch(url).then((r) => r.json());
 const ChatTool: any = () => {
   return (
     <div className="chatTool">
-      <input placeholder="some text.."></input>
+      <input placeholder="메시지를 입력하세요"></input>
+      <Image src={add} alt="add" />
     </div>
   );
 };
@@ -91,7 +94,7 @@ export default function Home(): any {
   let i = 0;
   return (
     <>
-      <Navbar back="Talk">채팅방</Navbar>
+      <Navbar back=" ">채팅방</Navbar>
       <ChatMessageArea
         onScroll={scrollEvent}
         isReachingEnd={isReachingEnd}
