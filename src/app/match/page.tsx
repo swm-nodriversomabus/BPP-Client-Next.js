@@ -12,7 +12,7 @@ import MatchRecommend, { MatchRecommendItem } from '@/component/matchRecommend';
 export default function Home(): any {
   return (
     <>
-      <Navbar more>Match</Navbar>
+      <Navbar more></Navbar>
       <ContentBox>
         <MatchScrollView>
           <MatchSegment />

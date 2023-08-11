@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import menu from 'public/menu.svg';
 
 const MoreMenuList: any = (Props: { list: Object | undefined }) => {
   let menuList: React.ReactElement = <></>;
@@ -34,7 +35,7 @@ const MoreButton: any = () => {
         }}
         className="MoreButton"
       >
-        <Image src="/more.svg" alt="더 보기" width={24} height={24}></Image>
+        <Image src={menu} alt="더 보기" width={24} height={24}></Image>
       </div>
       <MoreMenuList
         list={{

@@ -17,6 +17,10 @@ const MessageReceived: any = (Props: { children: JSX.Element }) => {
       <div className="message received">
         <div></div>
         <div>{Props.children}</div>
+        <div>
+          <div>오전 09:41</div>
+          <div>1</div>
+        </div>
       </div>
     </>
   );
@@ -26,8 +30,11 @@ const MessageSent: any = (Props: { children: JSX.Element }) => {
   return (
     <>
       <div className="message sent">
-        <div></div>
         <div>{Props.children}</div>
+        <div>
+          <div>오전 09:41</div>
+          <div>1</div>
+        </div>
       </div>
     </>
   );

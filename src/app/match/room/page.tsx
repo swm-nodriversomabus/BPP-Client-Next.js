@@ -13,7 +13,7 @@ import MatchBar from '@/component/matchBar';
 export default function Home(): any {
   return (
     <>
-      <Navbar back="Match">&nbsp;</Navbar>
+      <Navbar back=" ">&nbsp;</Navbar>
       <ContentBox>
         <MatchScrollView>
           <MapPreview />
