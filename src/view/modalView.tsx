@@ -24,7 +24,7 @@ const ModalView: any = (Props: {
           src={close}
           alt="close"
         />
-        <Link href={''}>
+        <Link href={Props.link!}>
           <div>{Props.button}</div>
         </Link>
         <div>{Props.children}</div>
