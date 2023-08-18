@@ -21,6 +21,7 @@ export default function Home(): any {
         // Authorization: token,
       },
       () => {
+        client.current?.send('/pub/subscribe/1234', {});
         // callback 함수 설정, 대부분 여기에 sub 함수 씀
         subs = client.current?.subscribe(
           `/topic/channel/1234`,
