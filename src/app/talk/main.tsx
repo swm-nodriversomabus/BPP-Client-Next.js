@@ -204,7 +204,6 @@ export default function Main(): any {
             })
             .then((res) => {
               let chatroomID = res;
-              alert(res);
               fetch('https://dev.yeohaengparty.com/api/members', {
                 method: 'POST',
                 headers: {

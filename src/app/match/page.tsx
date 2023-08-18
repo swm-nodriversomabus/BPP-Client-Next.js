@@ -15,7 +15,15 @@ export default function Home(): any {
   return (
     <>
       <Navbar more></Navbar>
-      <ContentBox>
+      <ContentBox
+        styled={{
+          height: '100%',
+          cursor: 'default',
+          backgroundColor: '#fff',
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
         <MatchScrollView>
           <MatchSegment />
           <SearchBar />

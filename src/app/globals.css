@@ -14,6 +14,13 @@
   appearance: none;
 }
 
+input::-webkit-contacts-auto-fill-button,
+input::-webkit-credentials-auto-fill-button {
+  visibility: hidden;
+  position: absolute;
+  right: 0;
+}
+
 body {
   padding: 0;
   margin: 0;
@@ -148,6 +155,26 @@ a {
       &:hover {
         background: #eee;
       }
+    }
+  }
+  & > .NavButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    color: var(--highlight);
+    font-size: 17px;
+    height: 52px;
+    line-height: 52px;
+    width: fit-content;
+    padding-left: 20px;
+    padding-right: 20px;
+    transition-duration: 0.3s;
+    &:active {
+      transition-duration: 0s;
+      opacity: 0.5;
     }
   }
 }

@@ -21,6 +21,7 @@
   line-height: 40px;
   color: #212121;
   font-size: 15px;
+  cursor: pointer;
   & > img {
     position: absolute;
     right: 0px;

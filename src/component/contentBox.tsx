@@ -6,9 +6,11 @@ const ContentBox: any = (Props: {
   inheritRef: any;
   isReachingEnd: boolean | undefined;
   withSegment: boolean | undefined;
+  styled: object | undefined;
 }) => {
   return (
     <div
+      style={Props.styled ? Props.styled : {}}
       onScroll={Props.onScroll}
       ref={Props.inheritRef}
       className={`ContentBox ${Props.withSegment ? 'withSegment' : ''}`}

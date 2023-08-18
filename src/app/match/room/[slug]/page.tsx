@@ -2,10 +2,10 @@
 import { RecoilRoot } from 'recoil';
 import Main from './main';
 
-export default function Home(): any {
+export default function Page({ params }: { params: { slug: string } }): any {
   return (
     <RecoilRoot>
-      <Main />
+      <Main slug={params.slug} />
     </RecoilRoot>
   );
 }
