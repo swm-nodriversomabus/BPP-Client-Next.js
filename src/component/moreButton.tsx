@@ -28,10 +28,10 @@ const MoreButton: any = () => {
     <>
       <div
         onClick={(event) => {
-          const mml = document.querySelector('.MoreMenuList');
-          if (mml) {
-            mml.style.display = mml.style.display == '' ? 'block' : '';
-          }
+          // const mml = document.querySelector('.MoreMenuList');
+          // if (mml) {
+          //   mml.style.display = mml.style.display == '' ? 'block' : '';
+          // }
         }}
         className="MoreButton"
       >

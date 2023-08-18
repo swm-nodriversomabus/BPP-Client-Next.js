@@ -1,0 +1,163 @@
+.chatMessageArea {
+  flex: 1 1 auto;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.message {
+  float: left;
+  box-sizing: border-box;
+  position: relative;
+  height: fit-content;
+  width: 100%;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  &:first-of-type {
+    padding-top: 20px;
+  }
+}
+
+.received {
+  position: relative;
+  height: fit-content;
+  & > div:first-of-type {
+    float: left;
+    box-sizing: border-box;
+    background: #ddd;
+    color: #212121;
+    border-radius: 16px;
+    margin-left: 20px;
+    width: 32px;
+    height: 32px;
+  }
+  & > div:nth-of-type(2) {
+    position: relative;
+    margin-top: 32px;
+    word-break: break-all;
+    max-width: 50%;
+    margin-left: 10px;
+    margin-right: 6px;
+    float: left;
+    box-sizing: border-box;
+    background: #eee;
+    border-radius: 16px;
+    padding: 15px;
+    font-size: 15px;
+    line-height: 21px;
+    white-space: pre-wrap;
+  }
+  & > div:nth-of-type(3) {
+    position: relative;
+    float: left;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 80px;
+    & > div:nth-of-type(1) {
+      padding-top: 100%;
+      margin-top: -15px;
+      left: 0px;
+      height: 15px;
+      color: #929292;
+      font-size: 11px;
+      line-height: 15px;
+    }
+    & > div:nth-of-type(2) {
+      margin-top: -35px;
+      bottom: 0px;
+      left: 0px;
+      height: 20px;
+      color: #8638ea;
+      font-size: 11px;
+      line-height: 20px;
+    }
+  }
+}
+
+.sent {
+  & > div:first-of-type {
+    margin-top: 0px;
+    margin-right: 20px;
+    float: right;
+    background: #efe3ff;
+    word-break: break-all;
+    max-width: 50%;
+    margin-left: 6px;
+    box-sizing: border-box;
+    border-radius: 16px;
+    padding: 15px;
+    font-size: 15px;
+    line-height: 21px;
+    white-space: pre-wrap;
+  }
+  & > div:nth-of-type(2) {
+    text-align: right;
+    position: relative;
+    float: right;
+    top: 0px;
+    left: 0px;
+    width: 80px;
+    height: 100%;
+    & > div:nth-of-type(1) {
+      padding-top: 100%;
+      margin-top: -45px;
+      right: 0px;
+      height: 15px;
+      color: #929292;
+      font-size: 11px;
+      line-height: 15px;
+    }
+    & > div:nth-of-type(2) {
+      margin-top: -35px;
+      bottom: 0px;
+      right: 0px;
+      height: 20px;
+      color: #8638ea;
+      font-size: 11px;
+      line-height: 20px;
+    }
+  }
+}
+
+.ChatTool {
+  position: relative;
+  flex: 0 0 54px;
+  background: #fff;
+  height: 54px;
+  width: 100%;
+  border-top: solid 1px #eeeef0;
+  & > input {
+    font-size: 16px;
+    box-sizing: border-box;
+    border: none;
+    height: 54px;
+    margin-left: 48px;
+    width: 100%;
+    padding: 10px;
+  }
+  & > img {
+    position: absolute;
+    top: 17px;
+    left: 20px;
+    height: 22px;
+    width: 22px;
+  }
+  & > button {
+    cursor: pointer;
+    box-sizing: content-box;
+    position: absolute;
+    background: none;
+    border: none;
+    top: 0px;
+    font-size: 16px;
+    color: #8638ea;
+    padding-right: 10px;
+    padding-left: 10px;
+    right: 0px;
+    height: 56px;
+    width: 40px;
+  }
+}
