@@ -12,8 +12,11 @@ import ModalView from '@/view/modalView';
 import { useState } from 'react';
 import SearchBarFriends from '@/component/searchBarFriends';
 import { atom, useRecoilState } from 'recoil';
+import useSWR from 'swr';
+import { useRouter } from 'next/navigation';
 
 export default function Main(): any {
+  const router = useRouter();
   const [modalDisplay, setModlaDisplay] = useState(false);
 
   const [friendSelectList, setFriendSelectList] = useState([
@@ -181,7 +184,43 @@ export default function Main(): any {
         setDisplay={setModlaDisplay}
         title="채팅방 개설"
         button="개설하기"
-        link="talk/room"
+        onClickProp={() => {
+          fetch('https://dev.yeohaengparty.com/api/chatroom', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              chatroomName: '채팅방 이름 예시',
+              type: 'Normal',
+              masterId: 1,
+              isActive: true,
+            }),
+          })
+            .then((res) => {
+              if (res.status == 200) {
+                return res.json();
+              }
+            })
+            .then((res) => {
+              let chatroomID = res;
+              alert(res);
+              fetch('https://dev.yeohaengparty.com/api/members', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  chatroomId: chatroomID,
+                  memberIds: [1, 2, 3],
+                }),
+              }).then((res) => {
+                if (res.status == 200) {
+                  router.push(`talk/room`);
+                }
+              });
+            });
+        }}
       >
         <SearchBarFriends />
         <div

@@ -6,6 +6,7 @@ import close from 'public/close.svg';
 const ModalView: any = (Props: {
   children: string | undefined;
   link: string | undefined;
+  onClickProp: () => void | undefined;
   title: string | undefined;
   button: string | undefined;
   display: boolean | undefined;
@@ -24,8 +25,10 @@ const ModalView: any = (Props: {
           src={close}
           alt="close"
         />
-        <Link href={Props.link!}>
-          <div>{Props.button}</div>
+        <Link href={Props.link ? Props.link : ''}>
+          <div onClick={Props.onClickProp ? Props.onClickProp : () => {}}>
+            {Props.button}
+          </div>
         </Link>
         <div>{Props.children}</div>
       </div>
