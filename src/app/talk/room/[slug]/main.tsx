@@ -102,8 +102,8 @@ export default function Main({ slug }: { slug: string }): any {
         (message) => {
           const json = JSON.parse(message.body);
           globalSockData.push({
-            sender: json.sender,
-            message: json.message,
+            senderId: json.senderId,
+            content: json.content,
           });
           const copySockData = globalSockData.slice();
           setSockData(copySockData);
@@ -118,13 +118,15 @@ export default function Main({ slug }: { slug: string }): any {
 
   const sendHandler = () => {
     client.current?.send(
-      '/pub/message',
+      `/pub/chat/${slug}`,
       {},
       JSON.stringify({
+        image: false,
         type: 'TALK',
         roomId: slug,
-        sender: 'me',
-        message: globalChatText,
+        senderId: 1,
+        content: globalChatText,
+        readCount: 1,
       })
     );
     setChatText('');
@@ -161,16 +163,16 @@ export default function Main({ slug }: { slug: string }): any {
             });
           })}
           {sockData?.map((msg: any, index) => {
-            if (msg.sender == myName) {
+            if (msg.senderId == 1) {
               return (
                 <ChatMessage key={i++} received={undefined}>
-                  {msg.message}
+                  {msg.content}
                 </ChatMessage>
               );
             }
             return (
-              <ChatMessage key={i++} received={msg.sender}>
-                {msg.message}
+              <ChatMessage key={i++} received={msg.senderId}>
+                {msg.content}
               </ChatMessage>
             );
           })}

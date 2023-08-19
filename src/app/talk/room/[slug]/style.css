@@ -75,6 +75,16 @@
       line-height: 20px;
     }
   }
+  & > div:nth-of-type(4) {
+    position: absolute;
+    margin-top: -10px;
+    margin-left: 47px;
+    float: left;
+    padding: 15px;
+    font-size: 15px;
+    line-height: 21px;
+    color: #646464;
+  }
 }
 
 .sent {
