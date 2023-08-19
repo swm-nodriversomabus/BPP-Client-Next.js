@@ -6,6 +6,9 @@ import React, { EventHandler, ReactElement, UIEventHandler } from 'react';
 import addcheck from 'public/addcheck.svg';
 import addcheck_true from 'public/addcheck_true.svg';
 import { useRouter } from 'next/navigation';
+import profile1 from 'public/profile1.svg';
+import profile2 from 'public/profile2.svg';
+import profile3 from 'public/profile3.svg';
 
 const ListItem: any = (Props: {
   children: string | undefined;
@@ -21,7 +24,16 @@ const ListItem: any = (Props: {
       }}
       className="ListItem"
     >
-      <Image src="" alt="profile" />
+      <Image
+        src={
+          Math.random() > 0.66
+            ? Math.random() > 0.5
+              ? profile1
+              : profile2
+            : profile3
+        }
+        alt="profile"
+      />
       <div>{Props.title}</div>
       <div>{Props.subtitle}</div>
     </div>
@@ -43,7 +55,16 @@ const ListItemAddToRoom: any = (Props: {
       }}
       className="ListItemAddToRoom"
     >
-      <Image src="" alt="profile" />
+      <Image
+        src={
+          Math.random() > 0.66
+            ? Math.random() > 0.5
+              ? profile1
+              : profile2
+            : profile3
+        }
+        alt="profile"
+      />
       <div>{Props.title}</div>
       <div>{Props.subtitle}</div>
       <Image src={Props.checked ? addcheck_true : addcheck} alt="add check" />
