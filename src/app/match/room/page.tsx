@@ -1,3 +1,4 @@
+'use client';
 import './style.css';
 import Navbar from '@/component/navigationBar';
 import ContentBox from '@/component/contentBox';
@@ -9,8 +10,11 @@ import MatchArticle from '@/component/matchArticle';
 import MatchPeople, { MatchPerson } from '@/component/matchPeople';
 import MatchScrollView from '@/view/matchScrollView';
 import MatchBar from '@/component/matchBar';
+import ModalView from '@/view/modalView';
+import { useState } from 'react';
 
 export default function Home(): any {
+  const [modalDisplay, setModalDisplay] = useState(false);
   return (
     <>
       <Navbar back=" ">&nbsp;</Navbar>
@@ -65,7 +69,36 @@ export default function Home(): any {
             <MatchPerson></MatchPerson>
           </MatchPeople>
         </MatchScrollView>
-        <MatchBar></MatchBar>
+        <MatchBar
+          onClick={() => {
+            setModalDisplay(true);
+          }}
+        />
+        <ModalView
+          display={modalDisplay}
+          setDisplay={setModalDisplay}
+          title="동행신청"
+          button="보내기"
+          onClickProp={() => {}}
+        >
+          <textarea
+            placeholder="신청 메시지를 보낸후, 채팅화면에서 계속 대화를 이어나갈 수 있습니다"
+            style={{
+              marginLeft: '24px',
+              width: 'calc(100% - 48px)',
+              border: 'solid 1px #eeeef0',
+              borderRadius: '4px',
+              height: '173px',
+              fontSize: '15px',
+              marginTop: '12px',
+              marginBottom: '12px',
+              resize: 'none',
+              lineHeight: '22.5px',
+              padding: '20px',
+              boxSizing: 'border-box',
+            }}
+          ></textarea>
+        </ModalView>
       </ContentBox>
     </>
   );
