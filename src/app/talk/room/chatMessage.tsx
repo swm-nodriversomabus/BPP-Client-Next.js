@@ -21,6 +21,7 @@ const MessageReceived: any = (Props: { children: JSX.Element }) => {
           <div>오전 09:41</div>
           <div>1</div>
         </div>
+        <div>친구1</div>
       </div>
     </>
   );
