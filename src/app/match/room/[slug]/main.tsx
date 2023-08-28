@@ -1,4 +1,3 @@
-'use client';
 import './style.css';
 import Navbar from '@/component/navigationBar';
 import ContentBox from '@/component/contentBox';
@@ -10,11 +9,19 @@ import MatchArticle from '@/component/matchArticle';
 import MatchPeople, { MatchPerson } from '@/component/matchPeople';
 import MatchScrollView from '@/view/matchScrollView';
 import MatchBar from '@/component/matchBar';
+import useSWR, { SWRResponse } from 'swr';
 import ModalView from '@/view/modalView';
 import { useState } from 'react';
 
-export default function Home(): any {
+export default function Main({ slug }: { slug: string }): any {
   const [modalDisplay, setModalDisplay] = useState(false);
+  const { data }: SWRResponse = useSWR(
+    `https://dev.yeohaengparty.com/api/matching/${slug}`,
+    (url: RequestInfo | URL) => fetch(url).then((r) => r.json())
+  );
+  if (!data) {
+    return <></>;
+  }
   return (
     <>
       <Navbar back=" ">&nbsp;</Navbar>
@@ -29,15 +36,25 @@ export default function Home(): any {
       >
         <MatchScrollView>
           <MapPreview />
-          <MatchTitle category="🎒여행">같이 구경하실 분!</MatchTitle>
+          <MatchTitle category="🎒여행">{data.title}</MatchTitle>
           <MatchPlan
-            place="파리"
-            startDate="23년 8월 2일"
-            startTime="오전 11시"
-            endDate="23년 8월 2일"
-            endTime="오후 2시"
+            place={data.place}
+            startDate={`${data.startDate.substr(2, 2)}년 ${Number(
+              data.startDate.substr(5, 2)
+            )}월 ${Number(data.startDate.substr(8, 2))}일`}
+            startTime={`${
+              Number(data.startDate.substr(11, 2)) < 12 ? '오전' : '오후'
+            } ${(Number(data.startDate.substr(11, 2) - 1) % 12) + 1}시`}
+            endDate={`${data.endDate.substr(2, 2)}년 ${Number(
+              data.endDate.substr(5, 2)
+            )}월 ${Number(data.endDate.substr(8, 2))}일`}
+            endTime={`${
+              Number(data.endDate.substr(11, 2)) < 12 ? '오전' : '오후'
+            } ${(Number(data.endDate.substr(11, 2) - 1) % 12) + 1}시`}
           />
           <hr />
+
+          <div className="MatchStyleHeader">선호하는 여행 스타일</div>
           <MatchStyle>
             <div>
               <div>🍻</div>가벼운 술
@@ -59,13 +76,8 @@ export default function Home(): any {
             </div>
           </MatchStyle>
           <hr />
-          <MatchArticle>
-            혼자 유럽 여행중입니다. 8월 2일 파리 시내 당일치기하려는데요. 사진
-            많이 찍고 싶은데, 혼자는 소매치기가 겁나서요ㅎㅎ
-          </MatchArticle>
+          <MatchArticle>{data.content}</MatchArticle>
           <MatchPeople>
-            <MatchPerson></MatchPerson>
-            <MatchPerson></MatchPerson>
             <MatchPerson></MatchPerson>
           </MatchPeople>
         </MatchScrollView>

@@ -75,6 +75,16 @@
       line-height: 20px;
     }
   }
+  & > div:nth-of-type(4) {
+    position: absolute;
+    margin-top: -10px;
+    margin-left: 47px;
+    float: left;
+    padding: 15px;
+    font-size: 15px;
+    line-height: 21px;
+    color: #646464;
+  }
 }
 
 .sent {
@@ -144,20 +154,5 @@
     left: 20px;
     height: 22px;
     width: 22px;
-  }
-  & > button {
-    cursor: pointer;
-    box-sizing: content-box;
-    position: absolute;
-    background: none;
-    border: none;
-    top: 0px;
-    font-size: 16px;
-    color: #8638ea;
-    padding-right: 10px;
-    padding-left: 10px;
-    right: 0px;
-    height: 56px;
-    width: 40px;
   }
 }

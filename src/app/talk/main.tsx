@@ -12,19 +12,22 @@ import ModalView from '@/view/modalView';
 import { useState } from 'react';
 import SearchBarFriends from '@/component/searchBarFriends';
 import { atom, useRecoilState } from 'recoil';
+import useSWR from 'swr';
+import { useRouter } from 'next/navigation';
 
 export default function Main(): any {
-  const [modalDisplay, setModlaDisplay] = useState(false);
+  const router = useRouter();
+  const [modalDisplay, setModalDisplay] = useState(false);
 
   const [friendSelectList, setFriendSelectList] = useState([
-    { title: '킹용명', subtitle: '용용용', checked: false },
-    { title: '킹용명', subtitle: '용용용', checked: false },
-    { title: '킹용명', subtitle: '용용용', checked: false },
-    { title: '킹용명', subtitle: '용용용', checked: false },
-    { title: '킹용명', subtitle: '용용용', checked: false },
-    { title: '킹용명', subtitle: '용용용', checked: false },
-    { title: '킹용명', subtitle: '용용용', checked: false },
-    { title: '킹용명', subtitle: '용용용', checked: false },
+    { title: '친구1', subtitle: '상태 메시지..', checked: false },
+    { title: '친구2', subtitle: '상태 메시지..', checked: false },
+    { title: '친구3', subtitle: '상태 메시지..', checked: false },
+    { title: '친구4', subtitle: '상태 메시지..', checked: false },
+    { title: '친구5', subtitle: '상태 메시지..', checked: false },
+    { title: '친구6', subtitle: '상태 메시지..', checked: false },
+    { title: '친구7', subtitle: '상태 메시지..', checked: false },
+    { title: '친구8', subtitle: '상태 메시지..', checked: false },
   ]);
 
   const setFriendSelectListCheck = (index: number) => {
@@ -44,7 +47,7 @@ export default function Main(): any {
       <ContentBox>
         <ListView>
           <div className="section">
-            <ListItem link="/talk/" title="나" subtitle="요요용용용ㅇ" />
+            <ListItem link="/talk/" title="나" subtitle="상태 메시지.." />
           </div>
           <hr />
           <div className="section">
@@ -53,112 +56,112 @@ export default function Main(): any {
             <ListItem
               link="/talk/room"
               title="갓용명"
-              subtitle="요요용용용ㅇ"
+              subtitle="상태 메시지.."
             />
             <ListItem
               link="/talk/room"
               title="강용명"
-              subtitle="요요용용용ㅇ"
+              subtitle="상태 메시지.."
             />
             <ListItem
               link="/talk/room"
               title="고용명"
-              subtitle="요요용용용ㅇ"
+              subtitle="상태 메시지.."
             />
             <ListItem
               link="/talk/room"
               title="곽용명"
-              subtitle="요요용용용ㅇ"
+              subtitle="상태 메시지.."
             />
             <ListItem
               link="/talk/room"
               title="구용명"
-              subtitle="요요용용용ㅇ"
+              subtitle="상태 메시지.."
             />
             <ListItem
               link="/talk/room"
               title="권용명"
-              subtitle="요요용용용ㅇ"
+              subtitle="상태 메시지.."
             />
             <ListItem
               link="/talk/room"
               title="김용명"
-              subtitle="요요용용용ㅇ"
+              subtitle="상태 메시지.."
             />
             <h2>ㄴ</h2>
             <ListItem
               link="/talk/room"
               title="나용명"
-              subtitle="요요용용용ㅇ"
+              subtitle="상태 메시지.."
             />
             <ListItem
               link="/talk/room"
               title="노용명"
-              subtitle="요요용용용ㅇ"
+              subtitle="상태 메시지.."
             />
             <h2>ㄹ</h2>
             <ListItem
               link="/talk/room"
               title="류용명"
-              subtitle="요요용용용ㅇ"
+              subtitle="상태 메시지.."
             />
             <h2>ㅁ</h2>
             <ListItem
               link="/talk/room"
               title="문용명"
-              subtitle="요요용용용ㅇ"
+              subtitle="상태 메시지.."
             />
             <ListItem
               link="/talk/room"
               title="민용명"
-              subtitle="요요용용용ㅇ"
+              subtitle="상태 메시지.."
             />
             <h2>ㅂ</h2>
             <ListItem
               link="/talk/room"
               title="박용명"
-              subtitle="요요용용용ㅇ"
+              subtitle="상태 메시지.."
             />
             <ListItem
               link="/talk/room"
               title="배용명"
-              subtitle="요요용용용ㅇ"
+              subtitle="상태 메시지.."
             />
             <ListItem
               link="/talk/room"
               title="백용명"
-              subtitle="요요용용용ㅇ"
+              subtitle="상태 메시지.."
             />
             <h2>ㅅ</h2>
             <ListItem
               link="/talk/room"
               title="서용명"
-              subtitle="요요용용용ㅇ"
+              subtitle="상태 메시지.."
             />
             <ListItem
               link="/talk/room"
               title="성용명"
-              subtitle="요요용용용ㅇ"
+              subtitle="상태 메시지.."
             />
             <ListItem
               link="/talk/room"
               title="소용명"
-              subtitle="요요용용용ㅇ"
+              subtitle="상태 메시지.."
             />
             <ListItem
               link="/talk/room"
               title="송용명"
-              subtitle="요요용용용ㅇ"
+              subtitle="상태 메시지.."
             />
             <ListItem
               link="/talk/room"
               title="신용명"
-              subtitle="요요용용용ㅇ"
+              subtitle="상태 메시지.."
             />
             <ListItem
               link="/talk/room"
               title="심용명"
-              subtitle="요요용용용ㅇ"
+              subtitle="상태 메시지.."
             />
           </div>
         </ListView>
@@ -178,10 +181,45 @@ export default function Main(): any {
       />
       <ModalView
         display={modalDisplay}
-        setDisplay={setModlaDisplay}
+        setDisplay={setModalDisplay}
         title="채팅방 개설"
         button="개설하기"
-        link="talk/room"
+        onClickProp={() => {
+          fetch('https://dev.yeohaengparty.com/api/chatroom', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              chatroomName: '채팅방 이름 예시',
+              type: 'Normal',
+              masterId: 1,
+              isActive: true,
+            }),
+          })
+            .then((res) => {
+              if (res.status == 200) {
+                return res.json();
+              }
+            })
+            .then((res) => {
+              let chatroomID = res;
+              fetch('https://dev.yeohaengparty.com/api/members', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  chatroomId: chatroomID,
+                  memberIds: [1, 2, 3],
+                }),
+              }).then((res) => {
+                if (res.status == 200) {
+                  router.push(`talk/room/${chatroomID}`);
+                }
+              });
+            });
+        }}
       >
         <SearchBarFriends />
         <div

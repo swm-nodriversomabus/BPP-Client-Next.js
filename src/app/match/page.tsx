@@ -8,12 +8,22 @@ import MatchSegment from '@/component/matchSegment';
 import SearchBar from '@/component/searchBar';
 import MyMatch, { MyMatchItem } from '@/component/myMatch';
 import MatchRecommend, { MatchRecommendItem } from '@/component/matchRecommend';
+import Image from 'next/image';
+import newmatch from 'public/newmatch.svg';
 
 export default function Home(): any {
   return (
     <>
       <Navbar more></Navbar>
-      <ContentBox>
+      <ContentBox
+        styled={{
+          height: '100%',
+          cursor: 'default',
+          backgroundColor: '#fff',
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
         <MatchScrollView>
           <MatchSegment />
           <SearchBar />
@@ -105,6 +115,18 @@ export default function Home(): any {
           </MatchRecommend>
         </MatchScrollView>
       </ContentBox>
+      <Link href="match/new">
+        <Image
+          src={newmatch}
+          alt="new match"
+          style={{
+            cursor: 'pointer',
+            position: 'absolute',
+            bottom: '76px',
+            right: '16px',
+          }}
+        />
+      </Link>
       <Tabbar>3</Tabbar>
     </>
   );
