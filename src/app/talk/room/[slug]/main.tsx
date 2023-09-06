@@ -28,10 +28,15 @@ const getKey = (pageIndex: any, previousPageData: any) => {
   return `http://godjh.dothome.co.kr/api/talk/room/?page=${pageIndex}`;
 };
 
-const fetcher = (url: RequestInfo | URL) => fetch(url).then((r) => r.json());
+const fetcher = (url: RequestInfo | URL) =>
+  fetch(url).then((r) => {
+    r.json();
+    return [];
+  });
 
 let loadState = false;
-let isConnected = false;
+
+let subs: any;
 
 const globalSockData = new Array<object>();
 let globalChatText = '';
@@ -52,10 +57,14 @@ export default function Main({ slug }: { slug: string }): any {
   const isEmpty = data?.[0]?.length === 0;
   const isReachingEnd = isEmpty || (data && data[data.length - 1]?.length < 20);
 
-  const myName = 'me';
+  const myName = localStorage.getItem('tid') == '1' ? 1 : 0;
   const [scrollHeight, setScrollHeight] = useState<number>(0);
 
+  const [isConnected, setIsConnected] = useState<boolean>(false);
+
   const scrollRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
+  let isConnectedDOM: RefObject<HTMLInputElement> =
+    useRef<HTMLInputElement>(null);
 
   const scrollEvent = (e: any) => {
     if (
@@ -97,7 +106,7 @@ export default function Main({ slug }: { slug: string }): any {
     });
     client.current.connect({}, () => {
       client.current?.send(`/pub/subscribe/${slug}`, {});
-      const subs = client.current?.subscribe(
+      subs = client.current?.subscribe(
         `/topic/channel/${slug}`,
         (message) => {
           const json = JSON.parse(message.body);
@@ -110,11 +119,22 @@ export default function Main({ slug }: { slug: string }): any {
         },
         {}
       );
-      isConnected = true;
     });
   };
 
-  if (!isConnected) connectHandler();
+  if (!isConnected) {
+    if (subs) subs.unsubscribe();
+    connectHandler();
+    setIsConnected(true);
+    if (slug == '99999999-9999-9999-9999-999999999998') {
+      globalSockData.push({
+        senderId: { userId: 0 },
+        content: localStorage.getItem('tstep'),
+      });
+      const copySockData = globalSockData.slice();
+      setSockData(copySockData);
+    }
+  }
 
   const sendHandler = () => {
     client.current?.send(
@@ -124,7 +144,7 @@ export default function Main({ slug }: { slug: string }): any {
         image: false,
         type: 'TALK',
         roomId: slug,
-        senderId: 1,
+        senderId: localStorage.getItem('tid') == '1' ? 1 : 0,
         content: globalChatText,
         readCount: 1,
       })
@@ -154,27 +174,29 @@ export default function Main({ slug }: { slug: string }): any {
                     {msg.message}
                   </ChatMessage>
                 );
+              } else {
+                return (
+                  <ChatMessage key={i++} received={msg.sender}>
+                    {msg.message}
+                  </ChatMessage>
+                );
               }
-              return (
-                <ChatMessage key={i++} received={msg.sender}>
-                  {msg.message}
-                </ChatMessage>
-              );
             });
           })}
           {sockData?.map((msg: any, index) => {
-            if (msg.senderId == 1) {
+            if (msg.senderId.userId == myName) {
               return (
                 <ChatMessage key={i++} received={undefined}>
                   {msg.content}
                 </ChatMessage>
               );
+            } else {
+              return (
+                <ChatMessage key={i++} received={myName ? '명명이' : '용용이'}>
+                  {msg.content}
+                </ChatMessage>
+              );
             }
-            return (
-              <ChatMessage key={i++} received={msg.senderId}>
-                {msg.content}
-              </ChatMessage>
-            );
           })}
         </>
       </ChatMessageArea>
