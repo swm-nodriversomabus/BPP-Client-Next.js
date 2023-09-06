@@ -1,4 +1,4 @@
-.section {
+.newMatchSection {
   width: 100%;
   height: 28px;
   line-height: 28px;
@@ -6,6 +6,18 @@
   margin-left: 20px;
   font-size: 14px;
   font-weight: bold;
+}
+
+.MatchStyleEdit {
+  /* display: none; */
+  position: relative;
+  float: right;
+  top: 0px;
+  right: 20px;
+  color: #8638ea;
+  margin-top: -24px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 .CustomSelect {

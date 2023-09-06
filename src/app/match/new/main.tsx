@@ -11,16 +11,17 @@ import MatchRecommend, { MatchRecommendItem } from '@/component/matchRecommend';
 import CustomSelect, { CustomOption } from '@/component/customSelect';
 import MatchStyle from '@/component/matchStyle';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Main(): any {
   const [type, setType] = useState(0);
-  const [title, setTitle] = useState('');
-  const [place, setPlace] = useState('');
+  const [title, setTitle] = useState('함께 여행해요');
+  const [place, setPlace] = useState('파리');
   const [content, setContent] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [maxMember, setMaxMember] = useState('');
+  const [startDate, setStartDate] = useState('2023-09-04 12:00');
+  const [endDate, setEndDate] = useState('2023-09-04 12:00');
+  const [maxMember, setMaxMember] = useState('3');
+
   const router = useRouter();
   const newMatching = () => {
     fetch('https://dev.yeohaengparty.com/api/matching', {
@@ -29,15 +30,20 @@ export default function Main(): any {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        writerId: 1,
+        writerId: localStorage.getItem('tid') ? localStorage.getItem('tid') : 1,
         type: 'TravelMate',
-        title: title,
-        place: place,
-        content: content,
-        startDate: startDate,
-        // startDate: '2023-09-04T12:00:00Z',
-        endDate: endDate,
-        maxMember: maxMember,
+        title: title ? title : '함께 여행해요',
+        place: place ? place : '파리',
+        content: content
+          ? content
+          : '같이 여행하면서 사진찍어주기로 해요! 알려진 명소 말고도 숨겨진 명소 찾아보는 것도 좋아하는데, 함께 찾으시는 거 어때요?ㅎㅎ',
+        startDate: startDate
+          ? startDate.replace(' ', 'T') + ':00Z'
+          : '2023-09-04T12:00:00Z',
+        endDate: endDate
+          ? endDate.replace(' ', 'T') + ':00Z'
+          : '2023-09-04T12:00:00Z',
+        maxMember: maxMember ? maxMember : 2,
         minusAge: 5,
         plusAge: 5,
         readCount: 16,
@@ -50,6 +56,7 @@ export default function Main(): any {
         }
       })
       .then((res) => {
+        console.log(res);
         let matchingID = res.matchingId;
         router.push(`/match/room/${matchingID}`);
       });
@@ -67,7 +74,7 @@ export default function Main(): any {
       </Navbar>
 
       <ContentBox>
-        <div className="section">모집 형태</div>
+        <div className="newMatchSection">모집 형태</div>
         <CustomSelect>
           <CustomOption
             onClick={() => {
@@ -94,36 +101,61 @@ export default function Main(): any {
             숙소 쉐어
           </CustomOption>
         </CustomSelect>
-        <div className="section">제목</div>
+        <div className="newMatchSection">제목</div>
         <input
+          onChange={(e: any) => {
+            setTitle(e.target.value);
+          }}
           autoComplete="off"
           className="MatchInputText"
           placeholder="동행 제목을 작성하세요"
+          value={title}
         />
-        <div className="section">여행지</div>
+        <div className="newMatchSection">여행지</div>
         <input
+          onChange={(e: any) => {
+            setPlace(e.target.value);
+          }}
           autoComplete="off"
           className="MatchInputText"
           placeholder="도시를 선택하세요"
+          value={place}
         />
-        <div className="section">여행기간</div>
+        <div className="newMatchSection">여행기간</div>
         <input
+          onChange={(e: any) => {
+            setStartDate(e.target.value);
+          }}
           autoComplete="off"
           className="MatchInputText"
           placeholder="시작일을 선택하세요"
+          value={startDate}
         />
         <input
+          onChange={(e: any) => {
+            setEndDate(e.target.value);
+          }}
           autoComplete="off"
           className="MatchInputText"
           placeholder="종료일을 선택하세요"
+          value={endDate}
         />
-        <div className="section">모집 인원</div>
+        <div className="newMatchSection">모집 인원</div>
         <input
+          onChange={(e: any) => {
+            setMaxMember(e.target.value);
+          }}
           autoComplete="off"
           className="MatchInputText"
           placeholder="선택하세요"
+          value={maxMember}
         />
-        <div className="section">여행 스타일</div>
+        <div className="newMatchSection">여행 스타일</div>
+        <div className="MatchStyleEdit">
+          <Link href={'./style'} style={{ color: '#8638ea' }}>
+            편집
+          </Link>
+        </div>
         <MatchStyle>
           <div>
             <div>🍻</div>가벼운 술
@@ -144,10 +176,14 @@ export default function Main(): any {
             <div>🚌</div>대중교통
           </div>
         </MatchStyle>
-        <div className="section">세부내용</div>
+        <div className="newMatchSection">세부내용</div>
         <textarea
+          onChange={(e: any) => {
+            setContent(e.target.value);
+          }}
           className="MatchText"
-          placeholder="신청 메시지를 보낸 후, 채팅화면에서 계속 대화를 이어나갈 수 있습니다"
+          placeholder="매칭에 대한 자세한 이야기를 써보세요"
+          value={content}
         ></textarea>
       </ContentBox>
     </>
