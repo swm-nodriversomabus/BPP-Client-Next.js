@@ -1,43 +1,14 @@
 'use client';
 
 export default function Home(): any {
-  const KAKAO_REST_API_KEY = '8e9f7289f1ffaaa651b31306546ca035'; //REST API KEY
-  // oauth 요청 URL
-  // const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`
-
-  // const handleLogin = ()=>{
-  //     window.location.href = kakaoURL
-  // }
-  
-  
-  const handleKakaoLogin = async () => {
-    
-    // try {
-    //   // 카카오 로그인 팝업 열기
-    //   const authResponse = await window.Kakao.Auth.login({
-    //     success: function (authObj) {
-    //       // 카카오 로그인 성공 시 받아온 토큰을 서버로 전송
-    //       axios.post('/api/kakao-login', { accessToken: authObj.access_token })
-    //         .then(response => {
-    //           console.log('서버 응답:', response.data);
-    //           // 로그인 성공 처리 로직 추가
-    //         })
-    //         .catch(error => {
-    //           console.error('서버 오류:', error);
-    //           // 에러 처리 로직 추가
-    //         });
-    //     },
-    //     fail: function (error) {
-    //       console.error('카카오 로그인 실패:', error);
-    //       // 에러 처리 로직 추가
-    //     },
-    //   });
-    // } catch (error) {
-    //   console.error('카카오 SDK 로드 오류:', error);
-    //   // 에러 처리 로직 추가
-    // }
+  const KAKAO_REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_URL;
+  const KAKAO_REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI;
+  console.log(KAKAO_REST_API_KEY);
+  const kakaoLogin = () => {
+    window.open(
+      `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_REST_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`
+    );
   };
-
   return (
     <>
       <button
@@ -57,11 +28,10 @@ export default function Home(): any {
           marginLeft: '-100px',
           marginTop: '-20px',
         }}
-        onClick={handleKakaoLogin}
+        onClick={kakaoLogin}
       >
         카카오 로그인
       </button>
-      
     </>
   );
 }
