@@ -12,6 +12,27 @@ import Image from 'next/image';
 import newchat from 'public/newchat.svg';
 import ModalView from '@/view/modalView';
 import SearchBarFriends from '@/component/searchBarFriends';
+import { useRouter } from 'next/navigation';
+
+let friendsData: Array<object> = [
+  {
+    img: 1,
+    title: 'ENTP남',
+    subtitle: '대문자 P',
+  },
+  { img: 2, title: '곽튜브', subtitle: '이거 재밌네?', checked: false },
+  { img: 3, title: '또떠녀', subtitle: '또 떠나는 여행', checked: false },
+  { img: 4, title: '소마소마', subtitle: '14기 화이팅!', checked: false },
+  {
+    img: 6,
+    title: '마에스트로',
+    subtitle: '불러 maestro maestro',
+    checked: false,
+  },
+  { img: 5, title: '효남이', subtitle: '냥냥펀치', checked: false },
+  { img: 7, title: '파리지앵', subtitle: '파리바게뜨', checked: false },
+  { img: 8, title: '킹갓엠퍼러용명', subtitle: '상메는 상메', checked: false },
+];
 
 const getKey = (pageIndex: any, previousPageData: any) => {
   if (previousPageData && !previousPageData.length) return null;
@@ -23,6 +44,7 @@ const fetcher = (url: RequestInfo | URL) => fetch(url).then((r) => r.json());
 
 let loadState: boolean = false;
 export default function Home(): any {
+  const router = useRouter();
   const { data, size, setSize }: SWRInfiniteResponse = useSWRInfinite(
     getKey,
     fetcher
@@ -47,17 +69,7 @@ export default function Home(): any {
   const isReachingEnd = isEmpty || (data && data[data.length - 1]?.length < 20);
 
   const [modalDisplay, setModlaDisplay] = useState(false);
-
-  const [friendSelectList, setFriendSelectList] = useState([
-    { title: '킹용명', subtitle: '용용용', checked: false },
-    { title: '킹용명', subtitle: '용용용', checked: false },
-    { title: '킹용명', subtitle: '용용용', checked: false },
-    { title: '킹용명', subtitle: '용용용', checked: false },
-    { title: '킹용명', subtitle: '용용용', checked: false },
-    { title: '킹용명', subtitle: '용용용', checked: false },
-    { title: '킹용명', subtitle: '용용용', checked: false },
-    { title: '킹용명', subtitle: '용용용', checked: false },
-  ]);
+  const [friendSelectList, setFriendSelectList] = useState(friendsData);
 
   const setFriendSelectListCheck = (index: number) => {
     const obj = friendSelectList.slice();
@@ -100,10 +112,12 @@ export default function Home(): any {
             <>
               {data?.map((msgs, index) => {
                 return msgs?.map((msg: any) => {
+                  console.log(msg);
                   if (msg.isActive == false) return <></>;
                   return (
                     <ListItem
-                      link={`room?${msg.chatroomID}`}
+                      img={1}
+                      link={`room/${msg.chatroomId}`}
                       key={i++}
                       title={`${msg.chatroomName}`}
                       subtitle={'last message..'}
@@ -134,7 +148,42 @@ export default function Home(): any {
         setDisplay={setModlaDisplay}
         title="채팅방 개설"
         button="개설하기"
-        link="room"
+        onClickProp={() => {
+          fetch('https://dev.yeohaengparty.com/api/chatroom', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              chatroomName: '채팅방 이름 예시',
+              type: 'Normal',
+              masterId: 1,
+              isActive: true,
+            }),
+          })
+            .then((res) => {
+              if (res.status == 200) {
+                return res.json();
+              }
+            })
+            .then((res) => {
+              let chatroomID = res;
+              fetch('https://dev.yeohaengparty.com/api/members', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  chatroomId: chatroomID,
+                  memberIds: [1, 2, 3],
+                }),
+              }).then((res) => {
+                if (res.status == 200) {
+                  router.push(`room/${chatroomID}`);
+                }
+              });
+            });
+        }}
       >
         <SearchBarFriends />
         <div
@@ -155,6 +204,7 @@ export default function Home(): any {
                   <ListItemAddToRoom
                     link="room"
                     key={index}
+                    img={item.img}
                     index={index++}
                     title={item.title}
                     subtitle={item.subtitle}
