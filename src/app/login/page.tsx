@@ -1,5 +1,15 @@
 'use client';
 
+import './style.css';
+import rect_logo from 'public/rect_logo.svg';
+import login_bg from 'public/login_bg.svg';
+import Image from 'next/image';
+import kakao_btn from 'public/kakao_btn.svg';
+import google_btn from 'public/google_btn.svg';
+import naver_btn from 'public/naver_btn.svg';
+import instagram_btn from 'public/instagram_btn.svg';
+import apple_btn from 'public/apple_btn.svg';
+
 export default function Home(): any {
   const KAKAO_REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
   const KAKAO_REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI;
@@ -37,66 +47,119 @@ export default function Home(): any {
 
   return (
     <>
-      <button
+      <div
+        style={{
+          background: '#100B2F',
+          height: '100%',
+          position: 'absolute',
+          width: '100%',
+        }}
+      ></div>
+      <Image
+        src={login_bg}
+        alt="bg"
+        style={{
+          position: 'absolute',
+          left: '0px',
+          top: '-50px',
+          zIndex: '0',
+          width: '100%',
+          background: '#F0ECDE',
+        }}
+      />
+      <Image
+        src={rect_logo}
+        alt="logo"
         style={{
           position: 'relative',
           left: '50%',
-          width: '200px',
-          height: '40px',
-          background: '#09f',
+          marginLeft: '-50px',
+          marginTop: '80px',
+        }}
+      />
+      <Image
+        src={kakao_btn}
+        alt="btn"
+        style={{
+          position: 'relative',
+          left: '50%',
           color: '#fff',
           border: 'none',
           borderRadius: '6px',
           fontSize: '15px',
           fontWeight: 'bold',
           cursor: 'pointer',
-          marginLeft: '-100px',
-          marginTop: '20px',
+          marginLeft: '-160px',
+          marginTop: '400px',
         }}
         onClick={kakaoLogin}
-      >
-        카카오 로그인
-      </button>
-      <button
+      />
+      <Image
+        src={google_btn}
+        alt="btn"
         style={{
           position: 'relative',
           left: '50%',
-          width: '200px',
-          height: '40px',
-          background: '#09f',
           color: '#fff',
           border: 'none',
           borderRadius: '6px',
           fontSize: '15px',
           fontWeight: 'bold',
           cursor: 'pointer',
-          marginLeft: '-100px',
+          marginLeft: '-50px',
           marginTop: '20px',
         }}
         onClick={googleLogin}
-      >
-        구글 로그인
-      </button>
-      <button
+      />
+      <Image
+        src={naver_btn}
+        alt="btn"
         style={{
           position: 'relative',
           left: '50%',
-          width: '200px',
-          height: '40px',
-          background: '#09f',
           color: '#fff',
           border: 'none',
           borderRadius: '6px',
           fontSize: '15px',
           fontWeight: 'bold',
           cursor: 'pointer',
-          marginLeft: '-100px',
-          marginTop: '20px',
+          marginLeft: '10px',
+          marginTop: '-40px',
         }}
         onClick={naverLogin}
-      >
-        네이버 로그인
-      </button>
+      />
+      <Image
+        src={apple_btn}
+        alt="btn"
+        style={{
+          position: 'relative',
+          left: '50%',
+          color: '#fff',
+          border: 'none',
+          borderRadius: '6px',
+          fontSize: '15px',
+          fontWeight: 'bold',
+          cursor: 'pointer',
+          marginLeft: '-110px',
+          marginTop: '-40px',
+        }}
+      />
+      <Image
+        src={instagram_btn}
+        alt="btn"
+        style={{
+          position: 'relative',
+          left: '50%',
+          color: '#fff',
+          border: 'none',
+          borderRadius: '6px',
+          fontSize: '15px',
+          fontWeight: 'bold',
+          cursor: 'pointer',
+          marginLeft: '70px',
+          marginTop: '-40px',
+        }}
+      />
     </>
   );
 }
