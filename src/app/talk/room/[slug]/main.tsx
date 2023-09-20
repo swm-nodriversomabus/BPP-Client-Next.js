@@ -23,11 +23,6 @@ import ChatMessage from '../chatMessage';
 import Image from 'next/image';
 import add from 'public/add.svg';
 
-const getKey = (pageIndex: any, previousPageData: any) => {
-  if (previousPageData && !previousPageData.length) return null;
-  return `http://godjh.dothome.co.kr/api/talk/room/?page=${pageIndex}`;
-};
-
 const fetcher = (url: RequestInfo | URL) =>
   fetch(url).then((r) => {
     r.json();
@@ -41,6 +36,16 @@ let subs: any;
 const globalSockData = new Array<object>();
 let globalChatText = '';
 export default function Main({ slug }: { slug: string }): any {
+  const getKey = (pageIndex: any, previousPageData: any) => {
+    if (previousPageData && !previousPageData.length) return null;
+
+    return `https://dev.yeohaengparty.com/api/chat?${new URLSearchParams({
+      roomId: slug,
+      page: pageIndex,
+      size: 1,
+      sort: 'string',
+    }).toString()}`;
+  };
   const [chatText, setChatText] = useState('');
   const [sockData, setSockData] = useState(new Array<object>());
 
