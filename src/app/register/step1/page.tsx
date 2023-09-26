@@ -1,11 +1,28 @@
+'use client';
+
 import '../style.css';
 import Navbar from '@/component/navigationBar';
 import ContentBox from '@/component/contentBox';
 import Image from 'next/image';
 import addcheck from 'public/addcheck.svg';
+import addcheck_true from 'public/addcheck_true.svg';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Home(): any {
+  const [checkBox_1, setCheckBox_1] = useState(false);
+  const [checkBox_2, setCheckBox_2] = useState(false);
+  const [checkBox_3, setCheckBox_3] = useState(false);
+  const [nextBtnAvailable, setNextBtnAvailable] = useState(false);
+  useEffect(() => {
+    if (checkBox_1 && checkBox_2 && checkBox_3) {
+      setNextBtnAvailable(true);
+    } else {
+      setNextBtnAvailable(false);
+    }
+  }, [checkBox_1, checkBox_2, checkBox_3]);
+  const router = useRouter();
   return (
     <>
       <Navbar back=" ">회원가입</Navbar>
@@ -93,7 +110,12 @@ export default function Home(): any {
         >
           모두 동의합니다
           <Image
-            src={addcheck}
+            onClick={() => {
+              setCheckBox_1(true);
+              setCheckBox_2(true);
+              setCheckBox_3(true);
+            }}
+            src={nextBtnAvailable ? addcheck_true : addcheck}
             style={{ float: 'right', marginTop: '12px' }}
             alt="check"
           />
@@ -129,7 +151,10 @@ export default function Home(): any {
             이용약관
           </div>
           <Image
-            src={addcheck}
+            onClick={() => {
+              setCheckBox_1(!checkBox_1);
+            }}
+            src={checkBox_1 ? addcheck_true : addcheck}
             style={{ float: 'right', marginTop: '-2px' }}
             alt="check"
           />
@@ -186,7 +211,10 @@ export default function Home(): any {
             이용약관
           </div>
           <Image
-            src={addcheck}
+            onClick={() => {
+              setCheckBox_2(!checkBox_2);
+            }}
+            src={checkBox_2 ? addcheck_true : addcheck}
             style={{ float: 'right', marginTop: '-2px' }}
             alt="check"
           />
@@ -243,7 +271,10 @@ export default function Home(): any {
             이용약관
           </div>
           <Image
-            src={addcheck}
+            onClick={() => {
+              setCheckBox_3(!checkBox_3);
+            }}
+            src={checkBox_3 ? addcheck_true : addcheck}
             style={{ float: 'right', marginTop: '-2px' }}
             alt="check"
           />
@@ -270,25 +301,28 @@ export default function Home(): any {
         </div>
         <div style={{ width: '100%', height: '100px' }} />
       </ContentBox>
-      <Link href="step2">
-        <button
-          style={{
-            boxSizing: 'border-box',
-            bottom: '20px',
-            marginLeft: '20px',
-            position: 'absolute',
-            height: '52px',
-            width: 'calc(100% - 40px)',
-            border: 'none',
-            borderRadius: '8px',
-            backgroundColor: '#D2D2D1',
-            color: '#fff',
-            fontSize: '16px',
-          }}
-        >
-          다음
-        </button>
-      </Link>
+      <button
+        onClick={() => {
+          if (nextBtnAvailable) {
+            router.push('step2');
+          }
+        }}
+        style={{
+          boxSizing: 'border-box',
+          bottom: '20px',
+          marginLeft: '20px',
+          position: 'absolute',
+          height: '52px',
+          width: 'calc(100% - 40px)',
+          border: 'none',
+          borderRadius: '8px',
+          backgroundColor: nextBtnAvailable ? '#8638EA' : '#D2D2D1',
+          color: '#fff',
+          fontSize: '16px',
+        }}
+      >
+        다음
+      </button>
     </>
   );
 }

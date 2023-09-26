@@ -1,3 +1,5 @@
+'use client';
+
 import '../style.css';
 import Navbar from '@/component/navigationBar';
 import ContentBox from '@/component/contentBox';
@@ -5,8 +7,13 @@ import Image from 'next/image';
 import addcheck from 'public/addcheck.svg';
 import Link from 'next/link';
 import CustomSelect, { CustomOption } from '@/component/customSelect';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Home(): any {
+  const [genderValue, setGenderValue] = useState(0);
+  const [birthValue, setBirthValue] = useState('');
+  const router = useRouter();
   return (
     <>
       <Navbar back=" ">회원가입</Navbar>
@@ -95,8 +102,22 @@ export default function Home(): any {
           성별
         </div>
         <CustomSelect>
-          <CustomOption>남자</CustomOption>
-          <CustomOption>여자</CustomOption>
+          <CustomOption
+            onClick={() => {
+              setGenderValue(1);
+            }}
+            selected={genderValue == 1}
+          >
+            남자
+          </CustomOption>
+          <CustomOption
+            onClick={() => {
+              setGenderValue(2);
+            }}
+            selected={genderValue == 2}
+          >
+            여자
+          </CustomOption>
         </CustomSelect>
         <div
           style={{
@@ -126,9 +147,13 @@ export default function Home(): any {
             borderRadius: '4px',
             fontSize: '15px',
           }}
-          value="생일을 입력하세요"
+          placeholder="생일을 입력하세요"
+          value={birthValue}
+          onChange={(e: any) => {
+            setBirthValue(e.target.value.replaceAll(/[^\d]/gi, ''));
+          }}
         />
-        <div
+        {/* <div
           style={{
             marginLeft: '20px',
             color: '#212121',
@@ -187,10 +212,10 @@ export default function Home(): any {
             marginTop: '12px',
           }}
           value="상세주소를 입력하세요"
-        />
+        /> */}
         <div style={{ width: '100%', height: '100px' }} />
       </ContentBox>
-      <Link href="step1">
+      <Link href="step2">
         <button
           style={{
             boxSizing: 'border-box',
@@ -209,26 +234,29 @@ export default function Home(): any {
           이전
         </button>
       </Link>
-      <Link href="step3">
-        <button
-          style={{
-            right: '0',
-            boxSizing: 'border-box',
-            bottom: '20px',
-            marginRight: '20px',
-            position: 'absolute',
-            height: '52px',
-            width: 'calc(50% - 30px)',
-            border: 'none',
-            borderRadius: '8px',
-            backgroundColor: '#D2D2D1',
-            color: '#fff',
-            fontSize: '16px',
-          }}
-        >
-          가입하기
-        </button>
-      </Link>
+      <button
+        onClick={() => {
+          if (genderValue && birthValue) {
+            router.push('../../');
+          }
+        }}
+        style={{
+          right: '0',
+          boxSizing: 'border-box',
+          bottom: '20px',
+          marginRight: '20px',
+          position: 'absolute',
+          height: '52px',
+          width: 'calc(50% - 30px)',
+          border: 'none',
+          borderRadius: '8px',
+          backgroundColor: genderValue && birthValue ? '#8638EA' : '#D2D2D1',
+          color: '#fff',
+          fontSize: '16px',
+        }}
+      >
+        가입하기
+      </button>
     </>
   );
 }
