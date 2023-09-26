@@ -15,20 +15,31 @@ import { atom, useRecoilState } from 'recoil';
 import useSWR from 'swr';
 import { useRouter } from 'next/navigation';
 
+let friendsData: Array<object> = [
+  {
+    img: 1,
+    title: 'ENTP남',
+    subtitle: '대문자 P',
+  },
+  { img: 2, title: '곽튜브', subtitle: '이거 재밌네?', checked: false },
+  { img: 3, title: '또떠녀', subtitle: '또 떠나는 여행', checked: false },
+  { img: 4, title: '소마소마', subtitle: '14기 화이팅!', checked: false },
+  {
+    img: 6,
+    title: '마에스트로',
+    subtitle: '불러 maestro maestro',
+    checked: false,
+  },
+  { img: 5, title: '효남이', subtitle: '냥냥펀치', checked: false },
+  { img: 7, title: '파리지앵', subtitle: '파리바게뜨', checked: false },
+  { img: 8, title: '킹갓엠퍼러용명', subtitle: '상메는 상메', checked: false },
+];
+
 export default function Main(): any {
   const router = useRouter();
   const [modalDisplay, setModalDisplay] = useState(false);
 
-  const [friendSelectList, setFriendSelectList] = useState([
-    { title: '친구1', subtitle: '상태 메시지..', checked: false },
-    { title: '친구2', subtitle: '상태 메시지..', checked: false },
-    { title: '친구3', subtitle: '상태 메시지..', checked: false },
-    { title: '친구4', subtitle: '상태 메시지..', checked: false },
-    { title: '친구5', subtitle: '상태 메시지..', checked: false },
-    { title: '친구6', subtitle: '상태 메시지..', checked: false },
-    { title: '친구7', subtitle: '상태 메시지..', checked: false },
-    { title: '친구8', subtitle: '상태 메시지..', checked: false },
-  ]);
+  const [friendSelectList, setFriendSelectList] = useState(friendsData);
 
   const setFriendSelectListCheck = (index: number) => {
     const obj = friendSelectList.slice();
@@ -47,122 +58,36 @@ export default function Main(): any {
       <ContentBox>
         <ListView>
           <div className="section">
-            <ListItem link="/talk/" title="나" subtitle="상태 메시지.." />
+            <ListItem
+              link="/talk/"
+              img={localStorage.getItem('tid') == '1' ? 0 : 9}
+              title={localStorage.getItem('tid') == '1' ? '용용이' : '명명이'}
+              subtitle={
+                localStorage.getItem('tid') == '1'
+                  ? '놀러가고 싶다'
+                  : '누텔라 맛있다'
+              }
+            />
           </div>
           <hr />
           <div className="section">
             <h1>친구목록</h1>
-            <h2>ㄱ</h2>
-            <ListItem
-              link="/talk/room"
-              title="갓용명"
-              subtitle="상태 메시지.."
-            />
-            <ListItem
-              link="/talk/room"
-              title="강용명"
-              subtitle="상태 메시지.."
-            />
-            <ListItem
-              link="/talk/room"
-              title="고용명"
-              subtitle="상태 메시지.."
-            />
-            <ListItem
-              link="/talk/room"
-              title="곽용명"
-              subtitle="상태 메시지.."
-            />
-            <ListItem
-              link="/talk/room"
-              title="구용명"
-              subtitle="상태 메시지.."
-            />
-            <ListItem
-              link="/talk/room"
-              title="권용명"
-              subtitle="상태 메시지.."
-            />
-            <ListItem
-              link="/talk/room"
-              title="김용명"
-              subtitle="상태 메시지.."
-            />
-            <h2>ㄴ</h2>
-            <ListItem
-              link="/talk/room"
-              title="나용명"
-              subtitle="상태 메시지.."
-            />
-            <ListItem
-              link="/talk/room"
-              title="노용명"
-              subtitle="상태 메시지.."
-            />
-            <h2>ㄹ</h2>
-            <ListItem
-              link="/talk/room"
-              title="류용명"
-              subtitle="상태 메시지.."
-            />
-            <h2>ㅁ</h2>
-            <ListItem
-              link="/talk/room"
-              title="문용명"
-              subtitle="상태 메시지.."
-            />
-            <ListItem
-              link="/talk/room"
-              title="민용명"
-              subtitle="상태 메시지.."
-            />
-            <h2>ㅂ</h2>
-            <ListItem
-              link="/talk/room"
-              title="박용명"
-              subtitle="상태 메시지.."
-            />
-            <ListItem
-              link="/talk/room"
-              title="배용명"
-              subtitle="상태 메시지.."
-            />
-            <ListItem
-              link="/talk/room"
-              title="백용명"
-              subtitle="상태 메시지.."
-            />
-            <h2>ㅅ</h2>
-            <ListItem
-              link="/talk/room"
-              title="서용명"
-              subtitle="상태 메시지.."
-            />
-            <ListItem
-              link="/talk/room"
-              title="성용명"
-              subtitle="상태 메시지.."
-            />
-            <ListItem
-              link="/talk/room"
-              title="소용명"
-              subtitle="상태 메시지.."
-            />
-            <ListItem
-              link="/talk/room"
-              title="송용명"
-              subtitle="상태 메시지.."
-            />
-            <ListItem
-              link="/talk/room"
-              title="신용명"
-              subtitle="상태 메시지.."
-            />
-            <ListItem
-              link="/talk/room"
-              title="심용명"
-              subtitle="상태 메시지.."
-            />
+            {/* <h2>ㄱ</h2> */}
+            <>
+              {friendsData?.map((msgs, index) => {
+                return msgs ? (
+                  <ListItem
+                    link={`talk/profile/${index}`}
+                    title={msgs.title}
+                    subtitle={msgs.subtitle}
+                    img={msgs.img}
+                    key={1}
+                  />
+                ) : (
+                  <></>
+                );
+              })}
+            </>
           </div>
         </ListView>
       </ContentBox>
@@ -176,7 +101,7 @@ export default function Main(): any {
           right: '16px',
         }}
         onClick={() => {
-          setModlaDisplay(true);
+          setModalDisplay(true);
         }}
       />
       <ModalView
@@ -244,6 +169,7 @@ export default function Main(): any {
                     title={item.title}
                     subtitle={item.subtitle}
                     checked={item.checked}
+                    img={item.img}
                     set={setFriendSelectListCheck}
                   />
                 );
