@@ -34,10 +34,12 @@ export default function Home(): any {
     // },
   ];
   const { data, error, isLoading }: SWRResponse = useSWR(
-    'https://dev.yeohaengparty.com/api/matching',
+    // 'https://dev.yeohaengparty.com/api/matching',
+    `https://dev.yeohaengparty.com/api/user/${1}/recommendedmatching`,
     (url: RequestInfo | URL) => fetch(url).then((r) => r.json())
   );
-  let idata = data?.slice().reverse();
+  let idata: Array<object>;
+  if (data && data.length) idata = data.slice().reverse();
   return (
     <>
       <Navbar more></Navbar>
