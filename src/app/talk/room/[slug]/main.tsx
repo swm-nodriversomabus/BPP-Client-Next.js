@@ -38,12 +38,10 @@ let globalChatText = '';
 export default function Main({ slug }: { slug: string }): any {
   const getKey = (pageIndex: any, previousPageData: any) => {
     if (previousPageData && !previousPageData.length) return null;
-
     return `https://dev.yeohaengparty.com/api/chat?${new URLSearchParams({
       roomId: slug,
       page: pageIndex,
-      size: 1,
-      sort: 'string',
+      size: 10,
     }).toString()}`;
   };
   const [chatText, setChatText] = useState('');
