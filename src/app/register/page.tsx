@@ -2,18 +2,20 @@
 
 import './style.css';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Step1 from './step1/content';
 import Step2 from './step2/content';
 import Step3 from './step3/content';
 
 export default function Home(): any {
+  const searchParams = useSearchParams();
   const [registerStep, setRegisterStep] = useState(1);
   const router = useRouter();
   const [nameValue, setNameValue] = useState('');
   const [phoneValue, setPhoneValue] = useState('');
   const [genderValue, setGenderValue] = useState('');
   const [birthValue, setBirthValue] = useState('');
+  const [next, setNext] = useState('');
   const getValues = (name: string, value: string) => {
     switch (name) {
       case 'name':
@@ -28,39 +30,47 @@ export default function Home(): any {
       case 'birth':
         setBirthValue(value);
         break;
+      case 'next':
+        setNext(value);
+        break;
     }
   };
 
   const registerAPI = () => {
+    console.log(
+      JSON.stringify({
+        socialEmail: searchParams.get('socialEmail'),
+        provider: searchParams.get('provider'),
+        username: encodeURIComponent(nameValue),
+        gender: genderValue,
+        age: 1,
+        phone: phoneValue,
+      })
+    );
     fetch('https://dev.yeohaengparty.com/api/user', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        username: nameValue,
-        nickname: nameValue,
-        gender: 0,
-        age: 0,
+        socialEmail: searchParams.get('socialEmail'),
+        provider: searchParams.get('provider'),
+        username: encodeURIComponent(nameValue),
+        gender: genderValue,
+        age: 1,
         phone: phoneValue,
-        email: '',
-        address: '',
-        role: 0,
-        blacklist: false,
-        personality: '',
-        stateMessage: '',
-        mannerScore: 0,
-        createdUserId: 0,
-        updatedUserId: 0,
-        isActive: true,
       }),
     }).then((res) => {
+      console.log(res.status);
       if (res.status == 200) {
-        router.push('../');
+        router.push('../login');
         return;
       }
     });
   };
+
+  if (next) registerAPI();
+
   return (
     <>
       {
