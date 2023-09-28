@@ -24,6 +24,7 @@ export default function Home(): any {
   const router = useRouter();
   if (redirectNow) {
     router.push('login');
+    return <></>;
   }
   return (
     <>
