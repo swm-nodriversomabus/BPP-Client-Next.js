@@ -246,9 +246,9 @@ export default function Home({
       <button
         onClick={() => {
           if (genderValue && birthValue) {
-            setValues('gender', genderValue == 1 ? '남성' : '여성');
+            setValues('gender', genderValue == 1 ? 'Male' : 'Female');
             setValues('birth', birthValue);
-            nextStep();
+            setValues('next', '1');
             //router.push('../../');
           }
         }}
