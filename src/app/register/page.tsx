@@ -41,7 +41,7 @@ export default function Home(): any {
       JSON.stringify({
         socialEmail: searchParams.get('socialEmail'),
         provider: searchParams.get('provider'),
-        username: encodeURIComponent(nameValue),
+        username: nameValue,
         gender: genderValue,
         age: 1,
         phone: phoneValue,
@@ -55,7 +55,7 @@ export default function Home(): any {
       body: JSON.stringify({
         socialEmail: searchParams.get('socialEmail'),
         provider: searchParams.get('provider'),
-        username: encodeURIComponent(nameValue),
+        username: nameValue,
         gender: genderValue,
         age: 1,
         phone: phoneValue,
