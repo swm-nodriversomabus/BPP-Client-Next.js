@@ -17,14 +17,14 @@ const FlickView = (Props: { children: Array<JSX.Element> | undefined }) => {
 
 let redirectNow = false;
 if (!getUserID() || Number(getUserID()) == -1) {
-  redirectNow = true;
+  //redirectNow = true;
 }
 
 export default function Home(): any {
   const router = useRouter();
   if (redirectNow) {
     router.push('login');
-    return <></>;
+    return <>{document.cookie}</>;
   }
   return (
     <>
