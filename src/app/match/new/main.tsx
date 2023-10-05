@@ -13,6 +13,7 @@ import MatchStyle from '@/component/matchStyle';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+let userId = 1;
 export default function Main(): any {
   const [type, setType] = useState(0);
   const [title, setTitle] = useState('함께 여행해요');
@@ -30,7 +31,7 @@ export default function Main(): any {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        writerId: localStorage.getItem('tid') ? localStorage.getItem('tid') : 1,
+        writerId: userId,
         type: 'TravelMate',
         title: title ? title : '함께 여행해요',
         place: place ? place : '파리',

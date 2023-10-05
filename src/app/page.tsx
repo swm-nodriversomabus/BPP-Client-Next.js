@@ -8,24 +8,17 @@ import mainbanner1 from 'public/mainbanner_1.svg';
 import packagebanner1 from 'public/packagebanner_1.svg';
 import matebanner1 from 'public/matebanner_1.svg';
 import accombanner1 from 'public/accombanner_1.svg';
-import { getUserID } from '@/utils/post';
+import { api } from '@/utils/api';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 const FlickView = (Props: { children: Array<JSX.Element> | undefined }) => {
   return <div className="FlickView">{Props.children}</div>;
 };
 
-let redirectNow = false;
-if (!getUserID() || Number(getUserID()) == -1) {
-  //redirectNow = true;
-}
-
 export default function Home(): any {
   const router = useRouter();
-  if (redirectNow) {
-    router.push('login');
-    return <>{document.cookie}</>;
-  }
+
   return (
     <>
       <Navbar more></Navbar>
