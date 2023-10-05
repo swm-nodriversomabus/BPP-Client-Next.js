@@ -46,7 +46,7 @@ export default function Main({ slug }: { slug: string }): any {
         (message) => {
           const json = JSON.parse(message.body);
           localStorage.setItem('tstep', json.content);
-          if (localStorage.getItem('tid') == 1) setNewFace(true);
+          if (localStorage.getItem('tid') == '1') setNewFace(true);
           console.log(localStorage.getItem('tstep'));
           if (localStorage.getItem('tid') == '1') {
             console.log(localStorage.getItem('tid'));
@@ -233,7 +233,7 @@ export default function Main({ slug }: { slug: string }): any {
           setDisplay={setModal2Display}
           title="동행신청"
         >
-          <Image src={matchconfirm} style={{ width: '100%' }} />
+          <Image src={matchconfirm} style={{ width: '100%' }} alt="confirm" />
           <textarea
             style={{
               position: 'absolute',

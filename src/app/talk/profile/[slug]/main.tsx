@@ -58,12 +58,12 @@ let friendsData: Array<{
   { img: 8, title: '킹갓엠퍼러용명', subtitle: '상메는 상메', checked: false },
 ];
 
-export default function Main({ slug }: { slug: number }): any {
+export default function Main({ slug }: { slug: string }): any {
   return (
     <>
       <Navbar back=" "> </Navbar>
       <Image
-        src={profileImg[friendsData[slug].img]}
+        src={profileImg[friendsData[Number(slug)].img]}
         alt="image"
         style={{
           width: '112px',
@@ -90,7 +90,7 @@ export default function Main({ slug }: { slug: number }): any {
           fontWeight: 'bold',
         }}
       >
-        {friendsData[slug].title}
+        {friendsData[Number(slug)].title}
       </div>
       <div
         style={{
@@ -106,7 +106,7 @@ export default function Main({ slug }: { slug: number }): any {
           color: '#777',
         }}
       >
-        {friendsData[slug].subtitle}
+        {friendsData[Number(slug)].subtitle}
       </div>
       <div
         style={{

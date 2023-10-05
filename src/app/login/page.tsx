@@ -9,7 +9,6 @@ import google_btn from 'public/google_btn.svg';
 import naver_btn from 'public/naver_btn.svg';
 import instagram_btn from 'public/instagram_btn.svg';
 import apple_btn from 'public/apple_btn.svg';
-import { setUserID } from '@/utils/post';
 import { useRouter } from 'next/navigation';
 
 export default function Home(): any {
