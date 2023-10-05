@@ -45,7 +45,7 @@ const ListItem: any = (Props: {
       }}
       className="ListItem"
     >
-      <Image src={profileImg[Props.img]} alt="profile" />
+      <Image src={profileImg[Number(Props.img)]} alt="profile" />
       <div>{Props.title}</div>
       <div>{Props.subtitle}</div>
     </div>
@@ -68,7 +68,7 @@ const ListItemAddToRoom: any = (Props: {
       }}
       className="ListItemAddToRoom"
     >
-      <Image src={profileImg[Props.img]} alt="profile" />
+      <Image src={profileImg[Number(Props.img)]} alt="profile" />
       <div>{Props.title}</div>
       <div>{Props.subtitle}</div>
       <Image src={Props.checked ? addcheck_true : addcheck} alt="add check" />

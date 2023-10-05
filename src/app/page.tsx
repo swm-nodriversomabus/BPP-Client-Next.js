@@ -1,3 +1,4 @@
+'use client';
 import Link from 'next/link';
 import Navbar from '@/component/navigationBar';
 import Tabbar from '@/component/tabBar';
@@ -7,12 +8,17 @@ import mainbanner1 from 'public/mainbanner_1.svg';
 import packagebanner1 from 'public/packagebanner_1.svg';
 import matebanner1 from 'public/matebanner_1.svg';
 import accombanner1 from 'public/accombanner_1.svg';
+import { api } from '@/utils/api';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 const FlickView = (Props: { children: Array<JSX.Element> | undefined }) => {
   return <div className="FlickView">{Props.children}</div>;
 };
 
 export default function Home(): any {
+  const router = useRouter();
+
   return (
     <>
       <Navbar more></Navbar>

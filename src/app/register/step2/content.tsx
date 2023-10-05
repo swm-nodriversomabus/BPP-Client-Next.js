@@ -1,18 +1,26 @@
 'use client';
-
 import '../style.css';
 import Navbar from '@/component/navigationBar';
 import ContentBox from '@/component/contentBox';
 import Image from 'next/image';
 import addcheck from 'public/addcheck.svg';
 import Link from 'next/link';
-import CustomSelect, { CustomOption } from '@/component/customSelect';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function Home(): any {
-  const [genderValue, setGenderValue] = useState(0);
-  const [birthValue, setBirthValue] = useState('');
+export default function Home({
+  setValues,
+  prevStep,
+  nextStep,
+}: {
+  setValues: (name: string, value: string) => void;
+  prevStep: () => void;
+  nextStep: () => void;
+}): any {
+  const [nameValue, setNameValue] = useState('');
+  const [phoneValue, setPhoneValue] = useState('');
+  const [confirmValue, setConfirmValue] = useState('');
+  const [confirmStep, setConfirmStep] = useState(0);
   const router = useRouter();
   return (
     <>
@@ -40,11 +48,11 @@ export default function Home(): any {
           style={{
             marginTop: '20px',
             float: 'left',
-            background: '#F0F0F2',
+            background: '#8638EA',
             width: '31px',
             height: '31px',
             borderRadius: '31px',
-            color: '#A8A8A8',
+            color: '#fff',
             lineHeight: '31px',
             textAlign: 'center',
             fontSize: '14px',
@@ -57,11 +65,11 @@ export default function Home(): any {
           style={{
             marginTop: '20px',
             float: 'left',
-            background: '#8638EA',
+            background: '#F0F0F2',
             width: '31px',
             height: '31px',
             borderRadius: '31px',
-            color: '#fff',
+            color: '#A8A8A8',
             lineHeight: '31px',
             textAlign: 'center',
             fontSize: '14px',
@@ -84,7 +92,7 @@ export default function Home(): any {
             height: '60px',
           }}
         >
-          개인 정보
+          계정 정보
         </div>
         <div
           style={{
@@ -99,41 +107,7 @@ export default function Home(): any {
             height: '30px',
           }}
         >
-          성별
-        </div>
-        <CustomSelect>
-          <CustomOption
-            onClick={() => {
-              setGenderValue(1);
-            }}
-            selected={genderValue == 1}
-          >
-            남자
-          </CustomOption>
-          <CustomOption
-            onClick={() => {
-              setGenderValue(2);
-            }}
-            selected={genderValue == 2}
-          >
-            여자
-          </CustomOption>
-        </CustomSelect>
-        <div
-          style={{
-            marginLeft: '20px',
-            color: '#212121',
-            fontSize: '14px',
-            width: '100%',
-            position: 'relative',
-            display: 'inline-block',
-            fontWeight: 'bold',
-            lineHeight: '30px',
-            height: '30px',
-            marginTop: '30px',
-          }}
-        >
-          생일
+          이름
         </div>
         <input
           style={{
@@ -147,13 +121,13 @@ export default function Home(): any {
             borderRadius: '4px',
             fontSize: '15px',
           }}
-          placeholder="생일을 입력하세요"
-          value={birthValue}
+          placeholder="본명을 입력하세요"
+          value={nameValue}
           onChange={(e: any) => {
-            setBirthValue(e.target.value.replaceAll(/[^\d]/gi, ''));
+            setNameValue(e.target.value);
           }}
         />
-        {/* <div
+        <div
           style={{
             marginLeft: '20px',
             color: '#212121',
@@ -167,7 +141,7 @@ export default function Home(): any {
             marginTop: '30px',
           }}
         >
-          주소
+          연락처
         </div>
         <input
           style={{
@@ -181,9 +155,17 @@ export default function Home(): any {
             borderRadius: '4px',
             fontSize: '15px',
           }}
-          value="주소를 입력하세요"
+          value={phoneValue}
+          onChange={(e: any) => {
+            setPhoneValue(e.target.value.replaceAll(/[^\d]/gi, ''));
+          }}
         />
         <button
+          onClick={() => {
+            if (!confirmStep) {
+              setConfirmStep(1);
+            }
+          }}
           style={{
             boxSizing: 'border-box',
             marginLeft: '8px',
@@ -191,17 +173,20 @@ export default function Home(): any {
             width: '88px',
             border: 'none',
             borderRadius: '8px',
-            backgroundColor: '#D2D2D1',
+            backgroundColor:
+              phoneValue && confirmStep == 0 ? '#8638EA' : '#D2D2D1',
             color: '#fff',
             fontSize: '15px',
           }}
         >
-          찾기
+          {confirmStep < 2 ? '인증' : '인증완료'}
         </button>
+        <div style={{ width: '100%', height: '20px' }} />
         <input
           style={{
+            display: confirmStep == 1 ? 'inline-block' : 'none',
             boxSizing: 'border-box',
-            width: 'calc(100% - 40px)',
+            width: 'calc(100% - 136px)',
             border: 'solid 1px #EEEEF0',
             padding: '16px',
             margin: 'none',
@@ -209,35 +194,60 @@ export default function Home(): any {
             height: '48px',
             borderRadius: '4px',
             fontSize: '15px',
-            marginTop: '12px',
           }}
-          value="상세주소를 입력하세요"
-        /> */}
-        <div style={{ width: '100%', height: '100px' }} />
-      </ContentBox>
-      <Link href="step2">
+          value={confirmValue}
+          onChange={(e: any) => {
+            setConfirmValue(e.target.value.replaceAll(/[^\d]/gi, ''));
+          }}
+        />
         <button
+          onClick={() => {
+            setConfirmStep(2);
+          }}
           style={{
+            display: confirmStep == 1 ? 'inline-block' : 'none',
             boxSizing: 'border-box',
-            bottom: '20px',
-            marginLeft: '20px',
-            position: 'absolute',
-            height: '52px',
-            width: 'calc(50% - 30px)',
-            border: 'solid 1px #C2C2C2',
+            marginLeft: '8px',
+            height: '48px',
+            width: '88px',
+            border: 'none',
             borderRadius: '8px',
-            backgroundColor: '#fff',
-            color: '#212121',
-            fontSize: '16px',
+            backgroundColor: confirmValue ? '#8638EA' : '#D2D2D1',
+            color: '#fff',
+            fontSize: '15px',
           }}
         >
-          이전
+          인증
         </button>
-      </Link>
+        <div style={{ width: '100%', height: '100px' }} />
+      </ContentBox>
       <button
         onClick={() => {
-          if (genderValue && birthValue) {
-            router.push('../../');
+          prevStep();
+        }}
+        style={{
+          boxSizing: 'border-box',
+          bottom: '20px',
+          marginLeft: '20px',
+          position: 'absolute',
+          height: '52px',
+          width: 'calc(50% - 30px)',
+          border: 'solid 1px #C2C2C2',
+          borderRadius: '8px',
+          backgroundColor: '#fff',
+          color: '#212121',
+          fontSize: '16px',
+        }}
+      >
+        이전
+      </button>
+      <button
+        onClick={() => {
+          if (nameValue && phoneValue && confirmValue && confirmStep == 2) {
+            setValues('name', nameValue);
+            setValues('phone', phoneValue);
+            nextStep();
+            //router.push('step3');
           }
         }}
         style={{
@@ -250,12 +260,15 @@ export default function Home(): any {
           width: 'calc(50% - 30px)',
           border: 'none',
           borderRadius: '8px',
-          backgroundColor: genderValue && birthValue ? '#8638EA' : '#D2D2D1',
+          backgroundColor:
+            nameValue && phoneValue && confirmValue && confirmStep == 2
+              ? '#8638EA'
+              : '#D2D2D1',
           color: '#fff',
           fontSize: '16px',
         }}
       >
-        가입하기
+        다음
       </button>
     </>
   );

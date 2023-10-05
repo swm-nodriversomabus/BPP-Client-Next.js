@@ -10,7 +10,15 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function Home(): any {
+export default function Home({
+  setValues,
+  prevStep,
+  nextStep,
+}: {
+  setValues: () => void;
+  prevStep: () => void;
+  nextStep: () => void;
+}): any {
   const [checkBox_1, setCheckBox_1] = useState(false);
   const [checkBox_2, setCheckBox_2] = useState(false);
   const [checkBox_3, setCheckBox_3] = useState(false);
@@ -111,9 +119,15 @@ export default function Home(): any {
           모두 동의합니다
           <Image
             onClick={() => {
-              setCheckBox_1(true);
-              setCheckBox_2(true);
-              setCheckBox_3(true);
+              if (nextBtnAvailable) {
+                setCheckBox_1(false);
+                setCheckBox_2(false);
+                setCheckBox_3(false);
+              } else {
+                setCheckBox_1(true);
+                setCheckBox_2(true);
+                setCheckBox_3(true);
+              }
             }}
             src={nextBtnAvailable ? addcheck_true : addcheck}
             style={{ float: 'right', marginTop: '12px' }}
@@ -304,7 +318,8 @@ export default function Home(): any {
       <button
         onClick={() => {
           if (nextBtnAvailable) {
-            router.push('step2');
+            nextStep();
+            //router.push('step2');
           }
         }}
         style={{

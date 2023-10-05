@@ -14,35 +14,53 @@ import SearchBarFriends from '@/component/searchBarFriends';
 import { atom, useRecoilState } from 'recoil';
 import useSWR from 'swr';
 import { useRouter } from 'next/navigation';
+import { api } from '@/utils/api';
 
-let friendsData: Array<object> = [
-  {
-    img: 1,
-    title: 'ENTP남',
-    subtitle: '대문자 P',
-  },
-  { img: 2, title: '곽튜브', subtitle: '이거 재밌네?', checked: false },
-  { img: 3, title: '또떠녀', subtitle: '또 떠나는 여행', checked: false },
-  { img: 4, title: '소마소마', subtitle: '14기 화이팅!', checked: false },
-  {
-    img: 6,
-    title: '마에스트로',
-    subtitle: '불러 maestro maestro',
-    checked: false,
-  },
-  { img: 5, title: '효남이', subtitle: '냥냥펀치', checked: false },
-  { img: 7, title: '파리지앵', subtitle: '파리바게뜨', checked: false },
-  { img: 8, title: '킹갓엠퍼러용명', subtitle: '상메는 상메', checked: false },
-];
+// let friendsData: Array<object> = [
+//   {
+//     img: 1,
+//     title: 'ENTP남',
+//     subtitle: '대문자 P',
+//   },
+//   { img: 2, title: '곽튜브', subtitle: '이거 재밌네?', checked: false },
+//   { img: 3, title: '또떠녀', subtitle: '또 떠나는 여행', checked: false },
+//   { img: 4, title: '소마소마', subtitle: '14기 화이팅!', checked: false },
+//   {
+//     img: 6,
+//     title: '마에스트로',
+//     subtitle: '불러 maestro maestro',
+//     checked: false,
+//   },
+//   { img: 5, title: '효남이', subtitle: '냥냥펀치', checked: false },
+//   { img: 7, title: '파리지앵', subtitle: '파리바게뜨', checked: false },
+//   { img: 8, title: '킹갓엠퍼러용명', subtitle: '상메는 상메', checked: false },
+// ];
 
+let userId = 1;
+let loadState = false;
 export default function Main(): any {
   const router = useRouter();
   const [modalDisplay, setModalDisplay] = useState(false);
 
-  const [friendSelectList, setFriendSelectList] = useState(friendsData);
+  const [friendsData, setFriendsData] = useState([]);
+  const [friendSelectList, setFriendSelectList] = useState([]);
+
+  if (!loadState) {
+    loadState = true;
+    api(
+      'GET',
+      `https://dev.yeohaengparty.com/api/user/${userId}/friend`,
+      {},
+      (json: any) => {
+        console.log(json);
+        setFriendsData(json);
+        setFriendSelectList(json);
+      }
+    );
+  }
 
   const setFriendSelectListCheck = (index: number) => {
-    const obj = friendSelectList.slice();
+    const obj: any = friendSelectList.slice();
     obj[index].checked = !obj[index].checked;
     setFriendSelectList(obj);
   };
@@ -60,13 +78,9 @@ export default function Main(): any {
           <div className="section">
             <ListItem
               link="/talk/"
-              img={localStorage.getItem('tid') == '1' ? 0 : 9}
-              title={localStorage.getItem('tid') == '1' ? '용용이' : '명명이'}
-              subtitle={
-                localStorage.getItem('tid') == '1'
-                  ? '놀러가고 싶다'
-                  : '누텔라 맛있다'
-              }
+              img={0}
+              title={'명명이'}
+              subtitle={'누텔라 맛있다'}
             />
           </div>
           <hr />
@@ -74,13 +88,13 @@ export default function Main(): any {
             <h1>친구목록</h1>
             {/* <h2>ㄱ</h2> */}
             <>
-              {friendsData?.map((msgs, index) => {
+              {friendsData.map((msgs: any, index) => {
                 return msgs ? (
                   <ListItem
                     link={`talk/profile/${index}`}
-                    title={msgs.title}
-                    subtitle={msgs.subtitle}
-                    img={msgs.img}
+                    title={msgs.username}
+                    subtitle={msgs.stateMessage}
+                    img={1}
                     key={1}
                   />
                 ) : (
@@ -160,16 +174,16 @@ export default function Main(): any {
         >
           <ListView>
             <div className="section">
-              {friendSelectList?.map((item) => {
+              {friendSelectList?.map((item: any) => {
                 return (
                   <ListItemAddToRoom
                     link="room"
                     key={index}
                     index={index++}
-                    title={item.title}
-                    subtitle={item.subtitle}
+                    title={item.username}
+                    subtitle={item.stateMessage}
                     checked={item.checked}
-                    img={item.img}
+                    img={1}
                     set={setFriendSelectListCheck}
                   />
                 );

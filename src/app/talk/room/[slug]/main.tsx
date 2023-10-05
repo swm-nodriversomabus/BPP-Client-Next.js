@@ -38,13 +38,13 @@ let globalChatText = '';
 export default function Main({ slug }: { slug: string }): any {
   const getKey = (pageIndex: any, previousPageData: any) => {
     if (previousPageData && !previousPageData.length) return null;
-
-    return `https://dev.yeohaengparty.com/api/chat?${new URLSearchParams({
+    const params: Record<string, string> = {
       roomId: slug,
       page: pageIndex,
-      size: 1,
-      sort: 'string',
-    }).toString()}`;
+      size: '10',
+    };
+    const query = new URLSearchParams(params).toString();
+    return `https://dev.yeohaengparty.com/api/chat?${query}`;
   };
   const [chatText, setChatText] = useState('');
   const [sockData, setSockData] = useState(new Array<object>());

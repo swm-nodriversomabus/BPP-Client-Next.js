@@ -72,7 +72,7 @@ export default function Home(): any {
   const [friendSelectList, setFriendSelectList] = useState(friendsData);
 
   const setFriendSelectListCheck = (index: number) => {
-    const obj = friendSelectList.slice();
+    const obj: any = friendSelectList.slice();
     obj[index].checked = !obj[index].checked;
     setFriendSelectList(obj);
   };
@@ -199,7 +199,7 @@ export default function Home(): any {
         >
           <ListView>
             <div className="section">
-              {friendSelectList?.map((item) => {
+              {friendSelectList?.map((item: any) => {
                 return (
                   <ListItemAddToRoom
                     link="room"

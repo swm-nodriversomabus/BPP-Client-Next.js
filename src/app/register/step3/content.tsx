@@ -1,16 +1,26 @@
 'use client';
+
 import '../style.css';
 import Navbar from '@/component/navigationBar';
 import ContentBox from '@/component/contentBox';
 import Image from 'next/image';
 import addcheck from 'public/addcheck.svg';
 import Link from 'next/link';
-import { useState } from 'react';
+import CustomSelect, { CustomOption } from '@/component/customSelect';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function Home(): any {
-  const [nameValue, setNameValue] = useState('');
-  const [phoneValue, setPhoneValue] = useState('');
+export default function Home({
+  setValues,
+  prevStep,
+  nextStep,
+}: {
+  setValues: (name: string, value: string) => void;
+  prevStep: () => void;
+  nextStep: () => void;
+}): any {
+  const [genderValue, setGenderValue] = useState(0);
+  const [birthValue, setBirthValue] = useState('');
   const router = useRouter();
   return (
     <>
@@ -38,11 +48,11 @@ export default function Home(): any {
           style={{
             marginTop: '20px',
             float: 'left',
-            background: '#8638EA',
+            background: '#F0F0F2',
             width: '31px',
             height: '31px',
             borderRadius: '31px',
-            color: '#fff',
+            color: '#A8A8A8',
             lineHeight: '31px',
             textAlign: 'center',
             fontSize: '14px',
@@ -55,11 +65,11 @@ export default function Home(): any {
           style={{
             marginTop: '20px',
             float: 'left',
-            background: '#F0F0F2',
+            background: '#8638EA',
             width: '31px',
             height: '31px',
             borderRadius: '31px',
-            color: '#A8A8A8',
+            color: '#fff',
             lineHeight: '31px',
             textAlign: 'center',
             fontSize: '14px',
@@ -82,7 +92,7 @@ export default function Home(): any {
             height: '60px',
           }}
         >
-          계정 정보
+          개인 정보
         </div>
         <div
           style={{
@@ -97,26 +107,26 @@ export default function Home(): any {
             height: '30px',
           }}
         >
-          이름
+          성별
         </div>
-        <input
-          style={{
-            boxSizing: 'border-box',
-            width: 'calc(100% - 40px)',
-            border: 'solid 1px #EEEEF0',
-            padding: '16px',
-            margin: 'none',
-            marginLeft: '20px',
-            height: '48px',
-            borderRadius: '4px',
-            fontSize: '15px',
-          }}
-          placeholder="본명을 입력하세요"
-          value={nameValue}
-          onChange={(e: any) => {
-            setNameValue(e.target.value);
-          }}
-        />
+        <CustomSelect>
+          <CustomOption
+            onClick={() => {
+              setGenderValue(1);
+            }}
+            selected={genderValue == 1}
+          >
+            남자
+          </CustomOption>
+          <CustomOption
+            onClick={() => {
+              setGenderValue(2);
+            }}
+            selected={genderValue == 2}
+          >
+            여자
+          </CustomOption>
+        </CustomSelect>
         <div
           style={{
             marginLeft: '20px',
@@ -131,7 +141,41 @@ export default function Home(): any {
             marginTop: '30px',
           }}
         >
-          연락처
+          생일
+        </div>
+        <input
+          style={{
+            boxSizing: 'border-box',
+            width: 'calc(100% - 40px)',
+            border: 'solid 1px #EEEEF0',
+            padding: '16px',
+            margin: 'none',
+            marginLeft: '20px',
+            height: '48px',
+            borderRadius: '4px',
+            fontSize: '15px',
+          }}
+          placeholder="생일을 입력하세요"
+          value={birthValue}
+          onChange={(e: any) => {
+            setBirthValue(e.target.value.replaceAll(/[^\d]/gi, ''));
+          }}
+        />
+        {/* <div
+          style={{
+            marginLeft: '20px',
+            color: '#212121',
+            fontSize: '14px',
+            width: '100%',
+            position: 'relative',
+            display: 'inline-block',
+            fontWeight: 'bold',
+            lineHeight: '30px',
+            height: '30px',
+            marginTop: '30px',
+          }}
+        >
+          주소
         </div>
         <input
           style={{
@@ -145,10 +189,7 @@ export default function Home(): any {
             borderRadius: '4px',
             fontSize: '15px',
           }}
-          value={phoneValue}
-          onChange={(e: any) => {
-            setPhoneValue(e.target.value.replaceAll(/[^\d]/gi, ''));
-          }}
+          value="주소를 입력하세요"
         />
         <button
           style={{
@@ -158,38 +199,57 @@ export default function Home(): any {
             width: '88px',
             border: 'none',
             borderRadius: '8px',
-            backgroundColor: phoneValue ? '#8638EA' : '#D2D2D1',
+            backgroundColor: '#D2D2D1',
             color: '#fff',
             fontSize: '15px',
           }}
         >
-          인증
+          찾기
         </button>
-        <div style={{ width: '100%', height: '100px' }} />
-      </ContentBox>
-      <Link href="step1">
-        <button
+        <input
           style={{
             boxSizing: 'border-box',
-            bottom: '20px',
+            width: 'calc(100% - 40px)',
+            border: 'solid 1px #EEEEF0',
+            padding: '16px',
+            margin: 'none',
             marginLeft: '20px',
-            position: 'absolute',
-            height: '52px',
-            width: 'calc(50% - 30px)',
-            border: 'solid 1px #C2C2C2',
-            borderRadius: '8px',
-            backgroundColor: '#fff',
-            color: '#212121',
-            fontSize: '16px',
+            height: '48px',
+            borderRadius: '4px',
+            fontSize: '15px',
+            marginTop: '12px',
           }}
-        >
-          이전
-        </button>
-      </Link>
+          value="상세주소를 입력하세요"
+        /> */}
+        <div style={{ width: '100%', height: '100px' }} />
+      </ContentBox>
       <button
         onClick={() => {
-          if (nameValue && phoneValue) {
-            router.push('step3');
+          prevStep();
+        }}
+        style={{
+          boxSizing: 'border-box',
+          bottom: '20px',
+          marginLeft: '20px',
+          position: 'absolute',
+          height: '52px',
+          width: 'calc(50% - 30px)',
+          border: 'solid 1px #C2C2C2',
+          borderRadius: '8px',
+          backgroundColor: '#fff',
+          color: '#212121',
+          fontSize: '16px',
+        }}
+      >
+        이전
+      </button>
+      <button
+        onClick={() => {
+          if (genderValue && birthValue) {
+            setValues('gender', genderValue == 1 ? 'Male' : 'Female');
+            setValues('birth', birthValue);
+            setValues('next', '1');
+            //router.push('../../');
           }
         }}
         style={{
@@ -202,12 +262,12 @@ export default function Home(): any {
           width: 'calc(50% - 30px)',
           border: 'none',
           borderRadius: '8px',
-          backgroundColor: nameValue && phoneValue ? '#8638EA' : '#D2D2D1',
+          backgroundColor: genderValue && birthValue ? '#8638EA' : '#D2D2D1',
           color: '#fff',
           fontSize: '16px',
         }}
       >
-        다음
+        가입하기
       </button>
     </>
   );

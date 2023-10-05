@@ -12,7 +12,11 @@ import MatchRecommend, { MatchRecommendItem } from '@/component/matchRecommend';
 import Image from 'next/image';
 import newmatch from 'public/newmatch.svg';
 import useSWR, { SWRResponse } from 'swr';
+import { api } from '@/utils/api';
+import { useState } from 'react';
 
+let loadState = false;
+let userId = 1;
 export default function Home(): any {
   const myData: Array<object> = [
     // {
@@ -33,11 +37,38 @@ export default function Home(): any {
     //   isActive: true,
     // },
   ];
+  const [myApprovedlist, setMyApprovedlist] = useState([]);
+  const [myPendinglist, setMyPendinglist] = useState([]);
+
   const { data, error, isLoading }: SWRResponse = useSWR(
-    'https://dev.yeohaengparty.com/api/matching',
+    // 'https://dev.yeohaengparty.com/api/matching',
+    `https://dev.yeohaengparty.com/api/user/${userId}/recommendedmatching`,
     (url: RequestInfo | URL) => fetch(url).then((r) => r.json())
   );
-  let idata = data?.slice().reverse();
+
+  if (!loadState) {
+    loadState = true;
+    api(
+      'GET',
+      `http://dev.yeohaengparty.com/api/user/${userId}/approved`,
+      {},
+      (json: any) => {
+        console.log(json);
+        setMyApprovedlist(json);
+      }
+    );
+    api(
+      'GET',
+      `http://dev.yeohaengparty.com/api/user/${userId}/pending`,
+      {},
+      (json: any) => {
+        console.log(json);
+        setMyPendinglist(json);
+      }
+    );
+  }
+  let idata: Array<object> = [];
+  if (data && data.length) idata = data.slice().reverse();
   return (
     <>
       <Navbar more></Navbar>
@@ -53,10 +84,41 @@ export default function Home(): any {
         <MatchScrollView>
           <MatchSegment />
           <SearchBar />
-          {myData.length ? (
+          {myApprovedlist.length ? (
             <MyMatch>
               <>
-                {myData?.map((msg: any) => {
+                {myApprovedlist?.map((msg: any) => {
+                  return (
+                    <MyMatchItem
+                      link={`/match/room/${msg.matchingId}`}
+                      type="🎒 여행"
+                      title={msg.title}
+                      place={msg.place}
+                      period={`${msg.startDate.substr(
+                        2,
+                        2
+                      )}.${msg.startDate.substr(5, 2)}.${msg.startDate.substr(
+                        8,
+                        2
+                      )}~${msg.endDate.substr(2, 2)}.${msg.endDate.substr(
+                        5,
+                        2
+                      )}.${msg.endDate.substr(8, 2)}`}
+                      currentUser={1}
+                      maxUser={msg.maxMember}
+                      key={1}
+                    />
+                  );
+                })}
+              </>
+            </MyMatch>
+          ) : (
+            <></>
+          )}
+          {myPendinglist.length ? (
+            <MyMatch>
+              <>
+                {myPendinglist?.map((msg: any) => {
                   return (
                     <MyMatchItem
                       link={`/match/room/${msg.matchingId}`}
