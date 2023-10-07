@@ -12,63 +12,39 @@ import MatchRecommend, { MatchRecommendItem } from '@/component/matchRecommend';
 import Image from 'next/image';
 import newmatch from 'public/newmatch.svg';
 import useSWR, { SWRResponse } from 'swr';
-import { api } from '@/utils/api';
+import api from '@/utils/api';
 import { useState } from 'react';
 
-let loadState = false;
-let userId = 1;
+// [
+//   {
+//     matchingId: 1,
+//     writerId: 1,
+//     type: 'TravelMate',
+//     title: '제목',
+//     place: '지역',
+//     content: '내용',
+//     startDate: '2023-09-04T12:00:00',
+//     endDate: '2023-09-04T12:00:00',
+//     maxMember: 3,
+//     minusAge: 5,
+//     plusAge: 5,
+//     readCount: 16,
+//     createdAt: '2023-08-24T07:04:52.98987',
+//     updatedAt: '2023-08-24T07:04:52.98987',
+//     isActive: true,
+//   },
+// ],
+
 export default function Home(): any {
-  const myData: Array<object> = [
-    // {
-    //   matchingId: 1,
-    //   writerId: 1,
-    //   type: 'TravelMate',
-    //   title: '제목',
-    //   place: '지역',
-    //   content: '내용',
-    //   startDate: '2023-09-04T12:00:00',
-    //   endDate: '2023-09-04T12:00:00',
-    //   maxMember: 3,
-    //   minusAge: 5,
-    //   plusAge: 5,
-    //   readCount: 16,
-    //   createdAt: '2023-08-24T07:04:52.98987',
-    //   updatedAt: '2023-08-24T07:04:52.98987',
-    //   isActive: true,
-    // },
-  ];
-  const [myApprovedlist, setMyApprovedlist] = useState([]);
-  const [myPendinglist, setMyPendinglist] = useState([]);
+  const [approved, setApproved] = useState<JSON | null>(null);
+  api('user/{id}/approved', 'get', {}, [approved, setApproved]);
 
-  const { data, error, isLoading }: SWRResponse = useSWR(
-    // 'https://dev.yeohaengparty.com/api/matching',
-    `https://dev.yeohaengparty.com/api/user/${userId}/recommendedmatching`,
-    (url: RequestInfo | URL) => fetch(url).then((r) => r.json())
-  );
+  const [pending, setPending] = useState<JSON | null>(null);
+  api('user/{id}/approved', 'get', {}, [pending, setPending]);
 
-  if (!loadState) {
-    loadState = true;
-    api(
-      'GET',
-      `http://dev.yeohaengparty.com/api/user/${userId}/approved`,
-      {},
-      (json: any) => {
-        console.log(json);
-        setMyApprovedlist(json);
-      }
-    );
-    api(
-      'GET',
-      `http://dev.yeohaengparty.com/api/user/${userId}/pending`,
-      {},
-      (json: any) => {
-        console.log(json);
-        setMyPendinglist(json);
-      }
-    );
-  }
-  let idata: Array<object> = [];
-  if (data && data.length) idata = data.slice().reverse();
+  const [recommend, setRecommend] = useState<JSON | null>(null);
+  api('user/{id}/recommendedmatching', 'get', {}, [recommend, setRecommend]);
+
   return (
     <>
       <Navbar more></Navbar>
@@ -84,28 +60,33 @@ export default function Home(): any {
         <MatchScrollView>
           <MatchSegment />
           <SearchBar />
-          {myApprovedlist.length ? (
+
+          {/* 승인된 매칭 */}
+          {approved &&
+          'length' in approved &&
+          'map' in approved &&
+          approved.length ? (
             <MyMatch>
               <>
-                {myApprovedlist?.map((msg: any) => {
+                {(approved as { map: Function }).map((item: any) => {
                   return (
                     <MyMatchItem
-                      link={`/match/room/${msg.matchingId}`}
+                      link={`/match/room/${item.matchingId}`}
                       type="🎒 여행"
-                      title={msg.title}
-                      place={msg.place}
-                      period={`${msg.startDate.substr(
+                      title={item.title}
+                      place={item.place}
+                      period={`${item.startDate.substr(
                         2,
                         2
-                      )}.${msg.startDate.substr(5, 2)}.${msg.startDate.substr(
+                      )}.${item.startDate.substr(5, 2)}.${item.startDate.substr(
                         8,
                         2
-                      )}~${msg.endDate.substr(2, 2)}.${msg.endDate.substr(
+                      )}~${item.endDate.substr(2, 2)}.${item.endDate.substr(
                         5,
                         2
-                      )}.${msg.endDate.substr(8, 2)}`}
+                      )}.${item.endDate.substr(8, 2)}`}
                       currentUser={1}
-                      maxUser={msg.maxMember}
+                      maxUser={item.maxMember}
                       key={1}
                     />
                   );
@@ -115,28 +96,33 @@ export default function Home(): any {
           ) : (
             <></>
           )}
-          {myPendinglist.length ? (
+
+          {/* 대기중인 매칭 */}
+          {pending &&
+          'length' in pending &&
+          'map' in pending &&
+          pending.length ? (
             <MyMatch>
               <>
-                {myPendinglist?.map((msg: any) => {
+                {(pending as { map: Function }).map((item: any) => {
                   return (
                     <MyMatchItem
-                      link={`/match/room/${msg.matchingId}`}
+                      link={`/match/room/${item.matchingId}`}
                       type="🎒 여행"
-                      title={msg.title}
-                      place={msg.place}
-                      period={`${msg.startDate.substr(
+                      title={item.title}
+                      place={item.place}
+                      period={`${item.startDate.substr(
                         2,
                         2
-                      )}.${msg.startDate.substr(5, 2)}.${msg.startDate.substr(
+                      )}.${item.startDate.substr(5, 2)}.${item.startDate.substr(
                         8,
                         2
-                      )}~${msg.endDate.substr(2, 2)}.${msg.endDate.substr(
+                      )}~${item.endDate.substr(2, 2)}.${item.endDate.substr(
                         5,
                         2
-                      )}.${msg.endDate.substr(8, 2)}`}
+                      )}.${item.endDate.substr(8, 2)}`}
                       currentUser={1}
-                      maxUser={msg.maxMember}
+                      maxUser={item.maxMember}
                       key={1}
                     />
                   );
@@ -146,34 +132,43 @@ export default function Home(): any {
           ) : (
             <></>
           )}
-          <MatchRecommend>
-            <>
-              {idata?.map((msg: any) => {
-                return (
-                  <MatchRecommendItem
-                    link={`/match/room/${msg.matchingId}`}
-                    type="🎒 여행"
-                    title={msg.title}
-                    article={msg.content}
-                    place={msg.place}
-                    period={`${msg.startDate.substr(
-                      2,
-                      2
-                    )}.${msg.startDate.substr(5, 2)}.${msg.startDate.substr(
-                      8,
-                      2
-                    )}~${msg.endDate.substr(2, 2)}.${msg.endDate.substr(
-                      5,
-                      2
-                    )}.${msg.endDate.substr(8, 2)}`}
-                    currentUser={1}
-                    maxUser={msg.maxMember}
-                    key={1}
-                  />
-                );
-              })}
-            </>
-          </MatchRecommend>
+
+          {/* 추천 매칭 */}
+          {recommend &&
+          'length' in recommend &&
+          'map' in recommend &&
+          recommend.length ? (
+            <MatchRecommend>
+              <>
+                {(recommend as { map: Function }).map((item: any) => {
+                  return (
+                    <MatchRecommendItem
+                      link={`/match/room/${item.matchingId}`}
+                      type="🎒 여행"
+                      title={item.title}
+                      article={item.content}
+                      place={item.place}
+                      period={`${item.startDate.substr(
+                        2,
+                        2
+                      )}.${item.startDate.substr(5, 2)}.${item.startDate.substr(
+                        8,
+                        2
+                      )}~${item.endDate.substr(2, 2)}.${item.endDate.substr(
+                        5,
+                        2
+                      )}.${item.endDate.substr(8, 2)}`}
+                      currentUser={1}
+                      maxUser={item.maxMember}
+                      key={1}
+                    />
+                  );
+                })}
+              </>
+            </MatchRecommend>
+          ) : (
+            <></>
+          )}
         </MatchScrollView>
       </ContentBox>
       <Link href="match/new">

@@ -14,15 +14,26 @@ const MatchPeople: any = ({ children }: props) => {
   );
 };
 
-const MatchPerson: any = ({ children }: props) => {
+const MatchPerson: any = ({
+  children,
+  username,
+  age,
+  mannerScore,
+}: {
+  children: string | undefined;
+  username: string;
+  age: number;
+  mannerScore: number;
+}) => {
   return (
     <div className="MatchPerson">
       <div>
         <Image src={profile0} alt="profile" />
       </div>
-      <div>용용이</div>
-      <div>20대 초반</div>
-      <div>Lv.1</div>
+      <div>{username}</div>
+      {/* <div>20대 초반</div> */}
+      <div>{age}</div>
+      <div>Lv.{mannerScore}</div>
     </div>
   );
 };

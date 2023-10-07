@@ -11,7 +11,7 @@ import MatchScrollView from '@/view/matchScrollView';
 import MatchBar from '@/component/matchBar';
 import useSWR, { SWRResponse } from 'swr';
 import ModalView from '@/view/modalView';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CompatClient, Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
@@ -20,78 +20,66 @@ import newface from 'public/newface.svg';
 import Link from 'next/link';
 import profile9 from 'public/profile9.svg';
 import matchconfirm from 'public/matchconfirm.svg';
+import api, { getUserID } from '@/utils/api';
 
 let subs: any;
 
 let isNewFace = false;
 
 export default function Main({ slug }: { slug: string }): any {
-  // 시연 위해 잠시 웹소켓 연결해둠
-  const [isConnected, setIsConnected] = useState<boolean>(false);
-  const [newFace, setNewFace] = useState<boolean>(false);
+  const [matchInfo, setMatchInfo] = useState<JSON | null>(null);
+  api(`matching/${slug}`, 'get', {}, [matchInfo, setMatchInfo]);
 
-  const client = useRef<CompatClient>();
-  const connectHandler = () => {
-    client.current = Stomp.over(() => {
-      const sock = new SockJS('https://dev.yeohaengparty.com/api/ws/chat');
-      return sock;
-    });
-    client.current.connect({}, () => {
-      client.current?.send(
-        `/pub/subscribe/99999999-9999-9999-9999-999999999999`,
-        {}
-      );
-      subs = client.current?.subscribe(
-        `/topic/channel/99999999-9999-9999-9999-999999999999`,
-        (message) => {
-          const json = JSON.parse(message.body);
-          localStorage.setItem('tstep', json.content);
-          if (localStorage.getItem('tid') == '1') setNewFace(true);
-          console.log(localStorage.getItem('tstep'));
-          if (localStorage.getItem('tid') == '1') {
-            console.log(localStorage.getItem('tid'));
-            setNewFace(true);
-            isNewFace = true;
-          } else {
-            router.push('../../talk/room/99999999-9999-9999-9999-999999999998');
-          }
-        },
-        {}
-      );
-    });
-  };
+  const [approved, setApproved] = useState<JSON | null>(null);
+  api(`matching/${slug}/approved`, 'get', {}, [approved, setApproved]);
+
+  const [pending, setPending] = useState<JSON | null>(null);
+  api(`matching/${slug}/pending`, 'get', {}, [pending, setPending]);
+
   const [messageText, setMessageText] = useState('');
-  const sendHandler = () => {
-    client.current?.send(
-      `/pub/chat/99999999-9999-9999-9999-999999999999`,
-      {},
-      JSON.stringify({
-        image: false,
-        type: 'TALK',
-        roomId: '99999999-9999-9999-9999-999999999999',
-        senderId: 1,
-        content: messageText,
-        readCount: 1,
-      })
-    );
-  };
-
-  if (!isConnected) {
-    if (subs) subs.unsubscribe();
-    connectHandler();
-    setIsConnected(true);
-  }
-
-  const router = useRouter();
   const [modalDisplay, setModalDisplay] = useState(false);
   const [modal2Display, setModal2Display] = useState(false);
-  const { data }: SWRResponse = useSWR(
-    `https://dev.yeohaengparty.com/api/matching/${slug}`,
-    (url: RequestInfo | URL) => fetch(url).then((r) => r.json())
-  );
-  if (!data) {
-    return <></>;
-  }
+
+  const [candidate, setCandidate] = useState({
+    username: '',
+    age: 0,
+    mannerScore: 0,
+    userId: 0,
+  });
+
+  const [mePending, setMePending] = useState(false);
+  const [meApproved, setMeApproved] = useState(false);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (
+      pending &&
+      'length' in pending &&
+      pending.length &&
+      'filter' in pending
+    ) {
+      const matches = (pending as { filter: Function }).filter((res: any) => {
+        return res.userId == getUserID();
+      });
+      if (matches.length) setMePending(true);
+    }
+  }, [pending]);
+
+  useEffect(() => {
+    if (
+      approved &&
+      'length' in approved &&
+      approved.length &&
+      'filter' in approved
+    ) {
+      const matches = (approved as { filter: Function }).filter((res: any) => {
+        return res.userId == getUserID();
+      });
+      if (matches.length) setMeApproved(true);
+    }
+  }, [approved]);
+
   return (
     <>
       <Navbar back=" ">&nbsp;</Navbar>
@@ -106,21 +94,74 @@ export default function Main({ slug }: { slug: string }): any {
       >
         <MatchScrollView>
           <MapPreview />
-          <MatchTitle category="🎒여행">{data.title}</MatchTitle>
+          <MatchTitle category="🎒여행">
+            {matchInfo && 'title' in matchInfo
+              ? (matchInfo as { title: string }).title
+              : ''}
+          </MatchTitle>
           <MatchPlan
-            place={data.place}
-            startDate={`${data.startDate.substr(2, 2)}년 ${Number(
-              data.startDate.substr(5, 2)
-            )}월 ${Number(data.startDate.substr(8, 2))}일`}
-            startTime={`${
-              Number(data.startDate.substr(11, 2)) < 12 ? '오전' : '오후'
-            } ${(Number(data.startDate.substr(11, 2) - 1) % 12) + 1}시`}
-            endDate={`${data.endDate.substr(2, 2)}년 ${Number(
-              data.endDate.substr(5, 2)
-            )}월 ${Number(data.endDate.substr(8, 2))}일`}
-            endTime={`${
-              Number(data.endDate.substr(11, 2)) < 12 ? '오전' : '오후'
-            } ${(Number(data.endDate.substr(11, 2) - 1) % 12) + 1}시`}
+            place={
+              matchInfo && 'place' in matchInfo
+                ? (matchInfo as { place: string }).place
+                : ' '
+            }
+            startDate={
+              matchInfo && 'startDate' in matchInfo
+                ? (matchInfo as { startDate: string }).startDate.substr(2, 2) +
+                  '년 ' +
+                  (matchInfo as { startDate: string }).startDate.substr(5, 2) +
+                  '월 ' +
+                  (matchInfo as { startDate: string }).startDate.substr(8, 2) +
+                  '일'
+                : '0000월 00월 00일'
+            }
+            startTime={
+              matchInfo && 'startDate' in matchInfo
+                ? Number(
+                    (matchInfo as { startDate: string }).startDate.substr(11, 2)
+                  ) < 12
+                  ? '오전 '
+                  : '오후 ' +
+                    (
+                      (Number(
+                        (matchInfo as { startDate: string }).startDate.substr(
+                          11,
+                          2
+                        )
+                      ) -
+                        1) %
+                      12
+                    ).toString() +
+                    '시'
+                : '오전 00시'
+            }
+            endDate={
+              matchInfo && 'endDate' in matchInfo
+                ? (matchInfo as { endDate: string }).endDate.substr(2, 2) +
+                  '년 ' +
+                  (matchInfo as { endDate: string }).endDate.substr(5, 2) +
+                  '월 ' +
+                  (matchInfo as { endDate: string }).endDate.substr(8, 2) +
+                  '일'
+                : '0000월 00월 00일'
+            }
+            endTime={
+              matchInfo && 'endDate' in matchInfo
+                ? Number(
+                    (matchInfo as { endDate: string }).endDate.substr(11, 2)
+                  ) < 12
+                  ? '오전 '
+                  : '오후 ' +
+                    (
+                      (Number(
+                        (matchInfo as { endDate: string }).endDate.substr(11, 2)
+                      ) -
+                        1) %
+                      12
+                    ).toString() +
+                    '시'
+                : '오전 00시'
+            }
           />
           <hr />
 
@@ -146,15 +187,46 @@ export default function Main({ slug }: { slug: string }): any {
             </div>
           </MatchStyle>
           <hr />
-          <MatchArticle>{data.content}</MatchArticle>
-          <MatchPeople>
-            <MatchPerson></MatchPerson>
-          </MatchPeople>
-          {localStorage.getItem('tid') == '1' ? (
+          <MatchArticle>
+            {matchInfo && 'content' in matchInfo
+              ? (matchInfo as { content: string }).content
+              : ''}
+          </MatchArticle>
+          {approved &&
+          'map' in approved &&
+          'length' in approved &&
+          approved.length ? (
+            <MatchPeople>
+              {(approved as { map: Function }).map(
+                (item: {
+                  username: string;
+                  age: number;
+                  mannerScore: number;
+                }) => {
+                  return (
+                    <>
+                      <MatchPerson
+                        username={item.username}
+                        age={item.age}
+                        mannerScore={item.mannerScore}
+                      ></MatchPerson>
+                    </>
+                  );
+                }
+              )}
+            </MatchPeople>
+          ) : (
+            <></>
+          )}
+
+          {pending &&
+          'map' in pending &&
+          'length' in pending &&
+          pending.length ? (
             <div
               className="NewFace"
               style={{
-                display: isNewFace ? 'block' : 'none',
+                display: 'block',
                 marginTop: '20px',
                 marginLeft: '20px',
                 marginRight: '20px',
@@ -167,32 +239,51 @@ export default function Main({ slug }: { slug: string }): any {
                   fontSize: '14px',
                 }}
               >
-                새 신청(1)
+                {`새 신청(${pending.length})`}
               </div>
-              <div
-                className="MatchPerson"
-                onClick={() => {
-                  setModal2Display(true);
-                }}
-                style={{ cursor: 'pointer' }}
-              >
-                <div>
-                  <Image src={profile9} alt="profile" width="48" />
-                </div>
-                <div>명명이</div>
-                <div>20대 초반</div>
-                <div>Lv.20</div>
-              </div>
+              {(pending as { map: Function }).map(
+                (
+                  item: {
+                    username: string;
+                    age: number;
+                    mannerScore: number;
+                  },
+                  index: number
+                ) => {
+                  return (
+                    <>
+                      {' '}
+                      <div
+                        className="MatchPerson"
+                        onClick={() => {
+                          setModal2Display(true);
+                          const copied: any = pending;
+                          setCandidate(copied[index]);
+                        }}
+                        style={{ cursor: 'pointer' }}
+                      >
+                        <div>
+                          <Image src={profile9} alt="profile" width="48" />
+                        </div>
+                        <div>{item.username}</div>
+                        <div>{item.age}</div>
+                        <div>Lv.{item.mannerScore}</div>
+                      </div>
+                    </>
+                  );
+                }
+              )}
             </div>
           ) : (
             <></>
           )}
         </MatchScrollView>
-        {localStorage.getItem('tid') == '1' ? (
+        {meApproved ? (
           <></>
         ) : (
           <MatchBar
             onClick={() => {
+              if (mePending) return;
               setModalDisplay(true);
             }}
           />
@@ -203,7 +294,23 @@ export default function Main({ slug }: { slug: string }): any {
           title="동행신청"
           button="보내기"
           onClickProp={() => {
-            sendHandler();
+            api(
+              'matching/application',
+              'post',
+              {
+                userId: getUserID(),
+                matchingId: { slug },
+                state: '대기',
+              },
+              [
+                null,
+                (json: JSON) => {
+                  if (json && 'chatroomId' in json) {
+                    router.push(`../../talk/room/${json.chatroomId}`);
+                  }
+                },
+              ]
+            );
           }}
         >
           <textarea
@@ -233,28 +340,102 @@ export default function Main({ slug }: { slug: string }): any {
           setDisplay={setModal2Display}
           title="동행신청"
         >
-          <Image src={matchconfirm} style={{ width: '100%' }} alt="confirm" />
-          <textarea
+          <div
+            className="MatchPerson"
             style={{
-              position: 'absolute',
-              width: 'calc(100% - 100px)',
-              height: '140px',
-              top: '110px',
-              left: '50px',
-              fontSize: '15px',
-              border: 'none',
-              resize: 'none',
+              marginLeft: '20px',
+              width: 'calc(100% - 80px)',
             }}
           >
-            {localStorage.getItem('tstep')}
-          </textarea>
+            <div>
+              <Image src={profile9} alt="profile" width="48" />
+            </div>
+            <div>{candidate.username}</div>
+            <div>{candidate.age}</div>
+            <div>Lv.{candidate.mannerScore}</div>
+          </div>
+          <div
+            style={{
+              marginTop: '10px',
+              marginBottom: '10px',
+              position: 'relative',
+              width: '100%',
+              height: '50px',
+            }}
+          >
+            <button
+              onClick={() => {
+                api(
+                  'matching/application',
+                  'post',
+                  {
+                    userId: candidate.userId,
+                    matchingId: { slug },
+                    state: '거절',
+                  },
+                  undefined
+                );
+              }}
+              style={{
+                display: 'block',
+                position: 'absolute',
+                float: 'left',
+                boxSizing: 'border-box',
+                cursor: 'pointer',
+                height: '50px',
+                fontSize: '16px',
+                fontWeight: 'bold',
+                border: 'solid 1px #ddd',
+                borderRadius: '8px',
+                width: 'calc(50% - 44px)',
+                marginLeft: '36px',
+                background: '#fff',
+              }}
+            >
+              거절하기
+            </button>
+            <button
+              onClick={() => {
+                api(
+                  'matching/application',
+                  'post',
+                  {
+                    userId: candidate.userId,
+                    matchingId: { slug },
+                    state: '수락',
+                  },
+                  undefined
+                );
+              }}
+              style={{
+                right: '0px',
+                display: 'block',
+                position: 'absolute',
+                float: 'right',
+                boxSizing: 'border-box',
+                cursor: 'pointer',
+                height: '50px',
+                fontSize: '16px',
+                fontWeight: 'bold',
+                border: 'none',
+                borderRadius: '8px',
+                width: 'calc(50% - 44px)',
+                marginRight: '36px',
+                background: '#8638ea',
+                color: '#fff',
+              }}
+            >
+              수락하기
+            </button>
+          </div>
         </ModalView>
       </ContentBox>
-      <Link href="../../talk/room/99999999-9999-9999-9999-999999999998">
+
+      {/* <Link href="../../talk/room/99999999-9999-9999-9999-999999999998">
         <Image
           src={newface}
           style={{
-            display: newFace ? 'block' : 'none',
+            display: false ? 'block' : 'none',
             position: 'absolute',
             top: '2px',
             left: '12px',
@@ -264,7 +445,7 @@ export default function Main({ slug }: { slug: string }): any {
           }}
           alt="noti"
         />
-      </Link>
+      </Link> */}
     </>
   );
 }

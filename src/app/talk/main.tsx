@@ -9,78 +9,66 @@ import Link from 'next/link';
 import Image from 'next/image';
 import newchat from 'public/newchat.svg';
 import ModalView from '@/view/modalView';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SearchBarFriends from '@/component/searchBarFriends';
 import { atom, useRecoilState } from 'recoil';
 import useSWR from 'swr';
 import { useRouter } from 'next/navigation';
-import { api } from '@/utils/api';
+import api from '@/utils/api';
 
-// let friendsData: Array<object> = [
+// [
 //   {
-//     img: 1,
-//     title: 'ENTP남',
-//     subtitle: '대문자 P',
+//     userId: 12,
+//     username: '이름',
+//     gender: '남성',
+//     age: 20,
+//     phone: '010-1234-5566',
+//     role: '0',
+//     blacklist: false,
+//     stateMessage: '상태메시지',
+//     mannerScore: 0,
+//     createdAt: '2023-10-06T13:28:03.476Z',
+//     updatedAt: '2023-10-06T13:28:03.476Z',
+//     isActive: true,
 //   },
-//   { img: 2, title: '곽튜브', subtitle: '이거 재밌네?', checked: false },
-//   { img: 3, title: '또떠녀', subtitle: '또 떠나는 여행', checked: false },
-//   { img: 4, title: '소마소마', subtitle: '14기 화이팅!', checked: false },
-//   {
-//     img: 6,
-//     title: '마에스트로',
-//     subtitle: '불러 maestro maestro',
-//     checked: false,
-//   },
-//   { img: 5, title: '효남이', subtitle: '냥냥펀치', checked: false },
-//   { img: 7, title: '파리지앵', subtitle: '파리바게뜨', checked: false },
-//   { img: 8, title: '킹갓엠퍼러용명', subtitle: '상메는 상메', checked: false },
 // ];
 
-let userId = 1;
-let loadState = false;
 export default function Main(): any {
   const router = useRouter();
   const [modalDisplay, setModalDisplay] = useState(false);
 
-  const [friendsData, setFriendsData] = useState([]);
-  const [friendSelectList, setFriendSelectList] = useState([]);
+  const [myInfo, setMyInfo] = useState<JSON | null>(null);
+  api('user/{id}', 'get', {}, [myInfo, setMyInfo]);
 
-  if (!loadState) {
-    loadState = true;
-    api(
-      'GET',
-      `https://dev.yeohaengparty.com/api/user/${userId}/friend`,
-      {},
-      (json: any) => {
-        console.log(json);
-        setFriendsData(json);
-        setFriendSelectList(json);
-      }
-    );
-  }
+  const [friends, setFriends] = useState<JSON | null>(null);
+  api('user/{id}/friend', 'get', {}, [friends, setFriends]);
 
-  const setFriendSelectListCheck = (index: number) => {
-    const obj: any = friendSelectList.slice();
+  const setSelectList = (index: number) => {
+    const obj: any =
+      friends && 'slice' in friends
+        ? (friends as { slice: Function }).slice()
+        : [];
     obj[index].checked = !obj[index].checked;
-    setFriendSelectList(obj);
+    setFriends(obj);
   };
 
   let index = 0;
 
   return (
     <>
-      <Navbar
-        more
-        segment={{ 친구: '/talk', '채팅 (99+)': '/talk/list' }}
-      ></Navbar>
+      <Navbar more segment={{ 친구: '/talk', 채팅: '/talk/list' }}></Navbar>
       <ContentBox>
         <ListView>
           <div className="section">
             <ListItem
-              link="/talk/"
+              link={`talk/profile/${
+                myInfo && 'userId' in myInfo ? myInfo.userId : ''
+              }`}
               img={0}
-              title={'명명이'}
-              subtitle={'누텔라 맛있다'}
+              title={myInfo && 'username' in myInfo ? myInfo.username : ''}
+              subtitle={
+                myInfo && 'stateMessage' in myInfo ? myInfo.stateMessage : ''
+              }
             />
           </div>
           <hr />
@@ -88,19 +76,26 @@ export default function Main(): any {
             <h1>친구목록</h1>
             {/* <h2>ㄱ</h2> */}
             <>
-              {friendsData.map((msgs: any, index) => {
-                return msgs ? (
-                  <ListItem
-                    link={`talk/profile/${index}`}
-                    title={msgs.username}
-                    subtitle={msgs.stateMessage}
-                    img={1}
-                    key={1}
-                  />
-                ) : (
-                  <></>
-                );
-              })}
+              {friends &&
+              'length' in friends &&
+              'map' in friends &&
+              friends.length ? (
+                (friends as { map: Function }).map(
+                  (item: any, index: number) => {
+                    return (
+                      <ListItem
+                        link={`talk/profile/${item.userId}`}
+                        title={item.username}
+                        subtitle={item.stateMessage}
+                        img={1}
+                        key={1}
+                      />
+                    );
+                  }
+                )
+              ) : (
+                <></>
+              )}
             </>
           </div>
         </ListView>
@@ -174,20 +169,27 @@ export default function Main(): any {
         >
           <ListView>
             <div className="section">
-              {friendSelectList?.map((item: any) => {
-                return (
-                  <ListItemAddToRoom
-                    link="room"
-                    key={index}
-                    index={index++}
-                    title={item.username}
-                    subtitle={item.stateMessage}
-                    checked={item.checked}
-                    img={1}
-                    set={setFriendSelectListCheck}
-                  />
-                );
-              })}
+              {friends &&
+              'length' in friends &&
+              'map' in friends &&
+              friends.length ? (
+                (friends as { map: Function }).map((item: any) => {
+                  return (
+                    <ListItemAddToRoom
+                      link="room"
+                      key={index}
+                      index={index++}
+                      title={item.username}
+                      subtitle={item.stateMessage}
+                      checked={item.checked}
+                      img={1}
+                      set={setSelectList}
+                    />
+                  );
+                })
+              ) : (
+                <></>
+              )}
             </div>
           </ListView>
         </div>

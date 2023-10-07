@@ -13,31 +13,11 @@ import newchat from 'public/newchat.svg';
 import ModalView from '@/view/modalView';
 import SearchBarFriends from '@/component/searchBarFriends';
 import { useRouter } from 'next/navigation';
-
-let friendsData: Array<object> = [
-  {
-    img: 1,
-    title: 'ENTP남',
-    subtitle: '대문자 P',
-  },
-  { img: 2, title: '곽튜브', subtitle: '이거 재밌네?', checked: false },
-  { img: 3, title: '또떠녀', subtitle: '또 떠나는 여행', checked: false },
-  { img: 4, title: '소마소마', subtitle: '14기 화이팅!', checked: false },
-  {
-    img: 6,
-    title: '마에스트로',
-    subtitle: '불러 maestro maestro',
-    checked: false,
-  },
-  { img: 5, title: '효남이', subtitle: '냥냥펀치', checked: false },
-  { img: 7, title: '파리지앵', subtitle: '파리바게뜨', checked: false },
-  { img: 8, title: '킹갓엠퍼러용명', subtitle: '상메는 상메', checked: false },
-];
+import api from '@/utils/api';
 
 const getKey = (pageIndex: any, previousPageData: any) => {
   if (previousPageData && !previousPageData.length) return null;
   return `https://dev.yeohaengparty.com/api/chatroom?userid=1&page=${pageIndex}&size=10`;
-  // return `http://godjh.dothome.co.kr/api/talk/list/?page=${pageIndex}`;
 };
 
 const fetcher = (url: RequestInfo | URL) => fetch(url).then((r) => r.json());
@@ -69,12 +49,17 @@ export default function Home(): any {
   const isReachingEnd = isEmpty || (data && data[data.length - 1]?.length < 20);
 
   const [modalDisplay, setModlaDisplay] = useState(false);
-  const [friendSelectList, setFriendSelectList] = useState(friendsData);
 
-  const setFriendSelectListCheck = (index: number) => {
-    const obj: any = friendSelectList.slice();
+  const [friends, setFriends] = useState<JSON | null>(null);
+  api('user/{id}/friend', 'get', {}, [friends, setFriends]);
+
+  const setSelectList = (index: number) => {
+    const obj: any =
+      friends && 'slice' in friends
+        ? (friends as { slice: Function }).slice()
+        : [];
     obj[index].checked = !obj[index].checked;
-    setFriendSelectList(obj);
+    setFriends(obj);
   };
 
   let index = 0;
@@ -199,20 +184,27 @@ export default function Home(): any {
         >
           <ListView>
             <div className="section">
-              {friendSelectList?.map((item: any) => {
-                return (
-                  <ListItemAddToRoom
-                    link="room"
-                    key={index}
-                    img={item.img}
-                    index={index++}
-                    title={item.title}
-                    subtitle={item.subtitle}
-                    checked={item.checked}
-                    set={setFriendSelectListCheck}
-                  />
-                );
-              })}
+              {friends &&
+              'length' in friends &&
+              'map' in friends &&
+              friends.length ? (
+                (friends as { map: Function }).map((item: any) => {
+                  return (
+                    <ListItemAddToRoom
+                      link="room"
+                      key={index}
+                      index={index++}
+                      title={item.username}
+                      subtitle={item.stateMessage}
+                      checked={item.checked}
+                      img={1}
+                      set={setSelectList}
+                    />
+                  );
+                })
+              ) : (
+                <></>
+              )}
             </div>
           </ListView>
         </div>
