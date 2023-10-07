@@ -12,9 +12,11 @@ import CustomSelect, { CustomOption } from '@/component/customSelect';
 import MatchStyle from '@/component/matchStyle';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import api, { getUserID } from '@/utils/api';
+import MatchStyleEdit from '../style/page';
 
-let userId = 1;
 export default function Main(): any {
+  const [stylePage, setStylePage] = useState(false);
   const [type, setType] = useState(0);
   const [title, setTitle] = useState('함께 여행해요');
   const [place, setPlace] = useState('파리');
@@ -23,51 +25,119 @@ export default function Main(): any {
   const [endDate, setEndDate] = useState('2023-09-04 12:00');
   const [maxMember, setMaxMember] = useState('3');
 
+  const [alcoholAmount, setAlcoholAmount] = useState(0);
+  const [mateAllowedAlcohol, setMateAllowedAlcohol] = useState(0);
+  const [taste, setTaste] = useState(0);
+  const [allowedMoveTime, setAllowedMoveTime] = useState(0);
+  const [preferGender, setPreferGender] = useState(0);
+  const [smoke, setSmoke] = useState(0);
+  const [preferSmoke, setPreferSmoke] = useState(0);
+  const [slang, setSlang] = useState(0);
+
+  const getValues = (name: string, value: any) => {
+    switch (name) {
+      case 'alcoholAmount':
+        setAlcoholAmount(value);
+        break;
+      case 'mateAllowedAlcohol':
+        setMateAllowedAlcohol(value);
+        break;
+      case 'taste':
+        setTaste(value);
+        break;
+      case 'allowedMoveTime':
+        setAllowedMoveTime(value);
+        break;
+      case 'preferGender':
+        setPreferGender(value);
+        break;
+      case 'smoke':
+        setSmoke(value);
+        break;
+      case 'preferSmoke':
+        setPreferSmoke(value);
+        break;
+      case 'slang':
+        setSlang(value);
+        break;
+    }
+  };
+
   const router = useRouter();
   const newMatching = () => {
-    fetch('https://dev.yeohaengparty.com/api/matching', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        writerId: userId,
+    api(
+      'matching',
+      'post',
+      {
+        writerId: getUserID(),
         type: 'TravelMate',
-        title: title ? title : '함께 여행해요',
-        place: place ? place : '파리',
-        content: content
-          ? content
-          : '같이 여행하면서 사진찍어주기로 해요! 알려진 명소 말고도 숨겨진 명소 찾아보는 것도 좋아하는데, 함께 찾으시는 거 어때요?ㅎㅎ',
-        startDate: startDate
-          ? startDate.replace(' ', 'T') + ':00Z'
-          : '2023-09-04T12:00:00Z',
-        endDate: endDate
-          ? endDate.replace(' ', 'T') + ':00Z'
-          : '2023-09-04T12:00:00Z',
+        title: title,
+        place: place,
+        content: content,
+        startDate: startDate.replace(' ', 'T') + ':00Z',
+        endDate: endDate.replace(' ', 'T') + ':00Z',
         maxMember: maxMember ? maxMember : 2,
         minusAge: 5,
         plusAge: 5,
         readCount: 16,
         isActive: true,
-      }),
-    })
-      .then((res) => {
-        if (res.status == 200) {
-          return res.json();
-        }
-      })
-      .then((res) => {
-        console.log(res);
-        let matchingID = res.matchingId;
-        router.push(`/match/room/${matchingID}`);
-      });
+      },
+      [
+        null,
+        (json: JSON) => {
+          if ('matchingId' in json) {
+            const matchingId = json.matchingId;
+            api(
+              `matching/${matchingId}`,
+              'patch',
+              {
+                alcoholAmount: [1][alcoholAmount],
+                mateAllowedAlcohol: [1, 0][mateAllowedAlcohol],
+                taste: [
+                  '찬 음식',
+                  '뜨거운 음식',
+                  '기름진 음식',
+                  '매운 음식',
+                  '향신료 강한',
+                  '비린 음식',
+                  '육류',
+                ][taste],
+                allowedMoveTime: [0, 1, 2, 3, 4, 5, 6, 7][allowedMoveTime],
+                allowedPeople: maxMember,
+                preferGender: ['남성', '여성', '선호 없음'][preferGender],
+                smoke: [true, false][smoke],
+                preferSmoke: ['흡연 선호', '비흡연 선호', '선호 없음'][
+                  preferSmoke
+                ],
+                slang: [1, 0][slang],
+              },
+              [
+                null,
+                (res: JSON) => {
+                  router.push(`/match/room/${matchingId}`);
+                },
+              ]
+            );
+          }
+        },
+      ]
+    );
   };
-  return (
+
+  return stylePage ? (
+    <MatchStyleEdit
+      setValues={getValues}
+      onDone={() => {
+        setStylePage(false);
+      }}
+    />
+  ) : (
     <>
       <Navbar
         back=" "
         btn="등록"
         btnOnClick={() => {
+          console.log(1);
           newMatching();
         }}
       >
@@ -153,9 +223,14 @@ export default function Main(): any {
         />
         <div className="newMatchSection">여행 스타일</div>
         <div className="MatchStyleEdit">
-          <Link href={'./style'} style={{ color: '#8638ea' }}>
+          <div
+            onClick={() => {
+              setStylePage(true);
+            }}
+            style={{ color: '#8638ea' }}
+          >
             편집
-          </Link>
+          </div>
         </div>
         <MatchStyle>
           <div>

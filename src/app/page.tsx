@@ -8,7 +8,7 @@ import mainbanner1 from 'public/mainbanner_1.svg';
 import packagebanner1 from 'public/packagebanner_1.svg';
 import matebanner1 from 'public/matebanner_1.svg';
 import accombanner1 from 'public/accombanner_1.svg';
-import { api } from '@/utils/api';
+import api from '@/utils/api';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -18,6 +18,12 @@ const FlickView = (Props: { children: Array<JSX.Element> | undefined }) => {
 
 export default function Home(): any {
   const router = useRouter();
+
+  const [recommendMatch, setRecommendMatch] = useState<JSON | null>(null);
+  api('user/{id}/recommendedmatching', 'get', {}, [
+    recommendMatch,
+    setRecommendMatch,
+  ]);
 
   return (
     <>

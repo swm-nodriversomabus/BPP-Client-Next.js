@@ -18,6 +18,8 @@ import profile9 from 'public/profile9.svg';
 import profile_btn_1 from 'public/profile_btn_1.svg';
 import profile_btn_2 from 'public/profile_btn_2.svg';
 import profile_btn_3 from 'public/profile_btn_3.svg';
+import api from '@/utils/api';
+import { useState } from 'react';
 
 const profileImg: Array<any> = [
   profile0,
@@ -32,38 +34,15 @@ const profileImg: Array<any> = [
   profile9,
 ];
 
-let friendsData: Array<{
-  img: number;
-  title: string;
-  subtitle: string;
-  checked: boolean | undefined;
-}> = [
-  {
-    img: 1,
-    title: 'ENTP남',
-    subtitle: '대문자 P',
-    checked: undefined,
-  },
-  { img: 2, title: '곽튜브', subtitle: '이거 재밌네?', checked: false },
-  { img: 3, title: '또떠녀', subtitle: '또 떠나는 여행', checked: false },
-  { img: 4, title: '소마소마', subtitle: '14기 화이팅!', checked: false },
-  {
-    img: 6,
-    title: '마에스트로',
-    subtitle: '불러 maestro maestro',
-    checked: false,
-  },
-  { img: 5, title: '효남이', subtitle: '냥냥펀치', checked: false },
-  { img: 7, title: '파리지앵', subtitle: '파리바게뜨', checked: false },
-  { img: 8, title: '킹갓엠퍼러용명', subtitle: '상메는 상메', checked: false },
-];
-
 export default function Main({ slug }: { slug: string }): any {
+  const [userInfo, setUserInfo] = useState<JSON | null>(null);
+  api(`user/${slug}`, 'get', {}, [userInfo, setUserInfo]);
+
   return (
     <>
       <Navbar back=" "> </Navbar>
       <Image
-        src={profileImg[friendsData[Number(slug)].img]}
+        src={profile1}
         alt="image"
         style={{
           width: '112px',
@@ -90,7 +69,9 @@ export default function Main({ slug }: { slug: string }): any {
           fontWeight: 'bold',
         }}
       >
-        {friendsData[Number(slug)].title}
+        {userInfo && 'username' in userInfo
+          ? (userInfo as { username: string }).username
+          : ''}
       </div>
       <div
         style={{
@@ -106,7 +87,9 @@ export default function Main({ slug }: { slug: string }): any {
           color: '#777',
         }}
       >
-        {friendsData[Number(slug)].subtitle}
+        {userInfo && 'stateMessage' in userInfo
+          ? (userInfo as { stateMessage: string }).stateMessage
+          : ''}
       </div>
       <div
         style={{
@@ -165,7 +148,6 @@ export default function Main({ slug }: { slug: string }): any {
         <br />
         채팅하기
       </div>
-
       <ContentBox></ContentBox>
     </>
   );
