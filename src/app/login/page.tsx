@@ -15,15 +15,15 @@ export default function Home(): any {
   const router = useRouter();
   // const KAKAO_REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
   const kakaoLogin = () => {
-    window.open('https://dev.yeohaengparty.com/api/oauth2/authorization/kakao');
+    router.push('https://dev.yeohaengparty.com/api/oauth2/authorization/kakao');
   };
   const googleLogin = () => {
-    window.open(
+    router.push(
       'https://dev.yeohaengparty.com/api/oauth2/authorization/google'
     );
   };
   const naverLogin = () => {
-    window.open('https://dev.yeohaengparty.com/api/oauth2/authorization/naver');
+    router.push('https://dev.yeohaengparty.com/api/oauth2/authorization/naver');
   };
 
   return (
