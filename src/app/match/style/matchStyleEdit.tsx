@@ -46,10 +46,7 @@ const MatchStyleComponent = ({
   );
 };
 
-export default function MatchStyleEdit(Props: {
-  setValues: (name: string, value: any) => void;
-  onDone: Function;
-}): any {
+const MatchStyleEdit = (Props: { setValues: any; onDone: any }) => {
   const [alcoholAmount, setAlcoholAmount] = useState(0);
   const [mateAllowedAlcohol, setMateAllowedAlcohol] = useState(0);
   const [taste, setTaste] = useState(0);
@@ -169,4 +166,6 @@ export default function MatchStyleEdit(Props: {
       </ContentBox>
     </>
   );
-}
+};
+
+export default MatchStyleEdit;
