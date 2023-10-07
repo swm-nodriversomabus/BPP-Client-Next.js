@@ -13,7 +13,7 @@ import MatchStyle from '@/component/matchStyle';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import api, { getUserID } from '@/utils/api';
-import MatchStyleEdit from '../style/page';
+import MatchStyleEdit from '../style/matchStyleEdit';
 
 export default function Main(): any {
   const [stylePage, setStylePage] = useState(false);
