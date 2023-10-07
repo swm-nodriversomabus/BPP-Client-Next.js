@@ -13,44 +13,17 @@ import { useRouter } from 'next/navigation';
 
 export default function Home(): any {
   const router = useRouter();
-  const KAKAO_REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
-  const KAKAO_REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI;
-  const GOOGLE_REST_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_REST_API_KEY;
-  const GOOGLE_REDIRECT_URI = process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI;
-  const NAVER_REST_API_KEY = process.env.NEXT_PUBLIC_NAVER_REST_API_KEY;
-  const NAVER_REDIRECT_URI = process.env.NEXT_PUBLIC_NAVER_REDIRECT_URI;
-  const NAVER_STATE_STRING = process.env.NEXT_PUBLIC_NAVER_STATE_STRING;
+  // const KAKAO_REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
   const kakaoLogin = () => {
-    // setUserID('1');
-    window.open(
-      // `https://kauth.kakao.com/oauth/authorize` +
-      //   `?client_id=${KAKAO_REST_API_KEY}` +
-      //   `&redirect_uri=${KAKAO_REDIRECT_URI}` +
-      //   `&response_type=code`
-      'https://dev.yeohaengparty.com/api/oauth2/authorization/kakao'
-    );
-    router.push('register');
+    window.open('https://dev.yeohaengparty.com/api/oauth2/authorization/kakao');
   };
   const googleLogin = () => {
-    // setUserID('0');
     window.open(
-      // `https://accounts.google.com/o/oauth2/v2/auth` +
-      //   `?client_id=${GOOGLE_REST_API_KEY}` +
-      //   `&redirect_uri=${GOOGLE_REDIRECT_URI}` +
-      //   `&response_type=code` +
-      //   `&scope=email`
       'https://dev.yeohaengparty.com/api/oauth2/authorization/google'
     );
   };
   const naverLogin = () => {
-    window.open(
-      // `https://nid.naver.com/oauth2.0/authorize` +
-      //   `?client_id=${NAVER_REST_API_KEY}` +
-      //   `&redirect_uri=${NAVER_REDIRECT_URI}` +
-      //   `&response_type=code` +
-      //   `&state=${encodeURI(NAVER_STATE_STRING!)}`
-      'https://dev.yeohaengparty.com/api/oauth2/authorization/naver'
-    );
+    window.open('https://dev.yeohaengparty.com/api/oauth2/authorization/naver');
   };
 
   return (
