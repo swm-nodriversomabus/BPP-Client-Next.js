@@ -1,0 +1,84 @@
+name: 프론트 dev 배포
+
+on:
+  push:
+    branches:
+      - "dev"
+      - "main"
+# 환경 변수 설정
+env:
+#   ACTIVE_PROFILE: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+  AWS_REGION: ap-northeast-2
+  CONTAINER_NGINX_NAME: ${{ github.ref == 'refs/heads/main' && 'prod-yeohaeng-web' || 'dev-yeohaeng-web' }}
+  CONTAINER_NEXTJS_NAME: ${{ github.ref == 'refs/heads/main' && 'nextjs-prod' || 'nextjs-dev' }}
+  ECR_NGINX_REPOSITORY: ${{ github.ref == 'refs/heads/main' && 'prod-yeohaeng-web' || 'dev-yeohaeng-web' }}
+  ECR_NEXTJS_REPOSITORY: ${{ github.ref == 'refs/heads/main' && 'nextjs-prod' || 'nextjs-dev' }}
+  # ECS 클러스터명
+  ECS_CLUSTER: ${{ github.ref == 'refs/heads/main' && 'prod-party-web-cl' || 'dev-party-web-cl' }}
+  # ECS 서비스명
+  ECS_SERVICE: ${{ github.ref == 'refs/heads/main' && 'prod-web-cl' || 'dev-web-cl' }}
+  # ECS Task definition 파일명
+  ECS_TASK_DEFINITION: ${{ github.ref == 'refs/heads/main' && './cicd/task-definition-prod.json' || './cicd/task-definition-dev.json' }}
+
+permissions:
+  contents: read
+jobs:
+  be-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout  # 현재 Repo Clone
+        uses: actions/checkout@v3
+      - name: 'Create env file'
+        run: |
+          echo "${{ secrets.DEV_ENV }}" > .env
+      # AWS 자격 인증 설정
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      # ECR 로그인
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+      # ECR에 도커 이미지 Push
+      - name: Push docker image to ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          SERVICE_TAG: . # Dockerfile 경로
+          # IMAGE_TAG: ${{ github.sha }}
+          IMAGE_TAG: latest
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_NEXTJS_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_NEXTJS_REPOSITORY:$IMAGE_TAG
+          echo "image=$ECR_REGISTRY/$ECR_NEXTJS_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+      # ECS Task 정의
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ env.ECS_TASK_DEFINITION }}
+          container-name: ${{ env.CONTAINER_NEXTJS_NAME }}
+          image: ${{ steps.build-image.outputs.image }}
+      - name: updating task-definition file
+        run: cat ${{ steps.task-def.outputs.task-definition }}
+
+      # ECS Task Push
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ env.ECS_SERVICE }}
+          cluster: ${{ env.ECS_CLUSTER }}
+          codedeploy-appspec: appspec.yaml
+          wait-for-service-stability: true
+
+
+
+
+
+
+
+
