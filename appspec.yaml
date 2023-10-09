@@ -14,5 +14,3 @@ Resources:
                 "Weight": 1
             }
           ]
-          # - ContainerName: "nextjs-dev"
-        # PlatformVersion: "LATEST"
