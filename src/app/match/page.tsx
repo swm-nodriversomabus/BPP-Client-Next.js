@@ -40,7 +40,7 @@ export default function Home(): any {
   api('user/{id}/approved', 'get', {}, [approved, setApproved]);
 
   const [pending, setPending] = useState<JSON | null>(null);
-  api('user/{id}/approved', 'get', {}, [pending, setPending]);
+  api('user/{id}/pending', 'get', {}, [pending, setPending]);
 
   const [recommend, setRecommend] = useState<JSON | null>(null);
   api('user/{id}/recommendedmatching', 'get', {}, [recommend, setRecommend]);
