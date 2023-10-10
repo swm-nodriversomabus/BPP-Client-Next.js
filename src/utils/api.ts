@@ -18,10 +18,14 @@ const api = (
   body: any | undefined,
   state: NewType | undefined
 ) => {
-  const id = getUserID();
-
   // 처음 state 를 null 로 설정할 것이기에, 만약 값이 있다면 이미 사용한 경우이므로 중지함
   if (state && state[0] != null) return;
+
+  if (state) {
+    state[1](JSON.parse('{}'));
+  }
+
+  const id = getUserID();
 
   // {id} 를 실제 userID 값으로 치환
   let targetURL = `https://dev.yeohaengparty.com/api/${url.replace(
@@ -68,8 +72,12 @@ const api = (
           });
         }
       } else if (res.status == 401) {
-        // 권한이 없을 경우, 로그인 페이지 리다이렉트
-        window.location.replace('login');
+        // 권한이 없을 경우, 리프레시
+        if (url == 'auth/refresh') {
+          window.location.replace('login');
+        } else {
+          api('auth/refresh', 'post', {}, undefined);
+        }
       } else {
         // 기타 http 응답코드의 경우 로그 출력
         console.log(res.status);

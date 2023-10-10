@@ -88,7 +88,7 @@ export default function Main(): any {
           if ('matchingId' in json) {
             const matchingId = json.matchingId;
             api(
-              `matching/${matchingId}`,
+              `matching/${matchingId}/preference`,
               'patch',
               {
                 alcoholAmount: [1][alcoholAmount],
