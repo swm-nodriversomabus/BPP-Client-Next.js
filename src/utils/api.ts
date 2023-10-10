@@ -88,8 +88,12 @@ const api = (
       }
     })
     .catch((err) => {
-      // 오류로그 출력
-      console.log(err);
+      if (url == 'auth/refresh') {
+        window.location.replace('login');
+      } else {
+        // 오류로그 출력
+        console.log(err);
+      }
       // 반복해서 호출하지 않도록
       if (state) {
         state[1](JSON.parse('{}'));
