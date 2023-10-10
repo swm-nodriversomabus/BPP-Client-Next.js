@@ -9,10 +9,8 @@ import google_btn from 'public/google_btn.svg';
 import naver_btn from 'public/naver_btn.svg';
 import instagram_btn from 'public/instagram_btn.svg';
 import apple_btn from 'public/apple_btn.svg';
-import { useRouter } from 'next/navigation';
 
 export default function Home(): any {
-  const router = useRouter();
   // const KAKAO_REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
   const kakaoLogin = () => {
     window.location.href =
