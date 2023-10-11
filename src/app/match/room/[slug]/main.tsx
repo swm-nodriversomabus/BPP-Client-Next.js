@@ -26,6 +26,26 @@ let subs: any;
 
 let isNewFace = false;
 
+// [
+//   {
+//     "matchingId": 1,
+//     "writerId": 12,
+//     "type": "TravelMate",
+//     "title": "함께 여행해요",
+//     "place": "파리",
+//     "content": "",
+//     "startDate": [2023, 9, 4, 12, 0],
+//     "endDate": [2023, 9, 4, 12, 0],
+//     "maxMember": 3,
+//     "minusAge": 5,
+//     "plusAge": 5,
+//     "readCount": 16,
+//     "createdAt": [2023, 10, 10, 2, 45, 31, 403999000],
+//     "updatedAt": [2023, 10, 10, 2, 45, 31, 403999000],
+//     "isActive": true
+//   },
+// ],
+
 export default function Main({ slug }: { slug: string }): any {
   const [matchInfo, setMatchInfo] = useState<JSON | null>(null);
   api(`matching/${slug}`, 'get', {}, [matchInfo, setMatchInfo]);
@@ -95,22 +115,6 @@ export default function Main({ slug }: { slug: string }): any {
     }
   }, [approved, matchOwn]);
 
-  if (
-    matchInfo &&
-    'startDate' in matchInfo &&
-    (matchInfo as { startDate: string }).startDate.length < 10
-  ) {
-    matchInfo.startDate = '0000000000';
-  }
-
-  if (
-    matchInfo &&
-    'endDate' in matchInfo &&
-    (matchInfo as { endDate: string }).endDate.length < 10
-  ) {
-    matchInfo.endDate = '0000000000';
-  }
-
   return (
     <>
       <Navbar back=" ">&nbsp;</Navbar>
@@ -138,60 +142,33 @@ export default function Main({ slug }: { slug: string }): any {
             }
             startDate={
               matchInfo && 'startDate' in matchInfo
-                ? (matchInfo as { startDate: string }).startDate.substr(2, 2) +
+                ? (matchInfo as { startDate: number[] }).startDate[0] +
                   '년 ' +
-                  (matchInfo as { startDate: string }).startDate.substr(5, 2) +
+                  (matchInfo as { startDate: number[] }).startDate[1] +
                   '월 ' +
-                  (matchInfo as { startDate: string }).startDate.substr(8, 2) +
+                  (matchInfo as { startDate: number[] }).startDate[2] +
                   '일'
                 : '0000월 00월 00일'
             }
             startTime={
               matchInfo && 'startDate' in matchInfo
-                ? Number(
-                    (matchInfo as { startDate: string }).startDate.substr(11, 2)
-                  ) < 12
-                  ? '오전 '
-                  : '오후 ' +
-                    (
-                      (Number(
-                        (matchInfo as { startDate: string }).startDate.substr(
-                          11,
-                          2
-                        )
-                      ) -
-                        1) %
-                      12
-                    ).toString() +
-                    '시'
-                : '오전 00시'
+                ? (matchInfo as { startDate: number[] }).startDate[3] + '시'
+                : '00시'
             }
             endDate={
-              matchInfo && 'endDate' in matchInfo
-                ? (matchInfo as { endDate: string }).endDate.substr(2, 2) +
+              matchInfo && 'startDate' in matchInfo
+                ? (matchInfo as { startDate: number[] }).startDate[0] +
                   '년 ' +
-                  (matchInfo as { endDate: string }).endDate.substr(5, 2) +
+                  (matchInfo as { startDate: number[] }).startDate[1] +
                   '월 ' +
-                  (matchInfo as { endDate: string }).endDate.substr(8, 2) +
+                  (matchInfo as { startDate: number[] }).startDate[2] +
                   '일'
                 : '0000월 00월 00일'
             }
             endTime={
-              matchInfo && 'endDate' in matchInfo
-                ? Number(
-                    (matchInfo as { endDate: string }).endDate.substr(11, 2)
-                  ) < 12
-                  ? '오전 '
-                  : '오후 ' +
-                    (
-                      (Number(
-                        (matchInfo as { endDate: string }).endDate.substr(11, 2)
-                      ) -
-                        1) %
-                      12
-                    ).toString() +
-                    '시'
-                : '오전 00시'
+              matchInfo && 'startDate' in matchInfo
+                ? (matchInfo as { startDate: number[] }).startDate[3] + '시'
+                : '00시'
             }
           />
           <hr />

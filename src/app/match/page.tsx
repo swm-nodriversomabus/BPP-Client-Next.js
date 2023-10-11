@@ -17,21 +17,21 @@ import { useState } from 'react';
 
 // [
 //   {
-//     matchingId: 1,
-//     writerId: 1,
-//     type: 'TravelMate',
-//     title: '제목',
-//     place: '지역',
-//     content: '내용',
-//     startDate: '2023-09-04T12:00:00',
-//     endDate: '2023-09-04T12:00:00',
-//     maxMember: 3,
-//     minusAge: 5,
-//     plusAge: 5,
-//     readCount: 16,
-//     createdAt: '2023-08-24T07:04:52.98987',
-//     updatedAt: '2023-08-24T07:04:52.98987',
-//     isActive: true,
+//     "matchingId": 1,
+//     "writerId": 12,
+//     "type": "TravelMate",
+//     "title": "함께 여행해요",
+//     "place": "파리",
+//     "content": "",
+//     "startDate": [2023, 9, 4, 12, 0],
+//     "endDate": [2023, 9, 4, 12, 0],
+//     "maxMember": 3,
+//     "minusAge": 5,
+//     "plusAge": 5,
+//     "readCount": 16,
+//     "createdAt": [2023, 10, 10, 2, 45, 31, 403999000],
+//     "updatedAt": [2023, 10, 10, 2, 45, 31, 403999000],
+//     "isActive": true
 //   },
 // ],
 
@@ -78,16 +78,7 @@ export default function Home(): any {
                       type="🎒 여행"
                       title={item.title}
                       place={item.place}
-                      period={`${item.startDate.substr(
-                        2,
-                        2
-                      )}.${item.startDate.substr(5, 2)}.${item.startDate.substr(
-                        8,
-                        2
-                      )}~${item.endDate.substr(2, 2)}.${item.endDate.substr(
-                        5,
-                        2
-                      )}.${item.endDate.substr(8, 2)}`}
+                      period={`${item.startDate[0]}.${item.startDate[1]}.${item.startDate[2]}~${item.endDate[0]}.${item.endDate[1]}.${item.endDate[2]}`}
                       currentUser={1}
                       maxUser={item.maxMember}
                       key={1}
@@ -114,16 +105,7 @@ export default function Home(): any {
                       type="🎒 여행"
                       title={item.title}
                       place={item.place}
-                      period={`${item.startDate.substr(
-                        2,
-                        2
-                      )}.${item.startDate.substr(5, 2)}.${item.startDate.substr(
-                        8,
-                        2
-                      )}~${item.endDate.substr(2, 2)}.${item.endDate.substr(
-                        5,
-                        2
-                      )}.${item.endDate.substr(8, 2)}`}
+                      period={`${item.startDate[0]}.${item.startDate[1]}.${item.startDate[2]}~${item.endDate[0]}.${item.endDate[1]}.${item.endDate[2]}`}
                       currentUser={1}
                       maxUser={item.maxMember}
                       key={1}
@@ -150,16 +132,7 @@ export default function Home(): any {
                       type="🎒 여행"
                       title={item.title}
                       place={item.place}
-                      period={`${item.startDate.substr(
-                        2,
-                        2
-                      )}.${item.startDate.substr(5, 2)}.${item.startDate.substr(
-                        8,
-                        2
-                      )}~${item.endDate.substr(2, 2)}.${item.endDate.substr(
-                        5,
-                        2
-                      )}.${item.endDate.substr(8, 2)}`}
+                      period={`${item.startDate[0]}.${item.startDate[1]}.${item.startDate[2]}~${item.endDate[0]}.${item.endDate[1]}.${item.endDate[2]}`}
                       currentUser={1}
                       maxUser={item.maxMember}
                       key={1}
@@ -187,16 +160,7 @@ export default function Home(): any {
                       title={item.title}
                       article={item.content}
                       place={item.place}
-                      period={`${item.startDate.substr(
-                        2,
-                        2
-                      )}.${item.startDate.substr(5, 2)}.${item.startDate.substr(
-                        8,
-                        2
-                      )}~${item.endDate.substr(2, 2)}.${item.endDate.substr(
-                        5,
-                        2
-                      )}.${item.endDate.substr(8, 2)}`}
+                      period={`${item.startDate[0]}.${item.startDate[1]}.${item.startDate[2]}~${item.endDate[0]}.${item.endDate[1]}.${item.endDate[2]}`}
                       currentUser={1}
                       maxUser={item.maxMember}
                       key={1}
