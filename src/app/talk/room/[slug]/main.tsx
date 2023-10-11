@@ -131,14 +131,6 @@ export default function Main({ slug }: { slug: string }): any {
     if (subs) subs.unsubscribe();
     connectHandler();
     setIsConnected(true);
-    if (slug == '99999999-9999-9999-9999-999999999998') {
-      globalSockData.push({
-        senderId: { userId: 0 },
-        content: localStorage.getItem('tstep'),
-      });
-      const copySockData = globalSockData.slice();
-      setSockData(copySockData);
-    }
   }
 
   const sendHandler = () => {

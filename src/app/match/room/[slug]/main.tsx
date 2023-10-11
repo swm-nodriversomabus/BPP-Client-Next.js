@@ -30,6 +30,9 @@ export default function Main({ slug }: { slug: string }): any {
   const [matchInfo, setMatchInfo] = useState<JSON | null>(null);
   api(`matching/${slug}`, 'get', {}, [matchInfo, setMatchInfo]);
 
+  const [matchOwn, setMatchOwn] = useState<JSON | null>(null);
+  api(`matching/${slug}/matching/own`, 'get', {}, [matchOwn, setMatchOwn]);
+
   const [approved, setApproved] = useState<JSON | null>(null);
   api(`matching/${slug}/approved`, 'get', {}, [approved, setApproved]);
 
@@ -78,7 +81,35 @@ export default function Main({ slug }: { slug: string }): any {
       });
       if (matches.length) setMeApproved(true);
     }
-  }, [approved]);
+
+    if (
+      matchOwn &&
+      'length' in matchOwn &&
+      matchOwn.length &&
+      'filter' in matchOwn
+    ) {
+      const matches = (matchOwn as { filter: Function }).filter((res: any) => {
+        return res.userId == getUserID();
+      });
+      if (matches.length) setMeApproved(true);
+    }
+  }, [approved, matchOwn]);
+
+  if (
+    matchInfo &&
+    'startDate' in matchInfo &&
+    (matchInfo as { startDate: string }).startDate.length < 10
+  ) {
+    matchInfo.startDate = '0000000000';
+  }
+
+  if (
+    matchInfo &&
+    'endDate' in matchInfo &&
+    (matchInfo as { endDate: string }).endDate.length < 10
+  ) {
+    matchInfo.endDate = '0000000000';
+  }
 
   return (
     <>

@@ -36,11 +36,14 @@ import { useState } from 'react';
 // ],
 
 export default function Home(): any {
+  const [matchOwn, setMatchOwn] = useState<JSON | null>(null);
+  api('user/{id}/matching/own', 'get', {}, [matchOwn, setMatchOwn]);
+
   const [approved, setApproved] = useState<JSON | null>(null);
   api('user/{id}/approved', 'get', {}, [approved, setApproved]);
 
   const [pending, setPending] = useState<JSON | null>(null);
-  api('user/{id}/approved', 'get', {}, [pending, setPending]);
+  api('user/{id}/pending', 'get', {}, [pending, setPending]);
 
   const [recommend, setRecommend] = useState<JSON | null>(null);
   api('user/{id}/recommendedmatching', 'get', {}, [recommend, setRecommend]);
@@ -60,6 +63,42 @@ export default function Home(): any {
         <MatchScrollView>
           <MatchSegment />
           <SearchBar />
+
+          {/* 내가 만든 매칭 */}
+          {matchOwn &&
+          'length' in matchOwn &&
+          'map' in matchOwn &&
+          matchOwn.length ? (
+            <MyMatch>
+              <>
+                {(matchOwn as { map: Function }).map((item: any) => {
+                  return (
+                    <MyMatchItem
+                      link={`/match/room/${item.matchingId}`}
+                      type="🎒 여행"
+                      title={item.title}
+                      place={item.place}
+                      period={`${item.startDate.substr(
+                        2,
+                        2
+                      )}.${item.startDate.substr(5, 2)}.${item.startDate.substr(
+                        8,
+                        2
+                      )}~${item.endDate.substr(2, 2)}.${item.endDate.substr(
+                        5,
+                        2
+                      )}.${item.endDate.substr(8, 2)}`}
+                      currentUser={1}
+                      maxUser={item.maxMember}
+                      key={1}
+                    />
+                  );
+                })}
+              </>
+            </MyMatch>
+          ) : (
+            <></>
+          )}
 
           {/* 승인된 매칭 */}
           {approved &&
