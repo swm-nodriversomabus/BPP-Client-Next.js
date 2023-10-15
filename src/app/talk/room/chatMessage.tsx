@@ -26,12 +26,11 @@ const MessageReceived: any = (Props: propsType) => {
             alt="image"
           />
         </div>
-        <div>{Props.children}</div>
-        <div>
-          <div>오전 09:41</div>
-          <div></div>
-        </div>
         <div>{Props.received}</div>
+        <div>
+          {Props.children}
+          <div>오전 09:41</div>
+        </div>
       </div>
     </>
   );
@@ -41,10 +40,9 @@ const MessageSent: any = (Props: { children: JSX.Element }) => {
   return (
     <>
       <div className="message sent">
-        <div>{Props.children}</div>
         <div>
+          {Props.children}
           <div>오전 09:41</div>
-          <div></div>
         </div>
       </div>
     </>
