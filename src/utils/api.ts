@@ -8,6 +8,7 @@
 // 테스트하는 경우, method 에 "test", body 대신 예상 response
 // api(url, "test", response, state)
 
+import React from 'react';
 import { Dispatch, SetStateAction } from 'react';
 
 type NewType = [JSON | null, Dispatch<SetStateAction<JSON | null>> | Function];
@@ -18,6 +19,11 @@ const api = (
   body: any | undefined,
   state: NewType | undefined
 ) => {
+  // 쿠키에 access_token 이 없다면, 로그인 페이지 이동
+  if (!new RegExp('^access_token=|;access_token').test(document.cookie)) {
+    // window.location.replace('login');
+  }
+
   // 처음 state 를 null 로 설정할 것이기에, 만약 값이 있다면 이미 사용한 경우이므로 중지함
   if (state && state[0] != null) return;
 
@@ -27,11 +33,10 @@ const api = (
 
   const id = getUserID();
 
+  const BASE_URL = process.env.NEXT_BASE_URL;
+
   // {id} 를 실제 userID 값으로 치환
-  let targetURL = `https://dev.yeohaengparty.com/api/${url.replace(
-    '{id}',
-    id
-  )}`;
+  let targetURL = `${BASE_URL}${url.replace('{id}', id)}`;
 
   // method 의 default 값은 GET
   const targetMethod = method ? method.toUpperCase() : 'GET';
@@ -71,16 +76,23 @@ const api = (
             state[1](json);
           });
         }
+      } else if (url == 'auth/refresh') {
+        // 리프레시에 실패하면, 로그인 페이지 이동
+        window.location.replace('login');
       } else if (res.status == 401) {
         // 권한이 없을 경우, 리프레시
-        if (url == 'auth/refresh') {
-          window.location.replace('login');
-        } else {
-          api('auth/refresh', 'post', {}, undefined);
-        }
+        api('auth/refresh', 'post', {}, [
+          null,
+          (json: any) => {
+            if ('status' in json) {
+              api(url, method, body, state);
+            }
+          },
+        ]);
       } else {
         // 기타 http 응답코드의 경우 로그 출력
         console.log(res.status);
+
         // 반복해서 호출하지 않도록
         if (state) {
           state[1](JSON.parse('{}'));
@@ -88,12 +100,9 @@ const api = (
       }
     })
     .catch((err) => {
-      if (url == 'auth/refresh') {
-        window.location.replace('login');
-      } else {
-        // 오류로그 출력
-        console.log(err);
-      }
+      // 오류로그 출력
+      console.log(err);
+
       // 반복해서 호출하지 않도록
       if (state) {
         state[1](JSON.parse('{}'));
@@ -101,9 +110,32 @@ const api = (
     });
 };
 
+// 객체를 map으로 사용할 수 있는 지 여부 확인
+const isMap = (json: any) => {
+  return json && 'length' in json && 'map' in json && json.length;
+};
+
+// 타입 고려없이 map 사용할 수 있음
+const mapping = (
+  json: any | undefined,
+  func: (item: any, index: number) => any
+) => {
+  if (json && 'length' in json && 'map' in json && json.length) {
+    return (json as { map: Function }).map((item: any, index: number) => {
+      return func(item, index);
+    });
+  } else {
+    return React.Fragment;
+  }
+};
+
 const getUserID = () => {
   return '12';
 };
 
+const deleteToken = () => {
+  document.cookie = 'access_token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+};
+
 export default api;
-export { getUserID };
+export { getUserID, mapping, isMap, deleteToken };

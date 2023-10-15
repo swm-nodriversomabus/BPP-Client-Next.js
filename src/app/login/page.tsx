@@ -9,20 +9,20 @@ import google_btn from 'public/google_btn.svg';
 import naver_btn from 'public/naver_btn.svg';
 import instagram_btn from 'public/instagram_btn.svg';
 import apple_btn from 'public/apple_btn.svg';
+import { deleteToken } from '@/utils/api';
 
 export default function Home(): any {
-  // const KAKAO_REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
+  deleteToken();
+
+  const BASE_URL = process.env.NEXT_BASE_URL;
   const kakaoLogin = () => {
-    window.location.href =
-      'https://dev.yeohaengparty.com/api/oauth2/authorization/kakao';
+    window.location.href = `${BASE_URL}oauth2/authorization/kakao`;
   };
   const googleLogin = () => {
-    window.location.href =
-      'https://dev.yeohaengparty.com/api/oauth2/authorization/google';
+    window.location.href = `${BASE_URL}oauth2/authorization/google`;
   };
   const naverLogin = () => {
-    window.location.href =
-      'https://dev.yeohaengparty.com/api/oauth2/authorization/naver';
+    window.location.href = `${BASE_URL}oauth2/authorization/naver`;
   };
 
   return (
@@ -35,16 +35,25 @@ export default function Home(): any {
           width: '100%',
         }}
       ></div>
+      <div
+        style={{
+          background: '#F0ECDE',
+          top: '0px',
+          height: 'calc(50% + 142px)',
+          position: 'absolute',
+          width: '100%',
+        }}
+      ></div>
       <Image
         src={login_bg}
         alt="bg"
         style={{
           position: 'absolute',
           left: '0px',
-          top: '-50px',
+          top: '50%',
+          marginTop: '-440px',
           zIndex: '0',
           width: '100%',
-          background: '#F0ECDE',
         }}
       />
       <Image
@@ -53,15 +62,18 @@ export default function Home(): any {
         style={{
           position: 'relative',
           left: '50%',
+          top: '25%',
           marginLeft: '-50px',
-          marginTop: '80px',
+          marginTop: '-100px',
         }}
       />
       <Image
         src={kakao_btn}
         alt="btn"
         style={{
-          position: 'relative',
+          position: 'absolute',
+          top: '70%',
+          marginTop: '40px',
           left: '50%',
           color: '#fff',
           border: 'none',
@@ -70,7 +82,6 @@ export default function Home(): any {
           fontWeight: 'bold',
           cursor: 'pointer',
           marginLeft: '-160px',
-          marginTop: '400px',
         }}
         onClick={kakaoLogin}
       />
@@ -78,7 +89,9 @@ export default function Home(): any {
         src={google_btn}
         alt="btn"
         style={{
-          position: 'relative',
+          position: 'absolute',
+          top: '70%',
+          marginTop: '120px',
           left: '50%',
           color: '#fff',
           border: 'none',
@@ -87,7 +100,6 @@ export default function Home(): any {
           fontWeight: 'bold',
           cursor: 'pointer',
           marginLeft: '-50px',
-          marginTop: '20px',
         }}
         onClick={googleLogin}
       />
@@ -95,7 +107,9 @@ export default function Home(): any {
         src={naver_btn}
         alt="btn"
         style={{
-          position: 'relative',
+          position: 'absolute',
+          top: '70%',
+          marginTop: '120px',
           left: '50%',
           color: '#fff',
           border: 'none',
@@ -104,7 +118,6 @@ export default function Home(): any {
           fontWeight: 'bold',
           cursor: 'pointer',
           marginLeft: '10px',
-          marginTop: '-40px',
         }}
         onClick={naverLogin}
       />
@@ -112,7 +125,9 @@ export default function Home(): any {
         src={apple_btn}
         alt="btn"
         style={{
-          position: 'relative',
+          position: 'absolute',
+          top: '70%',
+          marginTop: '120px',
           left: '50%',
           color: '#fff',
           border: 'none',
@@ -121,14 +136,15 @@ export default function Home(): any {
           fontWeight: 'bold',
           cursor: 'pointer',
           marginLeft: '-110px',
-          marginTop: '-40px',
         }}
       />
       <Image
         src={instagram_btn}
         alt="btn"
         style={{
-          position: 'relative',
+          position: 'absolute',
+          top: '70%',
+          marginTop: '120px',
           left: '50%',
           color: '#fff',
           border: 'none',
@@ -137,7 +153,6 @@ export default function Home(): any {
           fontWeight: 'bold',
           cursor: 'pointer',
           marginLeft: '70px',
-          marginTop: '-40px',
         }}
       />
     </>
