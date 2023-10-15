@@ -12,7 +12,7 @@ import MatchRecommend, { MatchRecommendItem } from '@/component/matchRecommend';
 import Image from 'next/image';
 import newmatch from 'public/newmatch.svg';
 import useSWR, { SWRResponse } from 'swr';
-import api from '@/utils/api';
+import api, { isMap, mapping } from '@/utils/api';
 import { useState } from 'react';
 
 // [
@@ -65,13 +65,10 @@ export default function Home(): any {
           <SearchBar />
 
           {/* 내가 만든 매칭 */}
-          {matchOwn &&
-          'length' in matchOwn &&
-          'map' in matchOwn &&
-          matchOwn.length ? (
-            <MyMatch>
+          {isMap(matchOwn) ? (
+            <MyMatch title="내가 만든 매칭">
               <>
-                {(matchOwn as { map: Function }).map((item: any) => {
+                {mapping(matchOwn, (item: any) => {
                   return (
                     <MyMatchItem
                       link={`/match/room/${item.matchingId}`}
@@ -92,13 +89,10 @@ export default function Home(): any {
           )}
 
           {/* 승인된 매칭 */}
-          {approved &&
-          'length' in approved &&
-          'map' in approved &&
-          approved.length ? (
-            <MyMatch>
+          {isMap(approved) ? (
+            <MyMatch title="참여 중인 매칭">
               <>
-                {(approved as { map: Function }).map((item: any) => {
+                {mapping(approved, (item: any) => {
                   return (
                     <MyMatchItem
                       link={`/match/room/${item.matchingId}`}
@@ -119,13 +113,10 @@ export default function Home(): any {
           )}
 
           {/* 대기중인 매칭 */}
-          {pending &&
-          'length' in pending &&
-          'map' in pending &&
-          pending.length ? (
-            <MyMatch>
+          {isMap(pending) ? (
+            <MyMatch title="신청한 매칭">
               <>
-                {(pending as { map: Function }).map((item: any) => {
+                {mapping(pending, (item: any) => {
                   return (
                     <MyMatchItem
                       link={`/match/room/${item.matchingId}`}
@@ -146,13 +137,10 @@ export default function Home(): any {
           )}
 
           {/* 추천 매칭 */}
-          {recommend &&
-          'length' in recommend &&
-          'map' in recommend &&
-          recommend.length ? (
+          {isMap(recommend) ? (
             <MatchRecommend>
               <>
-                {(recommend as { map: Function }).map((item: any) => {
+                {mapping(recommend, (item: any) => {
                   return (
                     <MatchRecommendItem
                       link={`/match/room/${item.matchingId}`}
