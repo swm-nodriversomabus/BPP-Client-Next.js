@@ -4,7 +4,7 @@ import './style.css';
 import Navbar from '@/component/navigationBar';
 import ContentBox from '@/component/contentBox';
 import Tabbar from '@/component/tabBar';
-import ListView, { ListItem, ListItemAddToRoom } from '@/view/listView';
+import FriendsList, { FriendsListItem } from '@/view/friendsList';
 import Link from 'next/link';
 import Image from 'next/image';
 import newchat from 'public/newchat.svg';
@@ -14,7 +14,10 @@ import SearchBarFriends from '@/component/searchBarFriends';
 import { atom, useRecoilState } from 'recoil';
 import useSWR from 'swr';
 import { useRouter } from 'next/navigation';
-import api from '@/utils/api';
+import api, { isMap, mapping } from '@/utils/api';
+import FriendsCheckList, {
+  FriendsCheckListItem,
+} from '@/view/friendsCheckList';
 
 // [
 //   {
@@ -58,9 +61,9 @@ export default function Main(): any {
     <>
       <Navbar more segment={{ 친구: '/talk', 채팅: '/talk/list' }}></Navbar>
       <ContentBox>
-        <ListView>
+        <FriendsList>
           <div className="section">
-            <ListItem
+            <FriendsListItem
               link={`talk/profile/${
                 myInfo && 'userId' in myInfo ? myInfo.userId : ''
               }`}
@@ -75,7 +78,8 @@ export default function Main(): any {
           <div className="section">
             <h1>친구목록</h1>
             {/* <h2>ㄱ</h2> */}
-            <>
+
+            {/* <>
               {friends &&
               'length' in friends &&
               'map' in friends &&
@@ -83,7 +87,7 @@ export default function Main(): any {
                 (friends as { map: Function }).map(
                   (item: any, index: number) => {
                     return (
-                      <ListItem
+                      <FriendsListItem
                         link={`talk/profile/${item.userId}`}
                         title={item.username}
                         subtitle={item.stateMessage}
@@ -96,9 +100,23 @@ export default function Main(): any {
               ) : (
                 <></>
               )}
+            </> */}
+
+            <>
+              {mapping(friends, (item: any, index: number) => {
+                return (
+                  <FriendsListItem
+                    link={`talk/profile/${item.userId}`}
+                    title={item.username}
+                    subtitle={item.stateMessage}
+                    img={1}
+                    key={1}
+                  />
+                );
+              })}
             </>
           </div>
-        </ListView>
+        </FriendsList>
       </ContentBox>
       <Image
         src={newchat}
@@ -167,7 +185,7 @@ export default function Main(): any {
             left: '0px',
           }}
         >
-          <ListView>
+          <FriendsCheckList>
             <div className="section">
               {friends &&
               'length' in friends &&
@@ -175,7 +193,7 @@ export default function Main(): any {
               friends.length ? (
                 (friends as { map: Function }).map((item: any) => {
                   return (
-                    <ListItemAddToRoom
+                    <FriendsCheckListItem
                       link="room"
                       key={index}
                       index={index++}
@@ -191,7 +209,7 @@ export default function Main(): any {
                 <></>
               )}
             </div>
-          </ListView>
+          </FriendsCheckList>
         </div>
       </ModalView>
       <Tabbar>2</Tabbar>

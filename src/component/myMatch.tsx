@@ -21,7 +21,7 @@ const MyMatchItem: any = ({
 }: props) => {
   return (
     <Link href={link}>
-      <div>
+      <div className="matchItem">
         <div>{title}</div>
         <div>{period}</div>
         <div>{type}</div>
@@ -36,10 +36,16 @@ const MyMatchItem: any = ({
   );
 };
 
-const MyMatch: any = ({ children }: { children: string | undefined }) => {
+const MyMatch: any = ({
+  children,
+  title,
+}: {
+  children: string | undefined;
+  title: string | undefined;
+}) => {
   return (
     <div className="MyMatch">
-      <div>내가 한 요청</div>
+      <div>{title ? title : '내가 한 요청'}</div>
       <div>{children}</div>
     </div>
   );

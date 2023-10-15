@@ -4,7 +4,9 @@ import './style.css';
 import Navbar from '@/component/navigationBar';
 import ContentBox from '@/component/contentBox';
 import Tabbar from '@/component/tabBar';
-import ListView, { ListItem, ListItemAddToRoom } from '@/view/listView';
+import FriendsCheckList, {
+  FriendsCheckListItem,
+} from '@/view/friendsCheckList';
 import Link from 'next/link';
 import useSWRInfinite, { SWRInfiniteResponse } from 'swr/infinite';
 import { RefObject, useEffect, useRef, useState } from 'react';
@@ -14,6 +16,7 @@ import ModalView from '@/view/modalView';
 import SearchBarFriends from '@/component/searchBarFriends';
 import { useRouter } from 'next/navigation';
 import api from '@/utils/api';
+import TalkList, { TalkListItem } from '@/view/talkList';
 
 const getKey = (pageIndex: any, previousPageData: any) => {
   if (previousPageData && !previousPageData.length) return null;
@@ -75,6 +78,7 @@ export default function Home(): any {
       setSize(size + 1);
     }
     loadState = false;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   let i = 0;
@@ -83,7 +87,7 @@ export default function Home(): any {
     <>
       <Navbar
         more
-        segment={{ 친구: '/talk', '채팅 (99+)': '/talk/list' }}
+        segment={{ 친구: '/talk', 채팅: '/talk/list' }}
         segmentIndex="1"
       ></Navbar>
       <ContentBox
@@ -92,7 +96,7 @@ export default function Home(): any {
         isReachingEnd={isReachingEnd}
         inheritRef={scrollRef}
       >
-        <ListView>
+        <TalkList>
           <div className="section">
             <>
               {data?.map((msgs, index) => {
@@ -100,7 +104,7 @@ export default function Home(): any {
                   console.log(msg);
                   if (msg.isActive == false) return <></>;
                   return (
-                    <ListItem
+                    <TalkListItem
                       img={1}
                       link={`room/${msg.chatroomId}`}
                       key={i++}
@@ -113,7 +117,7 @@ export default function Home(): any {
             </>
           </div>
           <div className="listMargin"></div>
-        </ListView>
+        </TalkList>
       </ContentBox>
       <Image
         src={newchat}
@@ -182,7 +186,7 @@ export default function Home(): any {
             left: '0px',
           }}
         >
-          <ListView>
+          <FriendsCheckList>
             <div className="section">
               {friends &&
               'length' in friends &&
@@ -190,7 +194,7 @@ export default function Home(): any {
               friends.length ? (
                 (friends as { map: Function }).map((item: any) => {
                   return (
-                    <ListItemAddToRoom
+                    <FriendsCheckListItem
                       link="room"
                       key={index}
                       index={index++}
@@ -206,7 +210,7 @@ export default function Home(): any {
                 <></>
               )}
             </div>
-          </ListView>
+          </FriendsCheckList>
         </div>
       </ModalView>
       <Tabbar>2</Tabbar>
