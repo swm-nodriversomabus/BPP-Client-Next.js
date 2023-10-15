@@ -38,7 +38,8 @@ const api = (
 
   const id = getUserID();
 
-  const BASE_URL = process.env.NEXT_BASE_URL;
+  // const BASE_URL = process.env.NEXT_BASE_URL;
+  const BASE_URL = 'https://dev.yeohaengparty.com/api/';
 
   // {id} 를 실제 userID 값으로 치환
   let targetURL = `${BASE_URL}${url.replace('{id}', id)}`;
