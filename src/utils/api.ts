@@ -19,6 +19,11 @@ const api = (
   body: any | undefined,
   state: NewType | undefined
 ) => {
+  // document 를 사용하기 위해서 window가 존재하는 지 미리 검증
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
   // 쿠키에 access_token 이 없다면, 로그인 페이지 이동
   if (!new RegExp('^access_token=|;access_token').test(document.cookie)) {
     // window.location.replace('login');
@@ -134,6 +139,10 @@ const getUserID = () => {
 };
 
 const deleteToken = () => {
+  // document 를 사용하기 위해서 window가 존재하는 지 미리 검증
+  if (typeof window === 'undefined') {
+    return null;
+  }
   document.cookie = 'access_token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 };
 
