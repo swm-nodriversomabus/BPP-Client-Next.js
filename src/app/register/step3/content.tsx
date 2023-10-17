@@ -141,7 +141,7 @@ export default function Home({
             marginTop: '30px',
           }}
         >
-          생일
+          생일(년도)
         </div>
         <input
           style={{
@@ -155,7 +155,7 @@ export default function Home({
             borderRadius: '4px',
             fontSize: '15px',
           }}
-          placeholder="생일을 입력하세요"
+          placeholder="태어난 년도를 입력하세요"
           value={birthValue}
           onChange={(e: any) => {
             setBirthValue(e.target.value.replaceAll(/[^\d]/gi, ''));
