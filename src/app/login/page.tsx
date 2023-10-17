@@ -9,11 +9,10 @@ import google_btn from 'public/google_btn.svg';
 import naver_btn from 'public/naver_btn.svg';
 import instagram_btn from 'public/instagram_btn.svg';
 import apple_btn from 'public/apple_btn.svg';
-import { deleteToken } from '@/utils/api';
+import api from '@/utils/api';
+import { useState } from 'react';
 
 export default function Home(): any {
-  deleteToken();
-
   const BASE_URL = process.env.NEXT_BASE_URL;
 
   const kakaoLogin = () => {
@@ -26,6 +25,12 @@ export default function Home(): any {
     window.location.href = `${BASE_URL}oauth2/authorization/naver`;
   };
 
+  const [logout, setLogout] = useState(null);
+  api('auth/logout', 'post', {}, [logout, setLogout]);
+
+  if (logout === null) {
+    return <></>;
+  }
   return (
     <>
       <div

@@ -24,15 +24,6 @@ const api = (
     return;
   }
 
-  // 쿠키에 access_token 이 없다면, 로그인 페이지 이동
-  if (
-    !new RegExp('^access_token=|;access_token').test(document.cookie) &&
-    window.location.hostname != 'localhost'
-  ) {
-    window.location.replace('login');
-    return;
-  }
-
   // 처음 state 를 null 로 설정할 것이기에, 만약 값이 있다면 이미 사용한 경우이므로 중지함
   if (state && state[0] != null) return;
 
@@ -42,7 +33,6 @@ const api = (
 
   const id = getUserID();
 
-  // const BASE_URL = process.env.NEXT_BASE_URL;
   const BASE_URL = process.env.NEXT_BASE_URL;
 
   // {id} 를 실제 userID 값으로 치환
@@ -143,13 +133,5 @@ const getUserID = () => {
   return '12';
 };
 
-const deleteToken = () => {
-  // document 를 사용하기 위해서 window가 존재하는 지 미리 검증
-  if (typeof window === 'undefined') {
-    return null;
-  }
-  document.cookie = 'access_token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-};
-
 export default api;
-export { getUserID, mapping, isMap, deleteToken };
+export { getUserID, mapping, isMap };
