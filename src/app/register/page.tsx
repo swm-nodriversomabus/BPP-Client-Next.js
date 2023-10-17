@@ -13,6 +13,7 @@ export default function Home(): any {
   const router = useRouter();
   const [nameValue, setNameValue] = useState('');
   const [phoneValue, setPhoneValue] = useState('');
+  const [confirmValue, setConfirmValue] = useState('');
   const [genderValue, setGenderValue] = useState('');
   const [birthValue, setBirthValue] = useState('');
   const [next, setNext] = useState('');
@@ -23,6 +24,9 @@ export default function Home(): any {
         break;
       case 'phone':
         setPhoneValue(value);
+        break;
+      case 'confirm':
+        setConfirmValue(value);
         break;
       case 'gender':
         setGenderValue(value);
@@ -37,16 +41,6 @@ export default function Home(): any {
   };
 
   const registerAPI = () => {
-    console.log(
-      JSON.stringify({
-        socialEmail: searchParams.get('socialEmail'),
-        provider: searchParams.get('provider'),
-        username: nameValue,
-        gender: genderValue,
-        age: 1,
-        phone: phoneValue,
-      })
-    );
     fetch(`${process.env.NEXT_BASE_URL}user`, {
       method: 'POST',
       headers: {
@@ -57,7 +51,7 @@ export default function Home(): any {
         provider: searchParams.get('provider'),
         username: nameValue,
         gender: genderValue,
-        age: 1,
+        age: birthValue,
         phone: phoneValue,
       }),
     }).then((res) => {

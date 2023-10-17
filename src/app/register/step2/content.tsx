@@ -7,6 +7,7 @@ import addcheck from 'public/addcheck.svg';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import api from '@/utils/api';
 
 export default function Home({
   setValues,
@@ -163,7 +164,16 @@ export default function Home({
         <button
           onClick={() => {
             if (!confirmStep) {
-              setConfirmStep(1);
+              api(`sms/code/${phoneValue}`, 'get', {}, [
+                null,
+                (json: any) => {
+                  const res = {};
+                  if (json != res) {
+                    return;
+                  }
+                  setConfirmStep(1);
+                },
+              ]);
             }
           }}
           style={{
@@ -202,7 +212,16 @@ export default function Home({
         />
         <button
           onClick={() => {
-            setConfirmStep(2);
+            api(`sms/code`, 'post', { phone: phoneValue, code: confirmValue }, [
+              null,
+              (json: any) => {
+                const res = {};
+                if (json != res) {
+                  return;
+                }
+                setConfirmStep(2);
+              },
+            ]);
           }}
           style={{
             display: confirmStep == 1 ? 'inline-block' : 'none',
@@ -246,6 +265,7 @@ export default function Home({
           if (nameValue && phoneValue && confirmValue && confirmStep == 2) {
             setValues('name', nameValue);
             setValues('phone', phoneValue);
+            setValues('confirm', confirmValue);
             nextStep();
             //router.push('step3');
           }
