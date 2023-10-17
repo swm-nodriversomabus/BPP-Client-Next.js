@@ -93,6 +93,10 @@ const api = (
             }
           },
         ]);
+        // 반복해서 호출하지 않도록
+        if (state) {
+          state[1](JSON.parse(`{"api_response_code": ${res.status}}`));
+        }
       } else {
         // 기타 http 응답코드의 경우 로그 출력
         console.log(res.status);

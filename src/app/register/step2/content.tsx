@@ -214,11 +214,14 @@ export default function Home({
             api(`sms/code`, 'post', { phone: phoneValue, code: confirmValue }, [
               null,
               (json: any) => {
-                if ('api_response_code' in json) {
+                if (
+                  'api_response_code' in json &&
+                  json.api_response_code == 400
+                ) {
                   alert('다시 인증해주세요');
-                  return;
+                } else if (!('api_response_code' in json)) {
+                  setConfirmStep(2);
                 }
-                setConfirmStep(2);
               },
             ]);
           }}
