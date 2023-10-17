@@ -168,7 +168,7 @@ export default function Home({
                 null,
                 (json: any) => {
                   const res = {};
-                  if (json != res) {
+                  if (json == res) {
                     return;
                   }
                   setConfirmStep(1);
@@ -216,7 +216,7 @@ export default function Home({
               null,
               (json: any) => {
                 const res = {};
-                if (json != res) {
+                if (json == res) {
                   return;
                 }
                 setConfirmStep(2);
