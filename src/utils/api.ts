@@ -44,7 +44,7 @@ const api = (
   // 테스트의 경우에는 body 를 결과로 반환
   if (targetMethod == 'TEST') {
     if (state) {
-      state[1](JSON.parse(body ? JSON.stringify(body) : '{}'));
+      state[1](JSON.parse(JSON.stringify(body)));
     }
     return;
   }
