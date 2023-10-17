@@ -75,6 +75,8 @@ const api = (
           res.text().then((text: string) => {
             if (text.length) {
               state[1](JSON.parse(text));
+            } else {
+              state[1](JSON.parse('{}'));
             }
           });
         }
