@@ -219,6 +219,10 @@ export default function Home({
                 if (json == res) {
                   return;
                 }
+                if ('result' in json && json.result == 'ERROR') {
+                  alert('다시 인증해주세요');
+                  return;
+                }
                 setConfirmStep(2);
               },
             ]);
