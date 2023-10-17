@@ -167,8 +167,7 @@ export default function Home({
               api(`sms/code/${phoneValue}`, 'get', {}, [
                 null,
                 (json: any) => {
-                  const res = {};
-                  if (json == res) {
+                  if (JSON.stringify(json) == '{}') {
                     return;
                   }
                   setConfirmStep(1);
@@ -215,12 +214,11 @@ export default function Home({
             api(`sms/code`, 'post', { phone: phoneValue, code: confirmValue }, [
               null,
               (json: any) => {
-                const res = {};
-                if (json == res) {
-                  return;
-                }
                 if ('result' in json && json.result == 'ERROR') {
                   alert('다시 인증해주세요');
+                  return;
+                }
+                if (JSON.stringify(json) == '{}') {
                   return;
                 }
                 setConfirmStep(2);
