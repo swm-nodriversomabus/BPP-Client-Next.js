@@ -11,7 +11,7 @@ export default function Home(): any {
   const client = useRef<CompatClient>();
   const connectHandler = () => {
     client.current = Stomp.over(() => {
-      const sock = new SockJS('https://dev.yeohaengparty.com/api/ws/chat');
+      const sock = new SockJS(`${process.env.NEXT_BASE_URL}ws/chat`);
       return sock;
     });
     client.current.connect(

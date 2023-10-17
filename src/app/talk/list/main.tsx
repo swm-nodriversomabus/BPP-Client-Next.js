@@ -20,7 +20,7 @@ import TalkList, { TalkListItem } from '@/view/talkList';
 
 const getKey = (pageIndex: any, previousPageData: any) => {
   if (previousPageData && !previousPageData.length) return null;
-  return `https://dev.yeohaengparty.com/api/chatroom?userid=1&page=${pageIndex}&size=10`;
+  return `${process.env.NEXT_BASE_URL}chatroom?userid=1&page=${pageIndex}&size=10`;
 };
 
 const fetcher = (url: RequestInfo | URL) => fetch(url).then((r) => r.json());
@@ -138,7 +138,7 @@ export default function Home(): any {
         title="채팅방 개설"
         button="개설하기"
         onClickProp={() => {
-          fetch('https://dev.yeohaengparty.com/api/chatroom', {
+          fetch(`${process.env.NEXT_BASE_URL}chatroom`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -157,7 +157,7 @@ export default function Home(): any {
             })
             .then((res) => {
               let chatroomID = res;
-              fetch('https://dev.yeohaengparty.com/api/members', {
+              fetch(`${process.env.NEXT_BASE_URL}members`, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',

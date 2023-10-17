@@ -7,6 +7,9 @@ const nextConfig = {
     return config;
   },
   output: 'standalone',
+  env: {
+    NEXT_BASE_URL: process.env.NEXT_BASE_URL,
+  },
 };
 
 module.exports = nextConfig;
