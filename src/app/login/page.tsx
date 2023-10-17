@@ -14,8 +14,7 @@ import { deleteToken } from '@/utils/api';
 export default function Home(): any {
   deleteToken();
 
-  // const BASE_URL = process.env.NEXT_BASE_URL;
-  const BASE_URL = 'https://dev.yeohaengparty.com/api/';
+  const BASE_URL = process.env.NEXT_BASE_URL;
 
   const kakaoLogin = () => {
     window.location.href = `${BASE_URL}oauth2/authorization/kakao`;

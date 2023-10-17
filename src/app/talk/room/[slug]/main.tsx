@@ -44,7 +44,7 @@ export default function Main({ slug }: { slug: string }): any {
       size: '10',
     };
     const query = new URLSearchParams(params).toString();
-    return `https://dev.yeohaengparty.com/api/chat?${query}`;
+    return `${process.env.NEXT_BASE_URL}chat?${query}`;
   };
   const [chatText, setChatText] = useState('');
   const [sockData, setSockData] = useState(new Array<object>());
@@ -106,7 +106,7 @@ export default function Main({ slug }: { slug: string }): any {
   const client = useRef<CompatClient>();
   const connectHandler = () => {
     client.current = Stomp.over(() => {
-      const sock = new SockJS('https://dev.yeohaengparty.com/api/ws/chat');
+      const sock = new SockJS(`${process.env.NEXT_BASE_URL}ws/chat`);
       return sock;
     });
     client.current.connect({}, () => {

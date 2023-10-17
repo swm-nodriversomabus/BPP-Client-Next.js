@@ -47,7 +47,7 @@ export default function Home(): any {
         phone: phoneValue,
       })
     );
-    fetch('https://dev.yeohaengparty.com/api/user', {
+    fetch(`${process.env.NEXT_BASE_URL}user`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -37,6 +37,8 @@ import FriendsCheckList, {
 // ];
 
 export default function Main(): any {
+  const BASE_URL = process.env.NEXT_BASE_URL;
+
   const router = useRouter();
   const [modalDisplay, setModalDisplay] = useState(false);
 
@@ -137,7 +139,7 @@ export default function Main(): any {
         title="채팅방 개설"
         button="개설하기"
         onClickProp={() => {
-          fetch('https://dev.yeohaengparty.com/api/chatroom', {
+          fetch(`${BASE_URL}chatroom`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -156,7 +158,7 @@ export default function Main(): any {
             })
             .then((res) => {
               let chatroomID = res;
-              fetch('https://dev.yeohaengparty.com/api/members', {
+              fetch(`${BASE_URL}members`, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
