@@ -28,7 +28,7 @@ const api = (
   if (state && state[0] != null) return;
 
   if (state) {
-    state[1](JSON.parse(`{api_response_code:0}`));
+    state[1](JSON.parse(`{"api_response_code": 0}`));
   }
 
   const id = getUserID();
@@ -95,7 +95,7 @@ const api = (
 
         // 반복해서 호출하지 않도록
         if (state) {
-          state[1](JSON.parse(`{api_response_code:${res.status}}`));
+          state[1](JSON.parse(`{"api_response_code": ${res.status}}`));
         }
       }
     })
@@ -105,7 +105,7 @@ const api = (
 
       // 반복해서 호출하지 않도록
       if (state) {
-        state[1](JSON.parse(`{api_response_code:-1}`));
+        state[1](JSON.parse(`{"api_response_code": -1}`));
       }
     });
 };
