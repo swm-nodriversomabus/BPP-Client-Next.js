@@ -72,14 +72,11 @@ const api = (
       if (res.status == 200) {
         // 정상 응답 확인된 경우, 응답 받은 JSON 전달
         if (state) {
-          console.log(res.body);
-          if (res.body) {
-            res.json().then((json: JSON) => {
-              state[1](json);
-            });
-          } else {
-            state[1](JSON.parse(''));
-          }
+          res.text().then((text: string) => {
+            if (text.length) {
+              state[1](JSON.parse(text));
+            }
+          });
         }
       } else if (url == 'auth/refresh') {
         // 리프레시에 실패하면, 로그인 페이지 이동
