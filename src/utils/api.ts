@@ -19,16 +19,16 @@ const api = (
   body: any | undefined,
   state: NewType | undefined
 ) => {
-  // document 를 사용하기 위해서 window가 존재하는 지 미리 검증
-  if (typeof window === 'undefined') {
-    if (state) {
-      state[1](JSON.parse(`{"api_response_code": 0}`));
-    }
-    return;
-  }
-
   // 처음 state 를 null 로 설정할 것이기에, 만약 값이 있다면 이미 사용한 경우이므로 중지함
   if (state && state[0] != null) return;
+
+  // document 를 사용하기 위해서 window가 존재하는 지 미리 검증
+  if (typeof window === 'undefined') {
+    if (state && state[0] != null) {
+      state[1](JSON.parse(`{"api_response_code": 0}`));
+      return;
+    }
+  }
 
   if (state) {
     state[1](JSON.parse(`{"api_response_code": 0}`));
