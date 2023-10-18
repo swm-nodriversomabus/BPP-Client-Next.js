@@ -21,6 +21,9 @@ const api = (
 ) => {
   // document 를 사용하기 위해서 window가 존재하는 지 미리 검증
   if (typeof window === 'undefined') {
+    if (state) {
+      state[1](JSON.parse(`{"api_response_code": 0}`));
+    }
     return;
   }
 
