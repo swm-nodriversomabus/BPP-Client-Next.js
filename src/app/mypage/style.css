@@ -1,0 +1,47 @@
+.MyProfile {
+  position: relative;
+  width: 100%;
+  height: 72px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  & > img {
+    position: absolute;
+    top: 0px;
+    left: 20px;
+  }
+  & > div {
+    position: absolute;
+    left: 116px;
+    top: 12px;
+    height: 29px;
+    line-height: 29px;
+    font-size: 20px;
+    font-weight: bold;
+    &:nth-of-type(2) {
+      top: 44px;
+      height: 20px;
+      line-height: 20px;
+      font-size: 14px;
+      font-weight: normal;
+      color: #9d9d9d;
+    }
+  }
+}
+.MyPageListItem {
+  position: relative;
+  width: 100%;
+  height: 56px;
+  line-height: 56px;
+  color: #212121;
+  font-size: 16px;
+  padding-left: 20px;
+  font-weight: bold;
+}
+.MyPageListSeperator {
+  position: relative;
+  width: 100%;
+  height: 10px;
+  background: #eeeef0;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
