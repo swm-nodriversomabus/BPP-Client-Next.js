@@ -26,7 +26,7 @@ export default function Home(): any {
   };
 
   const [logout, setLogout] = useState(null);
-  api('auth/logout', 'post', {}, [logout, setLogout]);
+  api('logout', 'post', {}, [logout, setLogout]);
 
   if (logout === null) {
     return <></>;
