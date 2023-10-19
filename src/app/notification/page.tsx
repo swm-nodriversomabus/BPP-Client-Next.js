@@ -41,7 +41,7 @@ import noti_reject from 'public/noti_reject.svg';
 export default function Home(): any {
   const router = useRouter();
   const [notification, setNotification] = useState(null);
-  api('{id}/notification', 'get', {}, [notification, setNotification]);
+  api('user/notification', 'get', {}, [notification, setNotification]);
   return (
     <>
       <Navbar back=" ">알림</Navbar>

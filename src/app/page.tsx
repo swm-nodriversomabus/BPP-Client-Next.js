@@ -21,7 +21,7 @@ export default function Home(): any {
   const router = useRouter();
 
   const [recommendMatch, setRecommendMatch] = useState<JSON | null>(null);
-  api('user/{id}/recommendedmatching', 'get', {}, [
+  api('user/recommendedmatching', 'get', {}, [
     recommendMatch,
     setRecommendMatch,
   ]);
