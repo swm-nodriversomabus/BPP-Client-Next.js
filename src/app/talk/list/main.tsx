@@ -54,7 +54,7 @@ export default function Home(): any {
   const [modalDisplay, setModlaDisplay] = useState(false);
 
   const [friends, setFriends] = useState<JSON | null>(null);
-  api('user/{id}/friend', 'get', {}, [friends, setFriends]);
+  api('user/friend', 'get', {}, [friends, setFriends]);
 
   const setSelectList = (index: number) => {
     const obj: any =

@@ -10,7 +10,7 @@ import api from '@/utils/api';
 
 export default function Home(): any {
   const [myInfo, setMyInfo] = useState<JSON | null>(null);
-  api('user/{id}', 'get', {}, [myInfo, setMyInfo]);
+  api('user', 'get', {}, [myInfo, setMyInfo]);
 
   return (
     <>

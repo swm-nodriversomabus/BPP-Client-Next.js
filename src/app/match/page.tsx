@@ -37,16 +37,16 @@ import { useState } from 'react';
 
 export default function Home(): any {
   const [matchOwn, setMatchOwn] = useState<JSON | null>(null);
-  api('user/{id}/matching/own', 'get', {}, [matchOwn, setMatchOwn]);
+  api('user/matching/own', 'get', {}, [matchOwn, setMatchOwn]);
 
   const [approved, setApproved] = useState<JSON | null>(null);
-  api('user/{id}/approved', 'get', {}, [approved, setApproved]);
+  api('user/approved', 'get', {}, [approved, setApproved]);
 
   const [pending, setPending] = useState<JSON | null>(null);
-  api('user/{id}/pending', 'get', {}, [pending, setPending]);
+  api('user/pending', 'get', {}, [pending, setPending]);
 
   const [recommend, setRecommend] = useState<JSON | null>(null);
-  api('user/{id}/recommendedmatching', 'get', {}, [recommend, setRecommend]);
+  api('user/recommendedmatching', 'get', {}, [recommend, setRecommend]);
 
   return (
     <>

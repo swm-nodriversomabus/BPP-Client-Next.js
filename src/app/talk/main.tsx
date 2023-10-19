@@ -43,10 +43,10 @@ export default function Main(): any {
   const [modalDisplay, setModalDisplay] = useState(false);
 
   const [myInfo, setMyInfo] = useState<JSON | null>(null);
-  api('user/{id}', 'get', {}, [myInfo, setMyInfo]);
+  api('user', 'get', {}, [myInfo, setMyInfo]);
 
   const [friends, setFriends] = useState<JSON | null>(null);
-  api('user/{id}/friend', 'get', {}, [friends, setFriends]);
+  api('user/friend', 'get', {}, [friends, setFriends]);
 
   const setSelectList = (index: number) => {
     const obj: any =
