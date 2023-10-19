@@ -306,7 +306,6 @@ export default function Main({ slug }: { slug: string }): any {
               'matching/application',
               'post',
               {
-                userId: getUserID(),
                 matchingId: { slug },
                 state: '대기',
               },
