@@ -307,7 +307,7 @@ export default function Main({ slug }: { slug: string }): any {
               'post',
               {
                 matchingId: slug,
-                state: 'pending',
+                state: 'Pending',
               },
               [
                 null,
