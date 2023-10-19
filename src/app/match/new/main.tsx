@@ -69,7 +69,6 @@ export default function Main(): any {
       'matching',
       'post',
       {
-        writerId: getUserID(),
         type: 'TravelMate',
         title: title,
         place: place,
