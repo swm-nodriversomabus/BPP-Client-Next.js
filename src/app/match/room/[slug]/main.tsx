@@ -51,7 +51,7 @@ export default function Main({ slug }: { slug: string }): any {
   api(`matching/${slug}`, 'get', {}, [matchInfo, setMatchInfo]);
 
   const [matchOwn, setMatchOwn] = useState<JSON | null>(null);
-  api(`matching/own`, 'get', {}, [matchOwn, setMatchOwn]);
+  api(`user/matching/own`, 'get', {}, [matchOwn, setMatchOwn]);
 
   const [approved, setApproved] = useState<JSON | null>(null);
   api(`matching/${slug}/approved`, 'get', {}, [approved, setApproved]);
@@ -306,7 +306,7 @@ export default function Main({ slug }: { slug: string }): any {
               'matching/application',
               'post',
               {
-                matchingId: slug,
+                matchingId: Number(slug),
                 state: 'Pending',
               },
               [
