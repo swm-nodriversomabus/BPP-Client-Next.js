@@ -53,8 +53,8 @@ const MoreButton: any = () => {
               알림: '/notification',
               공지사항: '/notice',
               마이페이지: '/mypage',
-              설정: '/setting',
-              '고객센터 문의': '/talk/room',
+              // 설정: '/setting',
+              // '고객센터 문의': '/talk/room',
               로그아웃: '/login',
             }}
           />
