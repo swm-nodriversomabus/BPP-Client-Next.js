@@ -335,7 +335,7 @@ export default function Main({ slug }: { slug: string }): any {
                   {
                     userId: candidate.userId,
                     matchingId: Number(slug),
-                    state: 'Decline',
+                    state: 'Declined',
                   },
                   undefined
                 );
