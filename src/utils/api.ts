@@ -34,12 +34,10 @@ const api = (
     state[1](JSON.parse(`{"api_response_code": 0}`));
   }
 
-  const id = getUserID();
-
   const BASE_URL = process.env.NEXT_BASE_URL;
 
   // {id} 를 실제 userID 값으로 치환
-  let targetURL = `${BASE_URL}${url.replace('{id}', id)}`;
+  let targetURL = `${BASE_URL}${url}`;
 
   // method 의 default 값은 GET
   const targetMethod = method ? method.toUpperCase() : 'GET';
@@ -85,7 +83,7 @@ const api = (
         }
       } else if (url == 'auth/refresh') {
         // 리프레시에 실패하면, 로그인 페이지 이동
-        window.location.replace('login');
+        window.location.replace(`${BASE_URL?.slice(0, -4)}login`);
       } else if (res.status == 401) {
         // 권한이 없을 경우, 리프레시
         api('auth/refresh', 'post', {}, [
@@ -140,9 +138,5 @@ const mapping = (
   }
 };
 
-const getUserID = () => {
-  return '12';
-};
-
 export default api;
-export { getUserID, mapping, isMap };
+export { mapping, isMap };
