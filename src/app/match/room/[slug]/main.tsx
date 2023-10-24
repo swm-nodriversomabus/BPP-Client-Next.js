@@ -20,7 +20,7 @@ import newface from 'public/newface.svg';
 import Link from 'next/link';
 import profile9 from 'public/profile9.svg';
 import matchconfirm from 'public/matchconfirm.svg';
-import api, { getUserID } from '@/utils/api';
+import api from '@/utils/api';
 
 let subs: any;
 
@@ -50,8 +50,8 @@ export default function Main({ slug }: { slug: string }): any {
   const [matchInfo, setMatchInfo] = useState<JSON | null>(null);
   api(`matching/${slug}`, 'get', {}, [matchInfo, setMatchInfo]);
 
-  const [matchOwn, setMatchOwn] = useState<JSON | null>(null);
-  api(`user/matching/own`, 'get', {}, [matchOwn, setMatchOwn]);
+  const [myStatus, setMyStatus] = useState<JSON | null>(null);
+  api(`matching/${slug}/status`, 'get', {}, [myStatus, setMyStatus]);
 
   const [approved, setApproved] = useState<JSON | null>(null);
   api(`matching/${slug}/approved`, 'get', {}, [approved, setApproved]);
@@ -70,50 +70,7 @@ export default function Main({ slug }: { slug: string }): any {
     userId: 0,
   });
 
-  const [mePending, setMePending] = useState(false);
-  const [meApproved, setMeApproved] = useState(false);
-
   const router = useRouter();
-
-  useEffect(() => {
-    if (
-      pending &&
-      'length' in pending &&
-      pending.length &&
-      'filter' in pending
-    ) {
-      const matches = (pending as { filter: Function }).filter((res: any) => {
-        return res.userId == getUserID();
-      });
-      if (matches.length) setMePending(true);
-    }
-  }, [pending]);
-
-  useEffect(() => {
-    if (
-      approved &&
-      'length' in approved &&
-      approved.length &&
-      'filter' in approved
-    ) {
-      const matches = (approved as { filter: Function }).filter((res: any) => {
-        return res.userId == getUserID();
-      });
-      if (matches.length) setMeApproved(true);
-    }
-
-    if (
-      matchOwn &&
-      'length' in matchOwn &&
-      matchOwn.length &&
-      'filter' in matchOwn
-    ) {
-      const matches = (matchOwn as { filter: Function }).filter((res: any) => {
-        return res.userId == getUserID();
-      });
-      if (matches.length) setMeApproved(true);
-    }
-  }, [approved, matchOwn]);
 
   return (
     <>
@@ -286,12 +243,12 @@ export default function Main({ slug }: { slug: string }): any {
             <></>
           )}
         </MatchScrollView>
-        {meApproved ? (
+        {typeof myStatus == 'string' && myStatus == 'Approved' ? (
           <></>
         ) : (
           <MatchBar
             onClick={() => {
-              if (mePending) return;
+              if (typeof myStatus == 'string' && myStatus == 'Pending') return;
               setModalDisplay(true);
             }}
           />
