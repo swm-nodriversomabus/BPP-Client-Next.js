@@ -377,7 +377,7 @@ export default function Main({ slug }: { slug: string }): any {
                   'post',
                   {
                     userId: candidate.userId,
-                    matchingId: { slug },
+                    matchingId: Number(slug),
                     state: 'Declined',
                   },
                   undefined
@@ -408,7 +408,7 @@ export default function Main({ slug }: { slug: string }): any {
                   'post',
                   {
                     userId: candidate.userId,
-                    matchingId: { slug },
+                    matchingId: Number(slug),
                     state: 'Approved',
                   },
                   undefined
