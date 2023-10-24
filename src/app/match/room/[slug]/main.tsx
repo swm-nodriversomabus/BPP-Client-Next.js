@@ -377,8 +377,8 @@ export default function Main({ slug }: { slug: string }): any {
                   'post',
                   {
                     userId: candidate.userId,
-                    matchingId: { slug },
-                    state: '거절',
+                    matchingId: Number(slug),
+                    state: 'Decline',
                   },
                   undefined
                 );
@@ -408,8 +408,8 @@ export default function Main({ slug }: { slug: string }): any {
                   'post',
                   {
                     userId: candidate.userId,
-                    matchingId: { slug },
-                    state: '수락',
+                    matchingId: Number(slug),
+                    state: 'Approved',
                   },
                   undefined
                 );
