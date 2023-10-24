@@ -102,7 +102,7 @@ export default function Main(): any {
                   'Meat',
                 ][taste],
                 allowedMoveTime: [0, 1, 2, 3, 4, 5, 6, 7][allowedMoveTime],
-                allowedPeople: maxMember,
+                allowedPeople: Number(maxMember),
                 preferGender: ['Male', 'Female', 'None'][preferGender],
                 smoke: [true, false][smoke],
                 preferSmoke: ['Smoke', 'Nonsmoke', 'None'][preferSmoke],

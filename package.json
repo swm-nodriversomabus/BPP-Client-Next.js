@@ -2,6 +2,11 @@
   "name": "BPP-Client-Next.js",
   "version": "0.1.0",
   "private": true,
+  "browserslist": [
+    ">0.3%",
+    "not dead",
+    "not op_mini all"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -27,8 +32,12 @@
     "tailwindcss": "3.3.2",
     "typescript": "5.1.6"
   },
-  "packageManager": "yarn@3.6.1",
+  "packageManager": "yarn@4.0.0",
   "devDependencies": {
+    "@babel/core": "^7.23.2",
+    "@babel/preset-env": "^7.23.2",
+    "@types/babel__core": "^7",
+    "@types/babel__preset-env": "^7",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.6.2"
