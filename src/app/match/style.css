@@ -23,6 +23,7 @@
     border: solid 1px #d9d9d9;
     color: #00153b;
     background-color: #ffffff;
+    cursor: pointer;
     &.selected {
       border: solid 1px #8638ea;
       color: #8638ea;
@@ -182,6 +183,7 @@
         line-height: 20px;
         max-height: 40px;
         font-size: 13px;
+        overflow: hidden;
       }
       & > hr {
         margin: 0;

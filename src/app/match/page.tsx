@@ -37,6 +37,8 @@ import search from 'public/search.svg';
 // ],
 
 export default function Home(): any {
+  const [matchSeg, setMatchSeg] = useState(0);
+
   const [matchOwn, setMatchOwn] = useState<JSON | null>(null);
   api('user/matching/own', 'get', {}, [matchOwn, setMatchOwn]);
 
@@ -64,7 +66,40 @@ export default function Home(): any {
         }}
       >
         <MatchScrollView>
-          <MatchSegment />
+          <div className="MatchSegment">
+            <div
+              className={matchSeg == 0 ? 'selected' : ''}
+              onClick={() => {
+                setMatchSeg(0);
+              }}
+            >
+              💜 전체
+            </div>
+            <div
+              className={matchSeg == 1 ? 'selected' : ''}
+              onClick={() => {
+                setMatchSeg(1);
+              }}
+            >
+              🎒 여행
+            </div>
+            <div
+              className={matchSeg == 2 ? 'selected' : ''}
+              onClick={() => {
+                setMatchSeg(2);
+              }}
+            >
+              🏠 숙박
+            </div>
+            <div
+              className={matchSeg == 3 ? 'selected' : ''}
+              onClick={() => {
+                setMatchSeg(3);
+              }}
+            >
+              🍱 식사
+            </div>
+          </div>
           <div className="SearchBar">
             <Image src={search} alt="search"></Image>
             <input
@@ -75,7 +110,6 @@ export default function Home(): any {
               placeholder="검색"
             />
           </div>
-
           {/* 내가 만든 매칭 */}
           {isMap(matchOwn) ? (
             <MyMatch title="내가 만든 매칭">
@@ -99,7 +133,6 @@ export default function Home(): any {
           ) : (
             <></>
           )}
-
           {/* 승인된 매칭 */}
           {isMap(approved) ? (
             <MyMatch title="참여 중인 매칭">
@@ -123,7 +156,6 @@ export default function Home(): any {
           ) : (
             <></>
           )}
-
           {/* 대기중인 매칭 */}
           {isMap(pending) ? (
             <MyMatch title="신청한 매칭">
@@ -147,7 +179,6 @@ export default function Home(): any {
           ) : (
             <></>
           )}
-
           {/* 추천 매칭 */}
           {isMap(recommend) ? (
             <MatchRecommend>
@@ -158,6 +189,15 @@ export default function Home(): any {
                   if (!flag && item.content.search(searchText) > -1)
                     flag = true;
                   if (!flag && item.place.search(searchText) > -1) flag = true;
+                  if (flag) {
+                    if (
+                      matchSeg &&
+                      item.type !=
+                        ['', 'TravelMate', 'Accommodation', 'Dining'][matchSeg]
+                    ) {
+                      flag = false;
+                    }
+                  }
                   return (
                     <MatchRecommendItem
                       link={`/match/room/${item.matchingId}`}
