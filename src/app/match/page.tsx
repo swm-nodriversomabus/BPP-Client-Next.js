@@ -14,6 +14,7 @@ import newmatch from 'public/newmatch.svg';
 import useSWR, { SWRResponse } from 'swr';
 import api, { isMap, mapping } from '@/utils/api';
 import { useState } from 'react';
+import search from 'public/search.svg';
 
 // [
 //   {
@@ -48,6 +49,8 @@ export default function Home(): any {
   const [recommend, setRecommend] = useState<JSON | null>(null);
   api('user/recommendedmatching', 'get', {}, [recommend, setRecommend]);
 
+  const [searchText, setSearchText] = useState('');
+
   return (
     <>
       <Navbar more></Navbar>
@@ -62,7 +65,16 @@ export default function Home(): any {
       >
         <MatchScrollView>
           <MatchSegment />
-          <SearchBar />
+          <div className="SearchBar">
+            <Image src={search} alt="search"></Image>
+            <input
+              value={searchText}
+              onChange={(e) => {
+                setSearchText(e.target.value);
+              }}
+              placeholder="검색"
+            />
+          </div>
 
           {/* 내가 만든 매칭 */}
           {isMap(matchOwn) ? (
@@ -141,6 +153,11 @@ export default function Home(): any {
             <MatchRecommend>
               <>
                 {mapping(recommend, (item: any) => {
+                  let flag = searchText ? false : true;
+                  if (!flag && item.title.search(searchText) > -1) flag = true;
+                  if (!flag && item.content.search(searchText) > -1)
+                    flag = true;
+                  if (!flag && item.place.search(searchText) > -1) flag = true;
                   return (
                     <MatchRecommendItem
                       link={`/match/room/${item.matchingId}`}
@@ -152,6 +169,7 @@ export default function Home(): any {
                       currentUser={1}
                       maxUser={item.maxMember}
                       key={1}
+                      hidden={!flag}
                     />
                   );
                 })}
