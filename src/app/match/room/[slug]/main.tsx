@@ -74,7 +74,12 @@ export default function Main({ slug }: { slug: string }): any {
 
   return (
     <>
-      <Navbar back=" ">&nbsp;</Navbar>
+      <Navbar back=" ">
+        &nbsp;
+        {myStatus && 'text' in myStatus
+          ? (myStatus as { text: string }).text
+          : ''}
+      </Navbar>
       <ContentBox
         styled={{
           height: '100%',
@@ -184,7 +189,11 @@ export default function Main({ slug }: { slug: string }): any {
             <></>
           )}
 
-          {pending &&
+          {myStatus &&
+          'text' in myStatus &&
+          ((myStatus as { text: string }).text == 'Owner' ||
+            (myStatus as { text: string }).text == 'Approved') &&
+          pending &&
           'map' in pending &&
           'length' in pending &&
           pending.length ? (
@@ -221,9 +230,15 @@ export default function Main({ slug }: { slug: string }): any {
                       <div
                         className="MatchPerson"
                         onClick={() => {
-                          setModal2Display(true);
-                          const copied: any = pending;
-                          setCandidate(copied[index]);
+                          if (
+                            myStatus &&
+                            'text' in myStatus &&
+                            (myStatus as { text: string }).text == 'Owner'
+                          ) {
+                            setModal2Display(true);
+                            const copied: any = pending;
+                            setCandidate(copied[index]);
+                          }
                         }}
                         style={{ cursor: 'pointer' }}
                       >
@@ -243,12 +258,17 @@ export default function Main({ slug }: { slug: string }): any {
             <></>
           )}
         </MatchScrollView>
-        {typeof myStatus == 'string' && myStatus == 'Approved' ? (
+        {myStatus &&
+        'text' in myStatus &&
+        (myStatus as { text: string }).text == 'Owner' ? (
+          <></>
+        ) : myStatus &&
+          'text' in myStatus &&
+          (myStatus as { text: string }).text == 'Pending' ? (
           <></>
         ) : (
           <MatchBar
             onClick={() => {
-              if (typeof myStatus == 'string' && myStatus == 'Pending') return;
               setModalDisplay(true);
             }}
           />
@@ -331,11 +351,12 @@ export default function Main({ slug }: { slug: string }): any {
               onClick={() => {
                 api(
                   'matching/application',
-                  'post',
+                  'put',
                   {
                     userId: candidate.userId,
                     matchingId: Number(slug),
                     state: 'Declined',
+                    isActive: true,
                   },
                   undefined
                 );
@@ -362,11 +383,12 @@ export default function Main({ slug }: { slug: string }): any {
               onClick={() => {
                 api(
                   'matching/application',
-                  'post',
+                  'put',
                   {
                     userId: candidate.userId,
                     matchingId: Number(slug),
                     state: 'Approved',
+                    isActive: true,
                   },
                   undefined
                 );
