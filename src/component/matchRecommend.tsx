@@ -13,6 +13,7 @@ interface props {
   period: string;
   currentUser: number;
   maxUser: number;
+  hidden: boolean;
 }
 
 const MatchRecommendItem: any = ({
@@ -24,9 +25,10 @@ const MatchRecommendItem: any = ({
   period,
   currentUser,
   maxUser,
+  hidden,
 }: props) => {
   return (
-    <Link href={link}>
+    <Link href={link} style={hidden ? { display: 'none' } : {}}>
       <div>
         <div>
           {type == 'TravelMate'
