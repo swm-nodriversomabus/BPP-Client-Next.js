@@ -28,7 +28,13 @@ const MatchRecommendItem: any = ({
   return (
     <Link href={link}>
       <div>
-        <div>{type}</div>
+        <div>
+          {type == 'TravelMate'
+            ? '🎒 여행'
+            : type == 'Dining'
+            ? '🍱 식사'
+            : '🏠 숙박'}
+        </div>
         <div>{title}</div>
         <div>
           {article.split('\\n').map((line, index) => {

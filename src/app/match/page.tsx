@@ -72,7 +72,7 @@ export default function Home(): any {
                   return (
                     <MyMatchItem
                       link={`/match/room/${item.matchingId}`}
-                      type="🎒 여행"
+                      type={item.type}
                       title={item.title}
                       place={item.place}
                       period={`${item.startDate[0]}.${item.startDate[1]}.${item.startDate[2]}~${item.endDate[0]}.${item.endDate[1]}.${item.endDate[2]}`}
@@ -96,7 +96,7 @@ export default function Home(): any {
                   return (
                     <MyMatchItem
                       link={`/match/room/${item.matchingId}`}
-                      type="🎒 여행"
+                      type={item.type}
                       title={item.title}
                       place={item.place}
                       period={`${item.startDate[0]}.${item.startDate[1]}.${item.startDate[2]}~${item.endDate[0]}.${item.endDate[1]}.${item.endDate[2]}`}
@@ -120,7 +120,7 @@ export default function Home(): any {
                   return (
                     <MyMatchItem
                       link={`/match/room/${item.matchingId}`}
-                      type="🎒 여행"
+                      type={item.type}
                       title={item.title}
                       place={item.place}
                       period={`${item.startDate[0]}.${item.startDate[1]}.${item.startDate[2]}~${item.endDate[0]}.${item.endDate[1]}.${item.endDate[2]}`}
@@ -144,7 +144,7 @@ export default function Home(): any {
                   return (
                     <MatchRecommendItem
                       link={`/match/room/${item.matchingId}`}
-                      type="🎒 여행"
+                      type={item.type}
                       title={item.title}
                       article={item.content}
                       place={item.place}
