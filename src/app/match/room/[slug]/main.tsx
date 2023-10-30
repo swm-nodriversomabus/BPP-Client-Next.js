@@ -285,6 +285,7 @@ export default function Main({ slug }: { slug: string }): any {
               {
                 matchingId: Number(slug),
                 state: 'Pending',
+                isActive: true,
               },
               [
                 null,
