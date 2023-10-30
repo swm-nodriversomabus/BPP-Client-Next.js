@@ -17,19 +17,21 @@ const ModalView: any = (Props: {
     <>
       <div className="ModalBackground"></div>
       <div className="ModalView">
-        <div>{Props.title}</div>
-        <Image
-          onClick={() => {
-            Props.setDisplay(false);
-          }}
-          src={close}
-          alt="close"
-        />
-        <Link href={Props.link ? Props.link : ''}>
-          <div onClick={Props.onClickProp ? Props.onClickProp : () => {}}>
-            {Props.button}
-          </div>
-        </Link>
+        <div>
+          <Image
+            onClick={() => {
+              Props.setDisplay(false);
+            }}
+            src={close}
+            alt="close"
+          />
+          <div>{Props.title}</div>
+          <Link href={Props.link ? Props.link : ''}>
+            <div onClick={Props.onClickProp ? Props.onClickProp : () => {}}>
+              {Props.button}
+            </div>
+          </Link>
+        </div>
         <div>{Props.children}</div>
       </div>
     </>
