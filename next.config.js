@@ -9,6 +9,7 @@ const nextConfig = {
   output: 'standalone',
   env: {
     NEXT_BASE_URL: process.env.NEXT_BASE_URL,
+    NEXT_CLIENT: process.env.NEXT_CLIENT,
   },
 };
 

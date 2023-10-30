@@ -14,6 +14,7 @@ import newmatch from 'public/newmatch.svg';
 import useSWR, { SWRResponse } from 'swr';
 import api, { isMap, mapping } from '@/utils/api';
 import { useState } from 'react';
+import search from 'public/search.svg';
 
 // [
 //   {
@@ -36,6 +37,8 @@ import { useState } from 'react';
 // ],
 
 export default function Home(): any {
+  const [matchSeg, setMatchSeg] = useState(0);
+
   const [matchOwn, setMatchOwn] = useState<JSON | null>(null);
   api('user/matching/own', 'get', {}, [matchOwn, setMatchOwn]);
 
@@ -47,6 +50,8 @@ export default function Home(): any {
 
   const [recommend, setRecommend] = useState<JSON | null>(null);
   api('user/recommendedmatching', 'get', {}, [recommend, setRecommend]);
+
+  const [searchText, setSearchText] = useState('');
 
   return (
     <>
@@ -61,9 +66,50 @@ export default function Home(): any {
         }}
       >
         <MatchScrollView>
-          <MatchSegment />
-          <SearchBar />
-
+          <div className="MatchSegment">
+            <div
+              className={matchSeg == 0 ? 'selected' : ''}
+              onClick={() => {
+                setMatchSeg(0);
+              }}
+            >
+              💜 전체
+            </div>
+            <div
+              className={matchSeg == 1 ? 'selected' : ''}
+              onClick={() => {
+                setMatchSeg(1);
+              }}
+            >
+              🎒 여행
+            </div>
+            <div
+              className={matchSeg == 2 ? 'selected' : ''}
+              onClick={() => {
+                setMatchSeg(2);
+              }}
+            >
+              🏠 숙박
+            </div>
+            <div
+              className={matchSeg == 3 ? 'selected' : ''}
+              onClick={() => {
+                setMatchSeg(3);
+              }}
+            >
+              🍱 식사
+            </div>
+          </div>
+          <div className="SearchBar">
+            <Image src={search} alt="search"></Image>
+            <input
+              value={searchText}
+              onChange={(e) => {
+                setSearchText(e.target.value);
+              }}
+              placeholder="검색"
+            />
+          </div>
           {/* 내가 만든 매칭 */}
           {isMap(matchOwn) ? (
             <MyMatch title="내가 만든 매칭">
@@ -72,7 +118,7 @@ export default function Home(): any {
                   return (
                     <MyMatchItem
                       link={`/match/room/${item.matchingId}`}
-                      type="🎒 여행"
+                      type={item.type}
                       title={item.title}
                       place={item.place}
                       period={`${item.startDate[0]}.${item.startDate[1]}.${item.startDate[2]}~${item.endDate[0]}.${item.endDate[1]}.${item.endDate[2]}`}
@@ -87,7 +133,6 @@ export default function Home(): any {
           ) : (
             <></>
           )}
-
           {/* 승인된 매칭 */}
           {isMap(approved) ? (
             <MyMatch title="참여 중인 매칭">
@@ -96,7 +141,7 @@ export default function Home(): any {
                   return (
                     <MyMatchItem
                       link={`/match/room/${item.matchingId}`}
-                      type="🎒 여행"
+                      type={item.type}
                       title={item.title}
                       place={item.place}
                       period={`${item.startDate[0]}.${item.startDate[1]}.${item.startDate[2]}~${item.endDate[0]}.${item.endDate[1]}.${item.endDate[2]}`}
@@ -111,7 +156,6 @@ export default function Home(): any {
           ) : (
             <></>
           )}
-
           {/* 대기중인 매칭 */}
           {isMap(pending) ? (
             <MyMatch title="신청한 매칭">
@@ -120,7 +164,7 @@ export default function Home(): any {
                   return (
                     <MyMatchItem
                       link={`/match/room/${item.matchingId}`}
-                      type="🎒 여행"
+                      type={item.type}
                       title={item.title}
                       place={item.place}
                       period={`${item.startDate[0]}.${item.startDate[1]}.${item.startDate[2]}~${item.endDate[0]}.${item.endDate[1]}.${item.endDate[2]}`}
@@ -135,16 +179,29 @@ export default function Home(): any {
           ) : (
             <></>
           )}
-
           {/* 추천 매칭 */}
           {isMap(recommend) ? (
             <MatchRecommend>
               <>
                 {mapping(recommend, (item: any) => {
+                  let flag = searchText ? false : true;
+                  if (!flag && item.title.search(searchText) > -1) flag = true;
+                  if (!flag && item.content.search(searchText) > -1)
+                    flag = true;
+                  if (!flag && item.place.search(searchText) > -1) flag = true;
+                  if (flag) {
+                    if (
+                      matchSeg &&
+                      item.type !=
+                        ['', 'TravelMate', 'Accommodation', 'Dining'][matchSeg]
+                    ) {
+                      flag = false;
+                    }
+                  }
                   return (
                     <MatchRecommendItem
                       link={`/match/room/${item.matchingId}`}
-                      type="🎒 여행"
+                      type={item.type}
                       title={item.title}
                       article={item.content}
                       place={item.place}
@@ -152,6 +209,7 @@ export default function Home(): any {
                       currentUser={1}
                       maxUser={item.maxMember}
                       key={1}
+                      hidden={!flag}
                     />
                   );
                 })}

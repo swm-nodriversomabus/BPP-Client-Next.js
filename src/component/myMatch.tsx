@@ -24,7 +24,13 @@ const MyMatchItem: any = ({
       <div className="matchItem">
         <div>{title}</div>
         <div>{period}</div>
-        <div>{type}</div>
+        <div>
+          {type == 'TravelMate'
+            ? '🎒 여행'
+            : type == 'Dining'
+            ? '🍱 식사'
+            : '🏠 숙박'}
+        </div>
         <div>
           <Image src={usercheck} alt="users" />
           <div>{currentUser}</div>

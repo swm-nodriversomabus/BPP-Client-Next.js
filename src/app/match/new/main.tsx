@@ -69,7 +69,7 @@ export default function Main(): any {
       'matching',
       'post',
       {
-        type: 'TravelMate',
+        type: type == 0 ? 'Travelmate' : type == 1 ? 'Dining' : 'Accommodation',
         title: title,
         place: place,
         content: content,
@@ -111,7 +111,8 @@ export default function Main(): any {
               [
                 null,
                 (res: JSON) => {
-                  router.push(`/match/room/${matchingId}`);
+                  window.location.replace(`/match/room/${matchingId}`);
+                  // router.push(`/match/room/${matchingId}`);
                 },
               ]
             );

@@ -35,6 +35,7 @@ const api = (
   }
 
   const BASE_URL = process.env.NEXT_BASE_URL;
+  const CLIENT = process.env.NEXT_CLIENT;
 
   // {id} 를 실제 userID 값으로 치환
   let targetURL = `${BASE_URL}${url}`;
@@ -60,12 +61,15 @@ const api = (
   fetch(
     targetURL,
     targetMethod == 'GET'
-      ? {}
+      ? {
+          credentials: 'include',
+        }
       : {
           method: targetMethod,
           headers: {
             'Content-Type': 'application/json',
           },
+          credentials: 'include',
           body: body ? JSON.stringify(body) : '',
         }
   )
@@ -74,16 +78,16 @@ const api = (
         // 정상 응답 확인된 경우, 응답 받은 JSON 전달
         if (state) {
           res.text().then((text: string) => {
-            if (text.length) {
+            if (text.length && '[{'.indexOf(text[0]) > -1) {
               state[1](JSON.parse(text));
             } else {
-              state[1](JSON.parse('{}'));
+              state[1](JSON.parse(`{"text": "${text}"}`));
             }
           });
         }
       } else if (url == 'auth/refresh') {
         // 리프레시에 실패하면, 로그인 페이지 이동
-        window.location.replace(`${BASE_URL?.slice(0, -4)}login`);
+        window.location.replace(`${CLIENT}login`);
       } else if (res.status == 401) {
         // 권한이 없을 경우, 리프레시
         api('auth/refresh', 'post', {}, [
