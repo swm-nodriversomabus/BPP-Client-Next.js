@@ -238,7 +238,7 @@ export default function Home({
             fontSize: '15px',
           }}
         >
-          인증
+          확인
         </button>
         <div style={{ width: '100%', height: '100px' }} />
       </ContentBox>
