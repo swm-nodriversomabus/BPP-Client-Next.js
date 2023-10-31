@@ -3,9 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "browserslist": [
-    ">0.3%",
-    "not dead",
-    "not op_mini all"
+    "chrome 64",
+    "edge 79",
+    "firefox 67",
+    "opera 51",
+    "safari 12"
   ],
   "scripts": {
     "dev": "next dev",
@@ -34,10 +36,6 @@
   },
   "packageManager": "yarn@4.0.0",
   "devDependencies": {
-    "@babel/core": "^7.23.2",
-    "@babel/preset-env": "^7.23.2",
-    "@types/babel__core": "^7",
-    "@types/babel__preset-env": "^7",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.6.2"

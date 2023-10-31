@@ -359,7 +359,12 @@ export default function Main({ slug }: { slug: string }): any {
                     state: 'Declined',
                     isActive: true,
                   },
-                  undefined
+                  [
+                    null,
+                    () => {
+                      setModal2Display(false);
+                    },
+                  ]
                 );
               }}
               style={{
@@ -391,7 +396,12 @@ export default function Main({ slug }: { slug: string }): any {
                     state: 'Approved',
                     isActive: true,
                   },
-                  undefined
+                  [
+                    null,
+                    () => {
+                      setModal2Display(false);
+                    },
+                  ]
                 );
               }}
               style={{
