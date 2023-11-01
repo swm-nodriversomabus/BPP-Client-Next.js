@@ -1,5 +1,4 @@
 import BackButton from './backButton';
-import StatusBar from './statusBar';
 import MoreButton from './moreButton';
 import SegmentControl from './segmentControl';
 import Image from 'next/image';
