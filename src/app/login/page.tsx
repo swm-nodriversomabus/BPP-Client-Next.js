@@ -17,19 +17,25 @@ export default function Home(): any {
   const [logout, setLogout] = useState(null);
 
   const kakaoLogin = () => {
-    localStorage.setItem('lastchannel', 'kakao');
+    if (typeof localStorage != 'undefined')
+      localStorage.setItem('lastchannel', 'kakao');
     window.location.href = `${BASE_URL}oauth2/authorization/kakao`;
   };
   const googleLogin = () => {
-    localStorage.setItem('lastchannel', 'google');
+    if (typeof localStorage != 'undefined')
+      localStorage.setItem('lastchannel', 'google');
     window.location.href = `${BASE_URL}oauth2/authorization/google`;
   };
   const naverLogin = () => {
-    localStorage.setItem('lastchannel', 'naver');
+    if (typeof localStorage != 'undefined')
+      localStorage.setItem('lastchannel', 'naver');
     window.location.href = `${BASE_URL}oauth2/authorization/naver`;
   };
 
-  if (localStorage.getItem('welcome') == 'true') {
+  if (
+    typeof localStorage != 'undefined' &&
+    localStorage.getItem('welcome') == 'true'
+  ) {
     localStorage.removeItem('welcome');
     switch (localStorage.getItem('lastchannel')) {
       case 'kakao':
