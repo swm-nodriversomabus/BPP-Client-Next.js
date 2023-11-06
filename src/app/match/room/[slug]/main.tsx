@@ -74,12 +74,7 @@ export default function Main({ slug }: { slug: string }): any {
 
   return (
     <>
-      <Navbar back=" ">
-        &nbsp;
-        {myStatus && 'text' in myStatus
-          ? (myStatus as { text: string }).text
-          : ''}
-      </Navbar>
+      <Navbar back=" ">&nbsp;</Navbar>
       <ContentBox
         styled={{
           height: '100%',
@@ -91,7 +86,17 @@ export default function Main({ slug }: { slug: string }): any {
       >
         <MatchScrollView>
           <MapPreview />
-          <MatchTitle category="🎒여행">
+          <MatchTitle
+            category={
+              matchInfo && 'type' in matchInfo
+                ? matchInfo.type == 'TravelMate'
+                  ? '🎒여행'
+                  : matchInfo.type == 'Dining'
+                  ? '🍱식사'
+                  : '🏠숙박'
+                : ''
+            }
+          >
             {matchInfo && 'title' in matchInfo
               ? (matchInfo as { title: string }).title
               : ''}
@@ -264,6 +269,10 @@ export default function Main({ slug }: { slug: string }): any {
           <></>
         ) : myStatus &&
           'text' in myStatus &&
+          (myStatus as { text: string }).text == 'Approved' ? (
+          <></>
+        ) : myStatus &&
+          'text' in myStatus &&
           (myStatus as { text: string }).text == 'Pending' ? (
           <></>
         ) : (
@@ -271,6 +280,9 @@ export default function Main({ slug }: { slug: string }): any {
             onClick={() => {
               setModalDisplay(true);
             }}
+            maxMember={
+              matchInfo && 'maxMember' in matchInfo ? matchInfo.maxMember : ''
+            }
           />
         )}
         <ModalView
@@ -290,9 +302,20 @@ export default function Main({ slug }: { slug: string }): any {
               [
                 null,
                 (json: JSON) => {
-                  if (json && 'chatroomId' in json) {
-                    router.push(`../../talk/room/${json.chatroomId}`);
-                  }
+                  api(`matching/${slug}`, 'get', {}, [matchInfo, setMatchInfo]);
+                  api(`matching/${slug}/status`, 'get', {}, [
+                    myStatus,
+                    setMyStatus,
+                  ]);
+                  api(`matching/${slug}/approved`, 'get', {}, [
+                    approved,
+                    setApproved,
+                  ]);
+                  api(`matching/${slug}/pending`, 'get', {}, [
+                    pending,
+                    setPending,
+                  ]);
+                  setModalDisplay(false);
                 },
               ]
             );
@@ -362,6 +385,22 @@ export default function Main({ slug }: { slug: string }): any {
                   [
                     null,
                     () => {
+                      api(`matching/${slug}`, 'get', {}, [
+                        matchInfo,
+                        setMatchInfo,
+                      ]);
+                      api(`matching/${slug}/status`, 'get', {}, [
+                        myStatus,
+                        setMyStatus,
+                      ]);
+                      api(`matching/${slug}/approved`, 'get', {}, [
+                        approved,
+                        setApproved,
+                      ]);
+                      api(`matching/${slug}/pending`, 'get', {}, [
+                        pending,
+                        setPending,
+                      ]);
                       setModal2Display(false);
                     },
                   ]
