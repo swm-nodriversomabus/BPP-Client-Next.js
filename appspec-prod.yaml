@@ -5,11 +5,11 @@ Resources:
       Properties:
         TaskDefinition: ""
         LoadBalancerInfo:
-            ContainerName: "dev-yeohaeng-web"
+            ContainerName: "prod-yeohaeng-web"
             ContainerPort: 80
         CapacityProviderStrategy: [
             {
-                "CapacityProvider": "dev-party-web-asg",
+                "CapacityProvider": "Infra-ECS-Cluster-prod-party-web-cl-b38a65f4-ECSAutoScalingGroup-15M3NVAQVFQ0Q",
                 "Base": 0,
                 "Weight": 1
             }
