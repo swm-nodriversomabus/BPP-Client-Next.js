@@ -21,8 +21,24 @@ export default function Main(): any {
   const [title, setTitle] = useState('함께 여행해요');
   const [place, setPlace] = useState('파리');
   const [content, setContent] = useState('');
-  const [startDate, setStartDate] = useState('2023-09-04 12:00');
-  const [endDate, setEndDate] = useState('2023-09-04 12:00');
+  const [startDate, setStartDate] = useState(
+    `${new Date().getFullYear()}-${(101 + new Date().getMonth())
+      .toString()
+      .substring(1)}-${(100 + new Date().getDate()).toString().substring(1)}T${(
+      100 + new Date().getHours()
+    )
+      .toString()
+      .substring(1)}:${(100 + new Date().getMinutes()).toString().substring(1)}`
+  );
+  const [endDate, setEndDate] = useState(
+    `${new Date().getFullYear()}-${(101 + new Date().getMonth())
+      .toString()
+      .substring(1)}-${(100 + new Date().getDate()).toString().substring(1)}T${(
+      100 + new Date().getHours()
+    )
+      .toString()
+      .substring(1)}:${(100 + new Date().getMinutes()).toString().substring(1)}`
+  );
   const [maxMember, setMaxMember] = useState('3');
 
   const [alcoholAmount, setAlcoholAmount] = useState(0);
@@ -173,7 +189,7 @@ export default function Main(): any {
         <div className="newMatchSection">제목</div>
         <input
           onChange={(e: any) => {
-            setTitle(e.target.value);
+            setTitle(e.target.value.substring(0, 30));
           }}
           autoComplete="off"
           className="MatchInputText"
@@ -183,7 +199,7 @@ export default function Main(): any {
         <div className="newMatchSection">여행지</div>
         <input
           onChange={(e: any) => {
-            setPlace(e.target.value);
+            setPlace(e.target.value.substring(0, 30));
           }}
           autoComplete="off"
           className="MatchInputText"
@@ -192,8 +208,10 @@ export default function Main(): any {
         />
         <div className="newMatchSection">여행기간</div>
         <input
+          type="datetime-local"
           onChange={(e: any) => {
             setStartDate(e.target.value);
+            console.log(e.target.value);
           }}
           autoComplete="off"
           className="MatchInputText"
@@ -201,6 +219,7 @@ export default function Main(): any {
           value={startDate}
         />
         <input
+          type="datetime-local"
           onChange={(e: any) => {
             setEndDate(e.target.value);
           }}
@@ -212,7 +231,9 @@ export default function Main(): any {
         <div className="newMatchSection">모집 인원</div>
         <input
           onChange={(e: any) => {
-            setMaxMember(e.target.value);
+            setMaxMember(
+              e.target.value.replaceAll(/[^\d]/gi, '').substring(0, 3)
+            );
           }}
           autoComplete="off"
           className="MatchInputText"
@@ -253,7 +274,7 @@ export default function Main(): any {
         <div className="newMatchSection">세부내용</div>
         <textarea
           onChange={(e: any) => {
-            setContent(e.target.value);
+            setContent(e.target.value.substring(0, 3000));
           }}
           className="MatchText"
           placeholder="매칭에 대한 자세한 이야기를 써보세요"

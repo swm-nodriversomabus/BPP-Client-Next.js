@@ -18,6 +18,7 @@ export default function Home({
   prevStep: () => void;
   nextStep: () => void;
 }): any {
+  const [confirmFailed, setConfirmFailed] = useState(false);
   const [nameValue, setNameValue] = useState('');
   const [phoneValue, setPhoneValue] = useState('');
   const [confirmValue, setConfirmValue] = useState('');
@@ -127,6 +128,7 @@ export default function Home({
           onChange={(e: any) => {
             setNameValue(e.target.value);
           }}
+          maxLength={30}
         />
         <div
           style={{
@@ -156,14 +158,20 @@ export default function Home({
             borderRadius: '4px',
             fontSize: '15px',
           }}
-          value={phoneValue}
+          value={`${phoneValue.substring(0, 3)}${
+            phoneValue.length > 3 ? '-' : ''
+          }${phoneValue.substring(3, 7)}${
+            phoneValue.length > 7 ? '-' : ''
+          }${phoneValue.substring(7, 11)}`}
           onChange={(e: any) => {
-            setPhoneValue(e.target.value.replaceAll(/[^\d]/gi, ''));
+            setPhoneValue(
+              e.target.value.replaceAll(/[^\d]/gi, '').substring(0, 11)
+            );
           }}
         />
         <button
           onClick={() => {
-            if (!confirmStep) {
+            if (!confirmStep && phoneValue.length >= 11) {
               api(`sms/code/${phoneValue}`, 'get', {}, [
                 null,
                 (json: any) => {
@@ -183,7 +191,9 @@ export default function Home({
             border: 'none',
             borderRadius: '8px',
             backgroundColor:
-              phoneValue && confirmStep == 0 ? '#8638EA' : '#D2D2D1',
+              phoneValue.length >= 11 && confirmStep == 0
+                ? '#8638EA'
+                : '#D2D2D1',
             color: '#fff',
             fontSize: '15px',
           }}
@@ -206,24 +216,34 @@ export default function Home({
           }}
           value={confirmValue}
           onChange={(e: any) => {
-            setConfirmValue(e.target.value.replaceAll(/[^\d]/gi, ''));
+            setConfirmValue(
+              e.target.value.replaceAll(/[^\d]/gi, '').substring(0, 6)
+            );
           }}
         />
         <button
           onClick={() => {
-            api(`sms/code`, 'post', { phone: phoneValue, code: confirmValue }, [
-              null,
-              (json: any) => {
-                if (
-                  'api_response_code' in json &&
-                  json.api_response_code == 400
-                ) {
-                  alert('다시 인증해주세요');
-                } else if (!('api_response_code' in json)) {
-                  setConfirmStep(2);
-                }
-              },
-            ]);
+            if (confirmValue.length >= 6) {
+              api(
+                `sms/code`,
+                'post',
+                { phone: phoneValue, code: confirmValue },
+                [
+                  null,
+                  (json: any) => {
+                    if (
+                      'api_response_code' in json &&
+                      json.api_response_code == 400
+                    ) {
+                      setConfirmFailed(true);
+                      setConfirmValue('');
+                    } else if (!('api_response_code' in json)) {
+                      setConfirmStep(2);
+                    }
+                  },
+                ]
+              );
+            }
           }}
           style={{
             display: confirmStep == 1 ? 'inline-block' : 'none',
@@ -233,13 +253,29 @@ export default function Home({
             width: '88px',
             border: 'none',
             borderRadius: '8px',
-            backgroundColor: confirmValue ? '#8638EA' : '#D2D2D1',
+            backgroundColor: confirmValue.length >= 6 ? '#8638EA' : '#D2D2D1',
             color: '#fff',
             fontSize: '15px',
           }}
         >
           확인
         </button>
+        <div
+          style={{
+            display: confirmFailed ? 'inline-block' : 'none',
+            marginLeft: '20px',
+            color: '#ee2222',
+            fontSize: '14px',
+            width: '100%',
+            position: 'relative',
+            fontWeight: 'bold',
+            lineHeight: '30px',
+            height: '30px',
+            marginTop: '0px',
+          }}
+        >
+          인증번호가 일치하지 않습니다.
+        </div>
         <div style={{ width: '100%', height: '100px' }} />
       </ContentBox>
       <button

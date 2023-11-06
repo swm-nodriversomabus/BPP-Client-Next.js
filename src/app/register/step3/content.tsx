@@ -20,7 +20,7 @@ export default function Home({
   nextStep: () => void;
 }): any {
   const [genderValue, setGenderValue] = useState(0);
-  const [birthValue, setBirthValue] = useState('');
+  const [birthValue, setBirthValue] = useState('1980');
   const router = useRouter();
   return (
     <>
@@ -143,7 +143,7 @@ export default function Home({
         >
           생일(년도)
         </div>
-        <input
+        <select
           style={{
             boxSizing: 'border-box',
             width: 'calc(100% - 40px)',
@@ -158,9 +158,59 @@ export default function Home({
           placeholder="태어난 년도를 입력하세요"
           value={birthValue}
           onChange={(e: any) => {
-            setBirthValue(e.target.value.replaceAll(/[^\d]/gi, ''));
+            setBirthValue(e.target.value);
           }}
-        />
+        >
+          {[
+            '1980 이전',
+            1981,
+            1982,
+            1983,
+            1984,
+            1985,
+            1986,
+            1987,
+            1988,
+            1989,
+            2080,
+            1990,
+            1991,
+            1992,
+            1993,
+            1994,
+            1995,
+            1996,
+            1997,
+            1998,
+            1999,
+            2000,
+            2001,
+            2002,
+            2003,
+            2004,
+            2005,
+            2006,
+            2007,
+            2008,
+            2009,
+            2010,
+            2011,
+            2012,
+            2013,
+            2014,
+            2015,
+            2016,
+            2017,
+            2018,
+            2019,
+            2020,
+            2021,
+            2022,
+            2023,
+          ].map((item: any, index: number) => {
+            return <option key={index}>{item}</option>;
+          })}
+        </select>
         {/* <div
           style={{
             marginLeft: '20px',
@@ -245,9 +295,9 @@ export default function Home({
       </button>
       <button
         onClick={() => {
-          if (genderValue && birthValue) {
+          if (genderValue) {
             setValues('gender', genderValue == 1 ? 'Male' : 'Female');
-            setValues('birth', birthValue);
+            setValues('birth', birthValue.replaceAll(/[^\d]/gi, ''));
             setValues('next', '1');
             //router.push('../../');
           }

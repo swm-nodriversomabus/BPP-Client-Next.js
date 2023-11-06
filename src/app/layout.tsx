@@ -2,6 +2,14 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Script from 'next/script';
+import localFont from 'next/font/local';
+
+const Pretendard = localFont({
+  src: '../../public/PretendardVariable.woff2',
+  display: 'swap',
+  weight: '45 920',
+  variable: '--font-preten',
+});
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -16,8 +24,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body style={{ background: '#fff' }} className={inter.className}>
+    <html className={Pretendard.className} lang="en">
+      <body style={{ background: '#fff' }}>
         <div
           style={{
             display: 'flex',
@@ -30,10 +38,6 @@ export default function RootLayout({
           {children}
         </div>
       </body>
-      <Script
-        strategy="beforeInteractive"
-        src="https://unpkg.com/@ungap/global-this@0.4.4/min.js"
-      ></Script>
     </html>
   );
 }
