@@ -1,0 +1,96 @@
+{
+    "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:665890561444:task-definition/prod-yeohaeng-web:1",
+    "containerDefinitions": [
+        {
+            "name": "prod-yeohaeng-web",
+            "image": "665890561444.dkr.ecr.ap-northeast-2.amazonaws.com/prod-yeohaeng-web:latest",
+            "cpu": 0,
+            "memory": 499,
+            "links": [
+                "nextjs-prod"
+            ],
+            "portMappings": [
+                {
+                    "containerPort": 80,
+                    "hostPort": 0,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true,
+            "entryPoint": [],
+            "command": [],
+            "environment": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/prod-yeohaeng-web",
+                    "awslogs-region": "ap-northeast-2",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            }
+        },
+        {
+            "name": "nextjs-prod",
+            "image": "665890561444.dkr.ecr.ap-northeast-2.amazonaws.com/nextjs-prod:latest",
+            "cpu": 0,
+            "memory": 500,
+            "portMappings": [],
+            "essential": true,
+            "entryPoint": [],
+            "command": [],
+            "environment": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/prod-yeohaeng-web",
+                    "awslogs-region": "ap-northeast-2",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            }
+        }
+    ],
+    "family": "prod-yeohaeng-web",
+    "taskRoleArn": "arn:aws:iam::665890561444:role/ecsTaskExecutionRole",
+    "executionRoleArn": "arn:aws:iam::665890561444:role/ecsTaskExecutionRole",
+    "networkMode": "bridge",
+    "revision": 1,
+    "volumes": [],
+    "status": "ACTIVE",
+    "requiresAttributes": [
+        {
+            "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+        },
+        {
+            "name": "ecs.capability.execution-role-awslogs"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.ecr-auth"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.task-iam-role"
+        },
+        {
+            "name": "ecs.capability.execution-role-ecr-pull"
+        }
+    ],
+    "placementConstraints": [],
+    "compatibilities": [
+        "EXTERNAL",
+        "EC2"
+    ],
+    "requiresCompatibilities": [
+        "EC2"
+    ],
+    "cpu": "256",
+    "memory": "512",
+    "registeredAt": "2023-10-31T10:35:57.561Z",
+    "registeredBy": "arn:aws:iam::665890561444:user/soma1439",
+    "tags": []
+}
