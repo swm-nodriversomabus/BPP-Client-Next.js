@@ -57,6 +57,7 @@ export default function Home(): any {
     }).then((res) => {
       console.log(res.status);
       if (res.status == 200) {
+        localStorage.setItem('welcome', 'true');
         router.push('../login');
         return;
       }

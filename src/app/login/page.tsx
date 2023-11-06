@@ -14,18 +14,39 @@ import { useState } from 'react';
 
 export default function Home(): any {
   const BASE_URL = process.env.NEXT_BASE_URL;
+  const [logout, setLogout] = useState(null);
 
   const kakaoLogin = () => {
+    localStorage.setItem('lastchannel', 'kakao');
     window.location.href = `${BASE_URL}oauth2/authorization/kakao`;
   };
   const googleLogin = () => {
+    localStorage.setItem('lastchannel', 'google');
     window.location.href = `${BASE_URL}oauth2/authorization/google`;
   };
   const naverLogin = () => {
+    localStorage.setItem('lastchannel', 'naver');
     window.location.href = `${BASE_URL}oauth2/authorization/naver`;
   };
 
-  const [logout, setLogout] = useState(null);
+  if (localStorage.getItem('welcome') == 'true') {
+    localStorage.removeItem('welcome');
+    switch (localStorage.getItem('lastchannel')) {
+      case 'kakao':
+        kakaoLogin();
+        break;
+      case 'google':
+        googleLogin();
+        break;
+      case 'naver':
+        naverLogin();
+        break;
+      case null:
+        break;
+    }
+    return <></>;
+  }
+
   api('logout', 'post', {}, [logout, setLogout]);
 
   if (logout === null) {
