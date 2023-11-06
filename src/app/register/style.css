@@ -1,0 +1,20 @@
+.CustomSelect {
+  box-sizing: border-box;
+  padding-left: 20px;
+  padding-right: 20px;
+  width: 100%;
+}
+
+.CustomOption {
+  position: relative;
+  height: 40px;
+  line-height: 40px;
+  color: #212121;
+  font-size: 15px;
+  cursor: pointer;
+  & > img {
+    position: absolute;
+    right: 0px;
+    top: 8.5px;
+  }
+}
