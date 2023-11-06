@@ -9,7 +9,7 @@ Resources:
             ContainerPort: 80
         CapacityProviderStrategy: [
             {
-                "CapacityProvider": "Infra-ECS-Cluster-prod-party-web-cl-b38a65f4-ECSAutoScalingGroup-15M3NVAQVFQ0Q",
+                "CapacityProvider": "Infra-ECS-Cluster-prod-party-web-cl-b38a65f4-EC2CapacityProvider-zUWqWBuyVab4",
                 "Base": 0,
                 "Weight": 1
             }
