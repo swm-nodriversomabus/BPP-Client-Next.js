@@ -85,7 +85,7 @@ export default function Main(): any {
       'matching',
       'post',
       {
-        type: type == 0 ? 'Travelmate' : type == 1 ? 'Dining' : 'Accommodation',
+        type: type == 0 ? 'TravelMate' : type == 1 ? 'Dining' : 'Accommodation',
         title: title,
         place: place,
         content: content,
