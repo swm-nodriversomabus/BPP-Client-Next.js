@@ -312,19 +312,6 @@ export default function Main({ slug }: { slug: string }): any {
                   setMyStatus(null);
                   setApproved(null);
                   setPending(null);
-                  api(`matching/${slug}`, 'get', {}, [matchInfo, setMatchInfo]);
-                  api(`matching/${slug}/status`, 'get', {}, [
-                    myStatus,
-                    setMyStatus,
-                  ]);
-                  api(`matching/${slug}/approved`, 'get', {}, [
-                    approved,
-                    setApproved,
-                  ]);
-                  api(`matching/${slug}/pending`, 'get', {}, [
-                    pending,
-                    setPending,
-                  ]);
                   setModalDisplay(false);
                 },
               ]
@@ -383,10 +370,6 @@ export default function Main({ slug }: { slug: string }): any {
           >
             <button
               onClick={() => {
-                setMatchInfo(null);
-                setMyStatus(null);
-                setApproved(null);
-                setPending(null);
                 api(
                   'matching/application',
                   'put',
@@ -399,22 +382,10 @@ export default function Main({ slug }: { slug: string }): any {
                   [
                     null,
                     () => {
-                      api(`matching/${slug}`, 'get', {}, [
-                        matchInfo,
-                        setMatchInfo,
-                      ]);
-                      api(`matching/${slug}/status`, 'get', {}, [
-                        myStatus,
-                        setMyStatus,
-                      ]);
-                      api(`matching/${slug}/approved`, 'get', {}, [
-                        approved,
-                        setApproved,
-                      ]);
-                      api(`matching/${slug}/pending`, 'get', {}, [
-                        pending,
-                        setPending,
-                      ]);
+                      setMatchInfo(null);
+                      setMyStatus(null);
+                      setApproved(null);
+                      setPending(null);
                       setModal2Display(false);
                     },
                   ]
