@@ -211,7 +211,9 @@ export default function Main(): any {
           type="datetime-local"
           onChange={(e: any) => {
             setStartDate(e.target.value);
-            console.log(e.target.value);
+            if (e.target.value > endDate) {
+              setEndDate(e.target.value);
+            }
           }}
           autoComplete="off"
           className="MatchInputText"
@@ -222,6 +224,9 @@ export default function Main(): any {
           type="datetime-local"
           onChange={(e: any) => {
             setEndDate(e.target.value);
+            if (startDate > e.target.value) {
+              setStartDate(e.target.value);
+            }
           }}
           autoComplete="off"
           className="MatchInputText"
