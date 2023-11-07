@@ -123,18 +123,18 @@ export default function Main({ slug }: { slug: string }): any {
                 : '00시'
             }
             endDate={
-              matchInfo && 'startDate' in matchInfo
-                ? (matchInfo as { startDate: number[] }).startDate[0] +
+              matchInfo && 'endDate' in matchInfo
+                ? (matchInfo as { endDate: number[] }).endDate[0] +
                   '년 ' +
-                  (matchInfo as { startDate: number[] }).startDate[1] +
+                  (matchInfo as { endDate: number[] }).endDate[1] +
                   '월 ' +
-                  (matchInfo as { startDate: number[] }).startDate[2] +
+                  (matchInfo as { endDate: number[] }).endDate[2] +
                   '일'
                 : '0000월 00월 00일'
             }
             endTime={
-              matchInfo && 'startDate' in matchInfo
-                ? (matchInfo as { startDate: number[] }).startDate[3] + '시'
+              matchInfo && 'endDate' in matchInfo
+                ? (matchInfo as { endDate: number[] }).endDate[3] + '시'
                 : '00시'
             }
           />
@@ -280,8 +280,14 @@ export default function Main({ slug }: { slug: string }): any {
             onClick={() => {
               setModalDisplay(true);
             }}
+            status={myStatus && 'text' in myStatus ? myStatus.text : ''}
             maxMember={
               matchInfo && 'maxMember' in matchInfo ? matchInfo.maxMember : ''
+            }
+            currentMember={
+              matchInfo && 'currentMember' in matchInfo
+                ? matchInfo.currentMember
+                : ''
             }
           />
         )}
@@ -302,6 +308,10 @@ export default function Main({ slug }: { slug: string }): any {
               [
                 null,
                 (json: JSON) => {
+                  setMatchInfo(null);
+                  setMyStatus(null);
+                  setApproved(null);
+                  setPending(null);
                   api(`matching/${slug}`, 'get', {}, [matchInfo, setMatchInfo]);
                   api(`matching/${slug}/status`, 'get', {}, [
                     myStatus,
@@ -373,6 +383,10 @@ export default function Main({ slug }: { slug: string }): any {
           >
             <button
               onClick={() => {
+                setMatchInfo(null);
+                setMyStatus(null);
+                setApproved(null);
+                setPending(null);
                 api(
                   'matching/application',
                   'put',

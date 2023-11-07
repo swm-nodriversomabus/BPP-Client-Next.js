@@ -122,7 +122,7 @@ export default function Home(): any {
                       title={item.title}
                       place={item.place}
                       period={`${item.startDate[0]}.${item.startDate[1]}.${item.startDate[2]}~${item.endDate[0]}.${item.endDate[1]}.${item.endDate[2]}`}
-                      currentUser={1}
+                      currentUser={item.currentMember}
                       maxUser={item.maxMember}
                       key={1}
                     />
@@ -145,7 +145,7 @@ export default function Home(): any {
                       title={item.title}
                       place={item.place}
                       period={`${item.startDate[0]}.${item.startDate[1]}.${item.startDate[2]}~${item.endDate[0]}.${item.endDate[1]}.${item.endDate[2]}`}
-                      currentUser={1}
+                      currentUser={item.currentMember}
                       maxUser={item.maxMember}
                       key={1}
                     />
@@ -168,7 +168,7 @@ export default function Home(): any {
                       title={item.title}
                       place={item.place}
                       period={`${item.startDate[0]}.${item.startDate[1]}.${item.startDate[2]}~${item.endDate[0]}.${item.endDate[1]}.${item.endDate[2]}`}
-                      currentUser={1}
+                      currentUser={item.currentMember}
                       maxUser={item.maxMember}
                       key={1}
                     />
@@ -206,7 +206,7 @@ export default function Home(): any {
                       article={item.content}
                       place={item.place}
                       period={`${item.startDate[0]}.${item.startDate[1]}.${item.startDate[2]}~${item.endDate[0]}.${item.endDate[1]}.${item.endDate[2]}`}
-                      currentUser={1}
+                      currentUser={item.currentMember}
                       maxUser={item.maxMember}
                       key={1}
                       hidden={!flag}
