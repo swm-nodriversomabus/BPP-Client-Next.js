@@ -36,13 +36,13 @@ export default function Home(): any {
           <Image src={mainbanner1} alt="banner" />
           <Image src={mainbanner1} alt="banner" />
         </FlickView>
-        <div className="SectionTitle">추천 패키지</div>
+        {/* <div className="SectionTitle">추천 패키지</div>
         <FlickView>
           <Image src={packagebanner1} alt="banner" />
           <Image src={packagebanner1} alt="banner" />
           <Image src={packagebanner1} alt="banner" />
           <Image src={packagebanner1} alt="banner" />
-        </FlickView>
+        </FlickView> */}
         {/* 승인된 매칭 */}
         {isMap(recommendMatch) ? (
           <>
@@ -69,7 +69,7 @@ export default function Home(): any {
           <></>
         )}
 
-        <div className="SectionTitle">추천 메이트</div>
+        {/* <div className="SectionTitle">추천 메이트</div>
         <FlickView>
           <Image src={matebanner1} alt="banner" />
           <Image src={matebanner1} alt="banner" />
@@ -84,7 +84,7 @@ export default function Home(): any {
           <Image src={accombanner1} alt="banner" />
           <Image src={accombanner1} alt="banner" />
           <Image src={accombanner1} alt="banner" />
-        </FlickView>
+        </FlickView> */}
       </ContentBox>
       <Tabbar></Tabbar>
     </>
