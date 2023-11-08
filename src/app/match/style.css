@@ -173,7 +173,6 @@
       & > div:nth-child(2) {
         overflow: hidden;
         text-overflow: ellipsis;
-        background-color: #505050;
         max-width: calc(100% - 60px);
         margin-left: 0px;
         display: inline-block;
