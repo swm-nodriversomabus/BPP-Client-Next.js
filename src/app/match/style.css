@@ -160,6 +160,8 @@
       height: fit-content;
       border-bottom: solid 8px #f5f5f7;
       & > div:nth-child(1) {
+        overflow: hidden;
+        min-width: 60px;
         margin-top: 16px;
         color: #909090;
         display: inline-block;
@@ -169,7 +171,11 @@
         font-weight: bold;
       }
       & > div:nth-child(2) {
-        margin-left: 8px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        background-color: #505050;
+        max-width: calc(100% - 60px);
+        margin-left: 0px;
         display: inline-block;
         height: 22px;
         line-height: 22px;
