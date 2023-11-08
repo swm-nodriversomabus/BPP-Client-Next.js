@@ -263,34 +263,21 @@ export default function Main({ slug }: { slug: string }): any {
             <></>
           )}
         </MatchScrollView>
-        {myStatus &&
-        'text' in myStatus &&
-        (myStatus as { text: string }).text == 'Owner' ? (
-          <></>
-        ) : myStatus &&
-          'text' in myStatus &&
-          (myStatus as { text: string }).text == 'Approved' ? (
-          <></>
-        ) : myStatus &&
-          'text' in myStatus &&
-          (myStatus as { text: string }).text == 'Pending' ? (
-          <></>
-        ) : (
-          <MatchBar
-            onClick={() => {
-              setModalDisplay(true);
-            }}
-            status={myStatus && 'text' in myStatus ? myStatus.text : ''}
-            maxMember={
-              matchInfo && 'maxMember' in matchInfo ? matchInfo.maxMember : ''
-            }
-            currentMember={
-              matchInfo && 'currentMember' in matchInfo
-                ? matchInfo.currentMember
-                : ''
-            }
-          />
-        )}
+
+        <MatchBar
+          onClick={() => {
+            setModalDisplay(true);
+          }}
+          status={myStatus && 'text' in myStatus ? myStatus.text : ''}
+          maxMember={
+            matchInfo && 'maxMember' in matchInfo ? matchInfo.maxMember : ''
+          }
+          currentMember={
+            matchInfo && 'currentMember' in matchInfo
+              ? matchInfo.currentMember
+              : ''
+          }
+        />
         <ModalView
           display={modalDisplay}
           setDisplay={setModalDisplay}
@@ -423,6 +410,10 @@ export default function Main({ slug }: { slug: string }): any {
                   [
                     null,
                     () => {
+                      setMatchInfo(null);
+                      setMyStatus(null);
+                      setApproved(null);
+                      setPending(null);
                       setModal2Display(false);
                     },
                   ]
