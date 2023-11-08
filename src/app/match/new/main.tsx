@@ -86,8 +86,8 @@ export default function Main(): any {
       'post',
       {
         type: type == 0 ? 'TravelMate' : type == 1 ? 'Dining' : 'Accommodation',
-        title: title,
-        place: place,
+        title: title ? title : '함께 여행해요',
+        place: place ? place : '파리',
         content: content,
         startDate: startDate.replace(' ', 'T') + ':00Z',
         endDate: endDate.replace(' ', 'T') + ':00Z',
@@ -189,7 +189,18 @@ export default function Main(): any {
         <div className="newMatchSection">제목</div>
         <input
           onChange={(e: any) => {
-            setTitle(e.target.value.substring(0, 30));
+            setTitle(
+              e.target.value.replaceAll(/[\t&|="';]/gi, '').substring(0, 30)
+            );
+          }}
+          onBlur={(e: any) => {
+            if (e.target.value.replaceAll(/[\s]/gi, '').length == 0) {
+              setTitle('');
+            } else {
+              setTitle(
+                e.target.value.replaceAll(/[\t&|="';]/gi, '').substring(0, 30)
+              );
+            }
           }}
           autoComplete="off"
           className="MatchInputText"
@@ -209,7 +220,7 @@ export default function Main(): any {
         <div className="newMatchSection">여행기간</div>
         <input
           type="datetime-local"
-          onChange={(e: any) => {
+          onBlur={(e: any) => {
             setStartDate(e.target.value);
             if (e.target.value > endDate) {
               setEndDate(e.target.value);
@@ -222,7 +233,7 @@ export default function Main(): any {
         />
         <input
           type="datetime-local"
-          onChange={(e: any) => {
+          onBlur={(e: any) => {
             setEndDate(e.target.value);
             if (startDate > e.target.value) {
               setStartDate(e.target.value);
@@ -239,6 +250,15 @@ export default function Main(): any {
             setMaxMember(
               e.target.value.replaceAll(/[^\d]/gi, '').substring(0, 3)
             );
+          }}
+          onBlur={(e: any) => {
+            if (Number(e.target.value.replaceAll(/[^\d]/gi, '')) <= 2) {
+              setMaxMember('3');
+            } else {
+              setMaxMember(
+                e.target.value.replaceAll(/[^\d]/gi, '').substring(0, 3)
+              );
+            }
           }}
           autoComplete="off"
           className="MatchInputText"
@@ -279,7 +299,9 @@ export default function Main(): any {
         <div className="newMatchSection">세부내용</div>
         <textarea
           onChange={(e: any) => {
-            setContent(e.target.value.substring(0, 3000));
+            setContent(
+              e.target.value.replaceAll(/[\t&|="';]/gi, '').substring(0, 3000)
+            );
           }}
           className="MatchText"
           placeholder="매칭에 대한 자세한 이야기를 써보세요"
