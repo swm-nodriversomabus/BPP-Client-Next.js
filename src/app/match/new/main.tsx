@@ -220,10 +220,12 @@ export default function Main(): any {
         <div className="newMatchSection">여행기간</div>
         <input
           type="datetime-local"
-          onBlur={(e: any) => {
+          onChange={(e: any) => {
             setStartDate(e.target.value);
-            if (e.target.value > endDate) {
-              setEndDate(e.target.value);
+          }}
+          onBlur={() => {
+            if (startDate > endDate) {
+              setEndDate(startDate);
             }
           }}
           autoComplete="off"
@@ -233,10 +235,12 @@ export default function Main(): any {
         />
         <input
           type="datetime-local"
-          onBlur={(e: any) => {
+          onChange={(e: any) => {
             setEndDate(e.target.value);
-            if (startDate > e.target.value) {
-              setStartDate(e.target.value);
+          }}
+          onBlur={() => {
+            if (startDate > endDate) {
+              setStartDate(endDate);
             }
           }}
           autoComplete="off"
@@ -262,7 +266,7 @@ export default function Main(): any {
           }}
           autoComplete="off"
           className="MatchInputText"
-          placeholder="선택하세요"
+          placeholder="입력하세요"
           value={maxMember}
         />
         <div className="newMatchSection">여행 스타일</div>

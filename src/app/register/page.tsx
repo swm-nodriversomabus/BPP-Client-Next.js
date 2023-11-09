@@ -53,6 +53,7 @@ export default function Home(): any {
         gender: genderValue,
         age: birthValue,
         phone: phoneValue,
+        stateMessage: '함께 여행해요',
       }),
     }).then((res) => {
       console.log(res.status);

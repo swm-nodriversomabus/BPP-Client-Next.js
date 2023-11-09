@@ -126,7 +126,9 @@ export default function Home({
           placeholder="본명을 입력하세요"
           value={nameValue}
           onChange={(e: any) => {
-            setNameValue(e.target.value);
+            setNameValue(
+              e.target.value.replaceAll(/[^0-9a-zA-Zㄱ-ㅎ가-힣 ]/gi, '')
+            );
           }}
           maxLength={30}
         />
@@ -175,9 +177,9 @@ export default function Home({
               api(`sms/code/${phoneValue}`, 'get', {}, [
                 null,
                 (json: any) => {
-                  if ('api_response_code' in json) {
-                    return;
-                  }
+                  // if ('api_response_code' in json) {
+                  //   return;
+                  // }
                   setConfirmStep(1);
                 },
               ]);
