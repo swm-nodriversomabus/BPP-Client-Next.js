@@ -175,9 +175,9 @@ export default function Home({
               api(`sms/code/${phoneValue}`, 'get', {}, [
                 null,
                 (json: any) => {
-                  if ('api_response_code' in json) {
-                    return;
-                  }
+                  // if ('api_response_code' in json) {
+                  //   return;
+                  // }
                   setConfirmStep(1);
                 },
               ]);
