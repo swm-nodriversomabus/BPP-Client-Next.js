@@ -8,14 +8,24 @@ import Image from 'next/image';
 import { useState } from 'react';
 import api from '@/utils/api';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function Home(): any {
+  const router = useRouter();
   const [myInfo, setMyInfo] = useState<JSON | null>(null);
   api('user', 'get', {}, [myInfo, setMyInfo]);
 
   return (
     <>
-      <Navbar back=" ">마이페이지</Navbar>
+      <Navbar
+        back=" "
+        btn="편집"
+        btnOnClick={() => {
+          router.push('./mypage/edit');
+        }}
+      >
+        마이페이지
+      </Navbar>
       <ContentBox>
         <div className="MyProfile">
           <Image src={emptyProfile} width={72} alt="image" />
