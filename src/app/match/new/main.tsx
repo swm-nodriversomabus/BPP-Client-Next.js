@@ -266,7 +266,7 @@ export default function Main(): any {
           }}
           autoComplete="off"
           className="MatchInputText"
-          placeholder="선택하세요"
+          placeholder="입력하세요"
           value={maxMember}
         />
         <div className="newMatchSection">여행 스타일</div>
