@@ -277,6 +277,11 @@ export default function Main({ slug }: { slug: string }): any {
               ? matchInfo.currentMember
               : ''
           }
+          pendingMember={
+            pending && 'length' in pending
+              ? (pending as { length: number }).length
+              : 0
+          }
         />
         <ModalView
           display={modalDisplay}
