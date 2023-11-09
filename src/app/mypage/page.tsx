@@ -37,14 +37,16 @@ export default function Home(): any {
         <Link href={'./mypage/block'}>
           <div className="MyPageListItem">차단 리스트</div>
         </Link>
-        <div className="MyPageListItem">
-          내 매너레벨
-          <div className="MyPageListItemLevel">{`Lv.${
-            myInfo && 'mannerScore' in myInfo
-              ? (myInfo as { mannerScore: string }).mannerScore
-              : 0
-          }`}</div>
-        </div>
+        <Link href={'./mypage/manner'}>
+          <div className="MyPageListItem">
+            내 매너레벨
+            <div className="MyPageListItemLevel">{`Lv.${
+              myInfo && 'mannerScore' in myInfo
+                ? (myInfo as { mannerScore: string }).mannerScore
+                : 0
+            }`}</div>
+          </div>{' '}
+        </Link>
         <div className="MyPageListSeperator"></div>
         {/* <div className="MyPageListItem">계정 연동</div> */}
         <Link href={'./mypage/terms'}>
