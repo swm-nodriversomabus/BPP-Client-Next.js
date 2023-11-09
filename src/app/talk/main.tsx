@@ -66,9 +66,7 @@ export default function Main(): any {
         <FriendsList>
           <div className="section">
             <FriendsListItem
-              link={`talk/profile/${
-                myInfo && 'userId' in myInfo ? myInfo.userId : ''
-              }`}
+              link={'./mypage'}
               img={0}
               title={myInfo && 'username' in myInfo ? myInfo.username : ''}
               subtitle={
