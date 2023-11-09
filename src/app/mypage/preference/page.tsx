@@ -137,7 +137,7 @@ const MatchStyleEdit = () => {
   return (
     <>
       <Navbar
-        btn="완료"
+        btn="저장"
         back
         btnOnClick={() => {
           api(
