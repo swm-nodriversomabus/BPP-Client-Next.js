@@ -138,6 +138,7 @@ const MatchStyleEdit = () => {
     <>
       <Navbar
         btn="완료"
+        back
         btnOnClick={() => {
           api(
             'user/preference',
