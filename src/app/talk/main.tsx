@@ -77,43 +77,34 @@ export default function Main(): any {
           <hr />
           <div className="section">
             <h1>친구목록</h1>
-            {/* <h2>ㄱ</h2> */}
-
-            {/* <>
-              {friends &&
-              'length' in friends &&
-              'map' in friends &&
-              friends.length ? (
-                (friends as { map: Function }).map(
-                  (item: any, index: number) => {
-                    return (
-                      <FriendsListItem
-                        link={`talk/profile/${item.userId}`}
-                        title={item.username}
-                        subtitle={item.stateMessage}
-                        img={1}
-                        key={1}
-                      />
-                    );
-                  }
-                )
-              ) : (
-                <></>
-              )}
-            </> */}
-
             <>
-              {mapping(friends, (item: any, index: number) => {
-                return (
-                  <FriendsListItem
-                    link={`talk/profile/${item.userId}`}
-                    title={item.username}
-                    subtitle={item.stateMessage}
-                    img={1}
-                    key={1}
-                  />
-                );
-              })}
+              {friends && 'length' in friends && friends.length ? (
+                mapping(friends, (item: any, index: number) => {
+                  return (
+                    <FriendsListItem
+                      link={`talk/profile/${item.userId}`}
+                      title={item.username}
+                      subtitle={item.stateMessage}
+                      img={1}
+                      key={1}
+                    />
+                  );
+                })
+              ) : (
+                <div
+                  style={{
+                    textAlign: 'center',
+                    color: '#bbb',
+                    fontSize: '17px',
+                    fontWeight: 'bold',
+                    margin: '0',
+                    paddingTop: 'calc(50% - 110px)',
+                    cursor: 'default',
+                  }}
+                >
+                  새로운 친구를 추가해보세요
+                </div>
+              )}
             </>
           </div>
         </FriendsList>
