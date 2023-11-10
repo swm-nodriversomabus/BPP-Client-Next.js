@@ -104,7 +104,7 @@ export default function Main(): any {
             const matchingId = json.matchingId;
             api(
               `matching/${matchingId}/preference`,
-              'patch',
+              'put',
               {
                 alcoholAmount: [0, 1, 2, 3, 4][alcoholAmount],
                 mateAllowedAlcohol: [1, 0][mateAllowedAlcohol],
