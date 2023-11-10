@@ -44,9 +44,9 @@ export default function Home(): any {
         <Link href={'./mypage/preference'}>
           <div className="MyPageListItem">여행 선호도 관리</div>
         </Link>
-        <Link href={'./mypage/block'}>
+        {/* <Link href={'./mypage/block'}>
           <div className="MyPageListItem">차단 리스트</div>
-        </Link>
+        </Link> */}
         <Link href={'./mypage/manner'}>
           <div className="MyPageListItem">
             내 매너레벨
