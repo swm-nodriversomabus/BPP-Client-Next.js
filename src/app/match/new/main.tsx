@@ -107,7 +107,7 @@ export default function Main(): any {
               'put',
               {
                 alcoholAmount: [0, 1, 2, 3, 4][alcoholAmount],
-                mateAllowedAlcohol: [1, 0][mateAllowedAlcohol],
+                mateAllowedAlcohol: [1, 0, 2][mateAllowedAlcohol],
                 taste: [
                   'Cold',
                   'Hot',
@@ -122,7 +122,7 @@ export default function Main(): any {
                 preferGender: ['Male', 'Female', 'None'][preferGender],
                 smoke: [true, false][smoke],
                 preferSmoke: ['Smoke', 'Nonsmoke', 'None'][preferSmoke],
-                slang: [1, 0][slang],
+                slang: [1, 0, 2][slang],
               },
               [
                 null,

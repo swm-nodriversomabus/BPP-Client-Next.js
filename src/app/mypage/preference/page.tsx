@@ -50,7 +50,25 @@ const MatchStyleComponent = ({
 
 const MatchStyleEdit = () => {
   const [preference, setPreference] = useState(null);
-  api('user/preference', 'get', {}, [preference, setPreference]);
+  api(
+    'user/preference',
+    'test',
+    {
+      preferenceId: 0,
+      alcoholAmount: 2,
+      mateAllowedAlcohol: 2,
+      taste: 'Spicy',
+      allowedMoveTime: 60,
+      allowedPeople: 4,
+      preferGender: 'None',
+      smoke: false,
+      preferSmoke: 'None',
+      createdAt: [2023, 11, 10, 6, 21, 55, 218405475],
+      updatedAt: [2023, 11, 10, 6, 21, 55, 218407721],
+      slang: 2,
+    },
+    [preference, setPreference]
+  );
 
   const [alcoholAmount, setAlcoholAmount] = useState(0);
   const [mateAllowedAlcohol, setMateAllowedAlcohol] = useState(0);
@@ -63,46 +81,33 @@ const MatchStyleEdit = () => {
 
   useEffect(() => {
     if (!preference) return;
-    //   setAlcoholAmount(
-    //     ['a', 'b'].indexOf(
-    //       (preference as { alcoholAmount: string }).alcoholAmount
-    //     )
-    //   );
-    //   setMateAllowedAlcohol(
-    //     ['a', 'b'].indexOf(
-    //       (preference as { mateAllowedAlcohol: string }).mateAllowedAlcohol
-    //     )
-    //   );
-    //   setTaste(['a', 'b'].indexOf((preference as { taste: string }).taste));
-    //   setAllowedMoveTime(
-    //     ['a', 'b'].indexOf(
-    //       (preference as { allowedMoveTime: string }).allowedMoveTime
-    //     )
-    //   );
-    //   setPreferGender(
-    //     ['a', 'b'].indexOf((preference as { preferGender: string }).preferGender)
-    //   );
-    //   setSmoke([true, false].indexOf((preference as { smoke: boolean }).smoke));
-    //   setPreferSmoke(
-    //     ['a', 'b'].indexOf((preference as { preferSmoke: string }).preferSmoke)
-    //   );
-    //   setSmoke(['a', 'b'].indexOf((preference as { smoke: string }).smoke));
-    //   setSlang(['a', 'b'].indexOf((preference as { slang: string }).slang));
-    // }, [preference]);
 
     setAlcoholAmount((preference as { alcoholAmount: number }).alcoholAmount);
     setMateAllowedAlcohol(
-      (preference as { mateAllowedAlcohol: number }).mateAllowedAlcohol
+      [1, 0, 2].indexOf(
+        (preference as { mateAllowedAlcohol: number }).mateAllowedAlcohol
+      )
     );
-    setTaste((preference as { taste: number }).taste);
+    setTaste(
+      ['Cold', 'Hot', 'Fatty', 'Spicy', 'Scent', 'Fishy', 'Meat'].indexOf(
+        (preference as { taste: string }).taste
+      )
+    );
     setAllowedMoveTime(
-      (preference as { allowedMoveTime: number }).allowedMoveTime
+      Math.min((preference as { allowedMoveTime: number }).allowedMoveTime, 7)
     );
-    setPreferGender((preference as { preferGender: number }).preferGender);
+    setPreferGender(
+      ['Male', 'Female', 'None'].indexOf(
+        (preference as { preferGender: string }).preferGender
+      )
+    );
     setSmoke([true, false].indexOf((preference as { smoke: boolean }).smoke));
-    setPreferSmoke((preference as { preferSmoke: number }).preferSmoke);
-    setSmoke((preference as { smoke: number }).smoke);
-    setSlang((preference as { slang: number }).slang);
+    setPreferSmoke(
+      ['Smoke', 'Nonsmoke', 'None'].indexOf(
+        (preference as { preferSmoke: string }).preferSmoke
+      )
+    );
+    setSlang([1, 0, 2].indexOf((preference as { slang: number }).slang));
   }, [preference]);
 
   const setValues = (name: string, value: any) => {
@@ -145,7 +150,7 @@ const MatchStyleEdit = () => {
             'put',
             {
               alcoholAmount: [0, 1, 2, 3, 4][alcoholAmount],
-              mateAllowedAlcohol: [1, 0][mateAllowedAlcohol],
+              mateAllowedAlcohol: [1, 0, 2][mateAllowedAlcohol],
               taste: [
                 'Cold',
                 'Hot',
@@ -163,7 +168,7 @@ const MatchStyleEdit = () => {
               preferGender: ['Male', 'Female', 'None'][preferGender],
               smoke: [true, false][smoke],
               preferSmoke: ['Smoke', 'Nonsmoke', 'None'][preferSmoke],
-              slang: [1, 0][slang],
+              slang: [1, 0, 2][slang],
             },
             [
               null,
@@ -200,6 +205,7 @@ const MatchStyleEdit = () => {
             items={[
               { icon: '⭕️', desc: '있음' },
               { icon: '❌', desc: '없음' },
+              { icon: '🙌', desc: '상관없음' },
             ]}
             selected={mateAllowedAlcohol}
             setValue={(value: any) => {
@@ -250,6 +256,7 @@ const MatchStyleEdit = () => {
             items={[
               { icon: '⭕️', desc: '해도 괜찮다' },
               { icon: '❌', desc: '원하지 않음' },
+              { icon: '🙌', desc: '상관없음' },
             ]}
             selected={slang}
             setValue={(value: any) => {

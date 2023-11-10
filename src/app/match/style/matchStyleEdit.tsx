@@ -87,6 +87,7 @@ const MatchStyleEdit = (Props: { setValues: any; onDone: any }) => {
             items={[
               { icon: '⭕️', desc: '있음' },
               { icon: '❌', desc: '없음' },
+              { icon: '🙌', desc: '상관없음' },
             ]}
             selected={mateAllowedAlcohol}
             setValue={(value: any) => {
@@ -137,6 +138,7 @@ const MatchStyleEdit = (Props: { setValues: any; onDone: any }) => {
             items={[
               { icon: '⭕️', desc: '해도 괜찮다' },
               { icon: '❌', desc: '원하지 않음' },
+              { icon: '🙌', desc: '상관없음' },
             ]}
             selected={slang}
             setValue={(value: any) => {
