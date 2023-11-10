@@ -30,7 +30,7 @@ const MatchPerson: any = ({
   return (
     <div className="MatchPerson">
       <div>
-        <Image src={emptyProfile} alt="profile" />
+        <Image width={48} height={48} src={emptyProfile} alt="profile" />
       </div>
       <div>{username}</div>
       {/* <div>20대 초반</div> */}
