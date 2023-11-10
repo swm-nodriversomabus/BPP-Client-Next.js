@@ -140,6 +140,14 @@ export default function Main(): any {
 
   return stylePage ? (
     <MatchStyleEdit
+      alcoholAmount={alcoholAmount}
+      mateAllowedAlcohol={mateAllowedAlcohol}
+      taste={taste}
+      allowedMoveTime={allowedMoveTime}
+      preferGender={preferGender}
+      smoke={smoke}
+      preferSmoke={preferSmoke}
+      slang={slang}
       setValues={getValues}
       onDone={() => {
         setStylePage(false);
@@ -280,26 +288,16 @@ export default function Main(): any {
             편집
           </div>
         </div>
-        <MatchStyle>
-          <div>
-            <div>🍻</div>가벼운 술
-          </div>
-          <div>
-            <div>🍱</div>함께 식사
-          </div>
-          <div>
-            <div>🚭</div>금연
-          </div>
-          <div>
-            <div>🤬</div>바른 언어
-          </div>
-          <div>
-            <div>♂︎♀︎</div>상관없음
-          </div>
-          <div>
-            <div>🚌</div>대중교통
-          </div>
-        </MatchStyle>
+        <MatchStyle
+          alcoholAmount={alcoholAmount}
+          mateAllowedAlcohol={mateAllowedAlcohol}
+          taste={taste}
+          allowedMoveTime={allowedMoveTime}
+          preferGender={preferGender}
+          smoke={smoke}
+          preferSmoke={preferSmoke}
+          slang={slang}
+        />
         <div className="newMatchSection">세부내용</div>
         <textarea
           onChange={(e: any) => {

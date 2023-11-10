@@ -23,8 +23,8 @@ const MatchStyle: any = ({
     <div className="MatchStyle">
       <div>
         <div>
-          <div>{['🍻', '❌'][mateAllowedAlcohol]}</div>
-          {['함께 술', '술 안함'][mateAllowedAlcohol]}
+          <div>{['🍻', '❌', '🙌'][mateAllowedAlcohol]}</div>
+          {['함께 술', '술 안함', '술 가능'][mateAllowedAlcohol]}
         </div>
         <div>
           <div>{['❄️', '🔥', '🧈', '🌶️', '🧄', '🦪', '🥩'][taste]}</div>
@@ -42,15 +42,15 @@ const MatchStyle: any = ({
         </div>
         <div>
           <div>{['🚬', '🚭', '🙌'][preferSmoke]}</div>
-          {['함께 흡연', '금연', '상관없음'][preferSmoke]}
+          {['함께 흡연', '금연', '흡연가능'][preferSmoke]}
         </div>
         <div>
           <div>{['🤬', '❌', '🙌'][slang]}</div>
-          {['자유로운 언어', '바른 언어', '상관없음'][slang]}
+          {['욕설 허용', '욕설 금지', '자유 언어'][slang]}
         </div>
         <div>
-          <div>{['🤬', '❌', '🙌'][preferGender]}</div>
-          {['자유로운 언어', '바른 언어', '상관없음'][preferGender]}
+          <div>{['🙆‍♂️', '🙆‍♀️', '🙌'][preferGender]}</div>
+          {['남자만', '여자만', '모든 성별'][preferGender]}
         </div>
         <div>
           <div>
@@ -65,7 +65,7 @@ const MatchStyle: any = ({
               '택시',
               '자전거',
               '기타',
-              '선호없음',
+              '자유 이동',
             ][allowedMoveTime]
           }
         </div>

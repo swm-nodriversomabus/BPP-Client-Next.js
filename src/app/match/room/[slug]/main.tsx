@@ -21,6 +21,7 @@ import Link from 'next/link';
 import emptyProfile from 'public/empty_profile.png';
 import matchconfirm from 'public/matchconfirm.svg';
 import api from '@/utils/api';
+import MatchStyleEdit from '../../style/matchStyleEdit';
 
 let subs: any;
 
@@ -59,6 +60,18 @@ export default function Main({ slug }: { slug: string }): any {
   const [pending, setPending] = useState<JSON | null>(null);
   api(`matching/${slug}/pending`, 'get', {}, [pending, setPending]);
 
+  const [preference, setPreference] = useState<JSON | null>(null);
+  api(`matching/${slug}/preference`, 'get', {}, [preference, setPreference]);
+
+  const [alcoholAmount, setAlcoholAmount] = useState(0);
+  const [mateAllowedAlcohol, setMateAllowedAlcohol] = useState(0);
+  const [taste, setTaste] = useState(0);
+  const [allowedMoveTime, setAllowedMoveTime] = useState(0);
+  const [preferGender, setPreferGender] = useState(0);
+  const [smoke, setSmoke] = useState(0);
+  const [preferSmoke, setPreferSmoke] = useState(0);
+  const [slang, setSlang] = useState(0);
+
   const [messageText, setMessageText] = useState('');
   const [modalDisplay, setModalDisplay] = useState(false);
   const [modal2Display, setModal2Display] = useState(false);
@@ -71,6 +84,60 @@ export default function Main({ slug }: { slug: string }): any {
   });
 
   const router = useRouter();
+
+  useEffect(() => {
+    if (!preference) return;
+
+    setAlcoholAmount(
+      'alcoholAmount' in preference
+        ? (preference as { alcoholAmount: number }).alcoholAmount
+        : 0
+    );
+    setMateAllowedAlcohol(
+      [1, 0, 2].indexOf(
+        'mateAllowedAlcohol' in preference
+          ? (preference as { mateAllowedAlcohol: number }).mateAllowedAlcohol
+          : 1
+      )
+    );
+    setTaste(
+      ['Cold', 'Hot', 'Fatty', 'Spicy', 'Scent', 'Fishy', 'Meat'].indexOf(
+        'taste' in preference ? (preference as { taste: string }).taste : 'Cold'
+      )
+    );
+    setAllowedMoveTime(
+      Math.min(
+        'allowedMoveTime' in preference
+          ? (preference as { allowedMoveTime: number }).allowedMoveTime
+          : 0,
+        7
+      )
+    );
+    setPreferGender(
+      ['Male', 'Female', 'None'].indexOf(
+        'preferGender' in preference
+          ? (preference as { preferGender: string }).preferGender
+          : 'Male'
+      )
+    );
+    setSmoke(
+      [true, false].indexOf(
+        'smoke' in preference ? (preference as { smoke: boolean }).smoke : true
+      )
+    );
+    setPreferSmoke(
+      ['Smoke', 'Nonsmoke', 'None'].indexOf(
+        'preferSmoke' in preference
+          ? (preference as { preferSmoke: string }).preferSmoke
+          : 'Smoke'
+      )
+    );
+    setSlang(
+      [1, 0, 2].indexOf(
+        'slang' in preference ? (preference as { slang: number }).slang : 1
+      )
+    );
+  }, [preference]);
 
   return (
     <>
@@ -141,26 +208,20 @@ export default function Main({ slug }: { slug: string }): any {
           <hr />
 
           <div className="MatchStyleHeader">선호하는 여행 스타일</div>
-          <MatchStyle>
-            <div>
-              <div>🍻</div>가벼운 술
-            </div>
-            <div>
-              <div>🍱</div>함께 식사
-            </div>
-            <div>
-              <div>🚭</div>금연
-            </div>
-            <div>
-              <div>🤬</div>바른 언어
-            </div>
-            <div>
-              <div>♂︎♀︎</div>상관없음
-            </div>
-            <div>
-              <div>🚌</div>대중교통
-            </div>
-          </MatchStyle>
+          <MatchStyle
+            alcoholAmount={
+              preference &&
+              'alcoholAmount' in preference &&
+              (preference as { alcoholAmount: number })
+            }
+            mateAllowedAlcohol={mateAllowedAlcohol}
+            taste={taste}
+            allowedMoveTime={allowedMoveTime}
+            preferGender={preferGender}
+            smoke={smoke}
+            preferSmoke={preferSmoke}
+            slang={slang}
+          />
           <hr />
           <MatchArticle>
             {matchInfo && 'content' in matchInfo
