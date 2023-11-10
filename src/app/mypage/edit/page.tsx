@@ -34,6 +34,29 @@ export default function Home(): any {
             'put',
             {
               username: username,
+              gender:
+                myInfo &&
+                'gender' in myInfo &&
+                (myInfo as { gender: string }).gender,
+              age: myInfo && 'age' in myInfo && (myInfo as { age: number }).age,
+              phone:
+                myInfo &&
+                'phone' in myInfo &&
+                (myInfo as { phone: string }).phone,
+              role:
+                myInfo && 'role' in myInfo && (myInfo as { role: string }).role,
+              blacklist:
+                myInfo &&
+                'blacklist' in myInfo &&
+                (myInfo as { blacklist: boolean }).blacklist,
+              mannerScore:
+                myInfo &&
+                'mannerScore' in myInfo &&
+                (myInfo as { mannerScore: number }).mannerScore,
+              isActive:
+                myInfo &&
+                'isActive' in myInfo &&
+                (myInfo as { isActive: boolean }).isActive,
               stateMessage: stateMessage,
             },
             [
