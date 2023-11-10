@@ -46,21 +46,38 @@ const MatchStyleComponent = ({
   );
 };
 
-const MatchStyleEdit = (Props: { setValues: any; onDone: any }) => {
-  const [alcoholAmount, setAlcoholAmount] = useState(0);
-  const [mateAllowedAlcohol, setMateAllowedAlcohol] = useState(0);
-  const [taste, setTaste] = useState(0);
-  const [allowedMoveTime, setAllowedMoveTime] = useState(0);
-  const [preferGender, setPreferGender] = useState(0);
-  const [smoke, setSmoke] = useState(0);
-  const [preferSmoke, setPreferSmoke] = useState(0);
-  const [slang, setSlang] = useState(0);
+interface props {
+  alcoholAmount: number;
+  mateAllowedAlcohol: number;
+  taste: number;
+  allowedMoveTime: number;
+  preferGender: number;
+  smoke: number;
+  preferSmoke: number;
+  slang: number;
+
+  setValues: any;
+  onDone: any;
+}
+
+const MatchStyleEdit = ({
+  alcoholAmount,
+  mateAllowedAlcohol,
+  taste,
+  allowedMoveTime,
+  preferGender,
+  smoke,
+  preferSmoke,
+  slang,
+  setValues,
+  onDone,
+}: props) => {
   return (
     <>
       <Navbar
         btn="완료"
         btnOnClick={() => {
-          Props.onDone();
+          onDone();
         }}
       ></Navbar>
       <ContentBox>
@@ -78,8 +95,7 @@ const MatchStyleEdit = (Props: { setValues: any; onDone: any }) => {
             ]}
             selected={taste}
             setValue={(value: any) => {
-              setTaste(value);
-              Props.setValues('taste', value);
+              setValues('taste', value);
             }}
           />
           <MatchStyleComponent
@@ -91,8 +107,7 @@ const MatchStyleEdit = (Props: { setValues: any; onDone: any }) => {
             ]}
             selected={mateAllowedAlcohol}
             setValue={(value: any) => {
-              setMateAllowedAlcohol(value);
-              Props.setValues('mateAllowedAlcohol', value);
+              setValues('mateAllowedAlcohol', value);
             }}
           />
           <MatchStyleComponent
@@ -103,8 +118,7 @@ const MatchStyleEdit = (Props: { setValues: any; onDone: any }) => {
             ]}
             selected={smoke}
             setValue={(value: any) => {
-              setSmoke(value);
-              Props.setValues('smoke', value);
+              setValues('smoke', value);
             }}
           />
           <MatchStyleComponent
@@ -116,8 +130,7 @@ const MatchStyleEdit = (Props: { setValues: any; onDone: any }) => {
             ]}
             selected={preferSmoke}
             setValue={(value: any) => {
-              setPreferSmoke(value);
-              Props.setValues('preferSmoke', value);
+              setValues('preferSmoke', value);
             }}
           />
           <MatchStyleComponent
@@ -129,8 +142,7 @@ const MatchStyleEdit = (Props: { setValues: any; onDone: any }) => {
             ]}
             selected={preferGender}
             setValue={(value: any) => {
-              setPreferGender(value);
-              Props.setValues('preferGender', value);
+              setValues('preferGender', value);
             }}
           />
           <MatchStyleComponent
@@ -142,8 +154,7 @@ const MatchStyleEdit = (Props: { setValues: any; onDone: any }) => {
             ]}
             selected={slang}
             setValue={(value: any) => {
-              setSlang(value);
-              Props.setValues('slang', value);
+              setValues('slang', value);
             }}
           />
           <MatchStyleComponent
@@ -160,8 +171,7 @@ const MatchStyleEdit = (Props: { setValues: any; onDone: any }) => {
             ]}
             selected={allowedMoveTime}
             setValue={(value: any) => {
-              setAllowedMoveTime(value);
-              Props.setValues('allowedMoveTime', value);
+              setValues('allowedMoveTime', value);
             }}
           />
         </MatchScrollView>
