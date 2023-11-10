@@ -176,6 +176,7 @@ export default function Main({ slug }: { slug: string }): any {
                 (item: {
                   username: string;
                   age: number;
+                  stateMessage: string;
                   mannerScore: number;
                 }) => {
                   return (
@@ -183,6 +184,7 @@ export default function Main({ slug }: { slug: string }): any {
                       <MatchPerson
                         username={item.username}
                         age={item.age}
+                        stateMessage={item.stateMessage}
                         mannerScore={item.mannerScore}
                       ></MatchPerson>
                     </>
