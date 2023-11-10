@@ -18,7 +18,7 @@ import SockJS from 'sockjs-client';
 import Image from 'next/image';
 import newface from 'public/newface.svg';
 import Link from 'next/link';
-import profile9 from 'public/profile9.svg';
+import emptyProfile from 'public/empty_profile.png';
 import matchconfirm from 'public/matchconfirm.svg';
 import api from '@/utils/api';
 
@@ -85,7 +85,7 @@ export default function Main({ slug }: { slug: string }): any {
         }}
       >
         <MatchScrollView>
-          <MapPreview />
+          {/* <MapPreview /> */}
           <MatchTitle
             category={
               matchInfo && 'type' in matchInfo
@@ -248,7 +248,7 @@ export default function Main({ slug }: { slug: string }): any {
                         style={{ cursor: 'pointer' }}
                       >
                         <div>
-                          <Image src={profile9} alt="profile" width="48" />
+                          <Image src={emptyProfile} alt="profile" width="48" />
                         </div>
                         <div>{item.username}</div>
                         <div>{item.age}</div>
@@ -310,7 +310,20 @@ export default function Main({ slug }: { slug: string }): any {
             );
           }}
         >
-          <textarea
+          <div
+            style={{
+              height: '70px',
+              lineHeight: '70px',
+              paddingBottom: '20px',
+              textAlign: 'center',
+              fontWeight: 'bold',
+              fontSize: '16px',
+              color: '#bbb',
+            }}
+          >
+            함께 여행하기로 신청합니다
+          </div>
+          {/* <textarea
             placeholder="신청 메시지를 보낸후, 채팅화면에서 계속 대화를 이어나갈 수 있습니다"
             style={{
               marginLeft: '24px',
@@ -329,7 +342,7 @@ export default function Main({ slug }: { slug: string }): any {
             onChange={(e) => {
               setMessageText(e.currentTarget.value);
             }}
-          ></textarea>
+          ></textarea> */}
         </ModalView>
 
         <ModalView
@@ -345,7 +358,7 @@ export default function Main({ slug }: { slug: string }): any {
             }}
           >
             <div>
-              <Image src={profile9} alt="profile" width="48" />
+              <Image src={emptyProfile} alt="profile" width="48" />
             </div>
             <div>{candidate.username}</div>
             <div>{candidate.age}</div>

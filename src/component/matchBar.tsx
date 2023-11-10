@@ -29,7 +29,9 @@ const MatchBar: any = ({
           <div>{currentMember}</div>/{maxMember}
         </div>
         <button
-          onClick={status == 'None' ? onClick : () => {}}
+          onClick={
+            status == 'None' && currentMember < maxMember ? onClick : () => {}
+          }
           style={
             status == 'Pending' ||
             status == 'Declined' ||
