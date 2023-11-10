@@ -109,7 +109,7 @@ export default function Main(): any {
           </div>
         </FriendsList>
       </ContentBox>
-      <Image
+      {/* <Image
         src={newchat}
         alt="new chat"
         style={{
@@ -121,7 +121,7 @@ export default function Main(): any {
         onClick={() => {
           setModalDisplay(true);
         }}
-      />
+      /> */}
       <ModalView
         display={modalDisplay}
         setDisplay={setModalDisplay}
