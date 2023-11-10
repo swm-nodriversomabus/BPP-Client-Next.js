@@ -50,25 +50,7 @@ const MatchStyleComponent = ({
 
 const MatchStyleEdit = () => {
   const [preference, setPreference] = useState(null);
-  api(
-    'user/preference',
-    'test',
-    {
-      preferenceId: 0,
-      alcoholAmount: 2,
-      mateAllowedAlcohol: 2,
-      taste: 'Spicy',
-      allowedMoveTime: 60,
-      allowedPeople: 4,
-      preferGender: 'None',
-      smoke: false,
-      preferSmoke: 'None',
-      createdAt: [2023, 11, 10, 6, 21, 55, 218405475],
-      updatedAt: [2023, 11, 10, 6, 21, 55, 218407721],
-      slang: 2,
-    },
-    [preference, setPreference]
-  );
+  api('user/preference', 'get', {}, [preference, setPreference]);
 
   const [alcoholAmount, setAlcoholAmount] = useState(0);
   const [mateAllowedAlcohol, setMateAllowedAlcohol] = useState(0);
