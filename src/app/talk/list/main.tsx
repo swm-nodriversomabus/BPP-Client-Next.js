@@ -20,21 +20,15 @@ import TalkList, { TalkListItem } from '@/view/talkList';
 
 const getKey = (pageIndex: any, previousPageData: any) => {
   if (previousPageData && !previousPageData.length) return null;
-  return `chatroom?page=${pageIndex}&size=10`;
+  return `${process.env.NEXT_BASE_URL}chatroom?page=${pageIndex}&size=10`;
 };
 
 const fetcher = (url: RequestInfo | URL) => {
-  let ret;
-  api(String(url), 'GET', {}, [
-    null,
-    (r) => {
-      ret = r;
-    },
-  ]);
-  return ret;
-  // return fetch(url).then((r) => {
-  //   return r.json();
-  // });
+  return fetch(url, {
+    credentials: 'include',
+  }).then((r) => {
+    return r.json();
+  });
 };
 
 let loadState: boolean = false;
@@ -113,21 +107,19 @@ export default function Home(): any {
             <>
               {data && 'length' in data && data.length ? (
                 data?.map((msgs, index) => {
-                  if (msgs && 'length' in msgs && msgs.length) {
-                    return msgs?.map((msg: any) => {
-                      console.log(msg);
-                      if (msg.isActive == false) return <></>;
-                      return (
-                        <TalkListItem
-                          img={1}
-                          link={`room/${msg.chatroomId}`}
-                          key={i++}
-                          title={`${msg.chatroomName}`}
-                          subtitle={'last message..'}
-                        />
-                      );
-                    });
-                  }
+                  return msgs?.map((msg: any) => {
+                    console.log(msg);
+                    if (msg.isActive == false) return <></>;
+                    return (
+                      <TalkListItem
+                        img={1}
+                        link={`room/${msg.chatroomId}`}
+                        key={i++}
+                        title={`${msg.chatroomName}`}
+                        subtitle={'last message..'}
+                      />
+                    );
+                  });
                 })
               ) : (
                 <div
