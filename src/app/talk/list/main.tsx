@@ -129,7 +129,7 @@ export default function Home(): any {
                     fontSize: '17px',
                     fontWeight: 'bold',
                     margin: '0',
-                    paddingTop: 'calc(50% - 20px)',
+                    paddingTop: 'calc(50vh - 140px)',
                     cursor: 'default',
                   }}
                 >
