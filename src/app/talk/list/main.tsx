@@ -113,19 +113,21 @@ export default function Home(): any {
             <>
               {data && 'length' in data && data.length ? (
                 data?.map((msgs, index) => {
-                  return msgs?.map((msg: any) => {
-                    console.log(msg);
-                    if (msg.isActive == false) return <></>;
-                    return (
-                      <TalkListItem
-                        img={1}
-                        link={`room/${msg.chatroomId}`}
-                        key={i++}
-                        title={`${msg.chatroomName}`}
-                        subtitle={'last message..'}
-                      />
-                    );
-                  });
+                  if (msgs && 'length' in msgs && msgs.length) {
+                    return msgs?.map((msg: any) => {
+                      console.log(msg);
+                      if (msg.isActive == false) return <></>;
+                      return (
+                        <TalkListItem
+                          img={1}
+                          link={`room/${msg.chatroomId}`}
+                          key={i++}
+                          title={`${msg.chatroomName}`}
+                          subtitle={'last message..'}
+                        />
+                      );
+                    });
+                  }
                 })
               ) : (
                 <div
