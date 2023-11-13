@@ -23,7 +23,13 @@ const getKey = (pageIndex: any, previousPageData: any) => {
   return `${process.env.NEXT_BASE_URL}chatroom?page=${pageIndex}&size=10`;
 };
 
-const fetcher = (url: RequestInfo | URL) => fetch(url).then((r) => r.json());
+const fetcher = (url: RequestInfo | URL) => {
+  return fetch(url, {
+    credentials: 'include',
+  }).then((r) => {
+    return r.json();
+  });
+};
 
 let loadState: boolean = false;
 export default function Home(): any {
@@ -99,21 +105,37 @@ export default function Home(): any {
         <TalkList>
           <div className="section">
             <>
-              {data?.map((msgs, index) => {
-                return msgs?.map((msg: any) => {
-                  console.log(msg);
-                  if (msg.isActive == false) return <></>;
-                  return (
-                    <TalkListItem
-                      img={1}
-                      link={`room/${msg.chatroomId}`}
-                      key={i++}
-                      title={`${msg.chatroomName}`}
-                      subtitle={'last message..'}
-                    />
-                  );
-                });
-              })}
+              {data && 'length' in data && data.length ? (
+                data?.map((msgs, index) => {
+                  return msgs?.map((msg: any) => {
+                    console.log(msg);
+                    if (msg.isActive == false) return <></>;
+                    return (
+                      <TalkListItem
+                        img={1}
+                        link={`room/${msg.chatroomId}`}
+                        key={i++}
+                        title={`${msg.chatroomName}`}
+                        subtitle={'last message..'}
+                      />
+                    );
+                  });
+                })
+              ) : (
+                <div
+                  style={{
+                    textAlign: 'center',
+                    color: '#bbb',
+                    fontSize: '17px',
+                    fontWeight: 'bold',
+                    margin: '0',
+                    paddingTop: 'calc(50vh - 140px)',
+                    cursor: 'default',
+                  }}
+                >
+                  친구와 여행 이야기를 시작해보세요
+                </div>
+              )}
             </>
           </div>
           <div className="listMargin"></div>

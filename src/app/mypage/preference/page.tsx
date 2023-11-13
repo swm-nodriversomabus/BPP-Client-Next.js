@@ -5,7 +5,9 @@ import ContentBox from '@/component/contentBox';
 import MatchScrollView from '@/view/matchScrollView';
 import Image from 'next/image';
 import matchstyle from 'public/matchstyle.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import api from '@/utils/api';
+import { BlockLike } from 'typescript';
 
 const MatchStyleComponent = ({
   title,
@@ -46,40 +48,121 @@ const MatchStyleComponent = ({
   );
 };
 
-interface props {
-  alcoholAmount: number;
-  mateAllowedAlcohol: number;
-  taste: number;
-  allowedMoveTime: number;
-  preferGender: number;
-  smoke: number;
-  preferSmoke: number;
-  slang: number;
+const MatchStyleEdit = () => {
+  const [preference, setPreference] = useState(null);
+  api('user/preference', 'get', {}, [preference, setPreference]);
 
-  setValues: any;
-  onDone: any;
-}
+  const [alcoholAmount, setAlcoholAmount] = useState(0);
+  const [mateAllowedAlcohol, setMateAllowedAlcohol] = useState(0);
+  const [taste, setTaste] = useState(0);
+  const [allowedMoveTime, setAllowedMoveTime] = useState(0);
+  const [preferGender, setPreferGender] = useState(0);
+  const [smoke, setSmoke] = useState(0);
+  const [preferSmoke, setPreferSmoke] = useState(0);
+  const [slang, setSlang] = useState(0);
 
-const MatchStyleEdit = ({
-  alcoholAmount,
-  mateAllowedAlcohol,
-  taste,
-  allowedMoveTime,
-  preferGender,
-  smoke,
-  preferSmoke,
-  slang,
-  setValues,
-  onDone,
-}: props) => {
+  useEffect(() => {
+    if (!preference) return;
+
+    setAlcoholAmount((preference as { alcoholAmount: number }).alcoholAmount);
+    setMateAllowedAlcohol(
+      [1, 0, 2].indexOf(
+        (preference as { mateAllowedAlcohol: number }).mateAllowedAlcohol
+      )
+    );
+    setTaste(
+      ['Cold', 'Hot', 'Fatty', 'Spicy', 'Scent', 'Fishy', 'Meat'].indexOf(
+        (preference as { taste: string }).taste
+      )
+    );
+    setAllowedMoveTime(
+      Math.min((preference as { allowedMoveTime: number }).allowedMoveTime, 7)
+    );
+    setPreferGender(
+      ['Male', 'Female', 'None'].indexOf(
+        (preference as { preferGender: string }).preferGender
+      )
+    );
+    setSmoke([true, false].indexOf((preference as { smoke: boolean }).smoke));
+    setPreferSmoke(
+      ['Smoke', 'Nonsmoke', 'None'].indexOf(
+        (preference as { preferSmoke: string }).preferSmoke
+      )
+    );
+    setSlang([1, 0, 2].indexOf((preference as { slang: number }).slang));
+  }, [preference]);
+
+  const setValues = (name: string, value: any) => {
+    switch (name) {
+      case 'alcoholAmount':
+        setAlcoholAmount(value);
+        break;
+      case 'mateAllowedAlcohol':
+        setMateAllowedAlcohol(value);
+        break;
+      case 'taste':
+        setTaste(value);
+        break;
+      case 'allowedMoveTime':
+        setAllowedMoveTime(value);
+        break;
+      case 'preferGender':
+        setPreferGender(value);
+        break;
+      case 'smoke':
+        setSmoke(value);
+        break;
+      case 'preferSmoke':
+        setPreferSmoke(value);
+        break;
+      case 'slang':
+        setSlang(value);
+        break;
+    }
+  };
+
   return (
     <>
       <Navbar
-        btn="완료"
+        btn="저장"
+        back
         btnOnClick={() => {
-          onDone();
+          api(
+            'user/preference',
+            'put',
+            {
+              alcoholAmount: [0, 1, 2, 3, 4][alcoholAmount],
+              mateAllowedAlcohol: [1, 0, 2][mateAllowedAlcohol],
+              taste: [
+                'Cold',
+                'Hot',
+                'Fatty',
+                'Spicy',
+                'Scent',
+                'Fishy',
+                'Meat',
+              ][taste],
+              allowedMoveTime: [0, 1, 2, 3, 4, 5, 6, 7][allowedMoveTime],
+              allowedPeople:
+                preference && 'allowedPeople' in preference
+                  ? (preference as { allowedPeople: number }).allowedPeople
+                  : 3,
+              preferGender: ['Male', 'Female', 'None'][preferGender],
+              smoke: [true, false][smoke],
+              preferSmoke: ['Smoke', 'Nonsmoke', 'None'][preferSmoke],
+              slang: [1, 0, 2][slang],
+            },
+            [
+              null,
+              () => {
+                history.back();
+              },
+            ]
+          );
         }}
-      ></Navbar>
+      >
+        {'내 여행 선호도'}
+      </Navbar>
       <ContentBox>
         <MatchScrollView>
           <MatchStyleComponent
@@ -95,6 +178,7 @@ const MatchStyleEdit = ({
             ]}
             selected={taste}
             setValue={(value: any) => {
+              setTaste(value);
               setValues('taste', value);
             }}
           />
@@ -107,6 +191,7 @@ const MatchStyleEdit = ({
             ]}
             selected={mateAllowedAlcohol}
             setValue={(value: any) => {
+              setMateAllowedAlcohol(value);
               setValues('mateAllowedAlcohol', value);
             }}
           />
@@ -118,6 +203,7 @@ const MatchStyleEdit = ({
             ]}
             selected={smoke}
             setValue={(value: any) => {
+              setSmoke(value);
               setValues('smoke', value);
             }}
           />
@@ -130,6 +216,7 @@ const MatchStyleEdit = ({
             ]}
             selected={preferSmoke}
             setValue={(value: any) => {
+              setPreferSmoke(value);
               setValues('preferSmoke', value);
             }}
           />
@@ -142,6 +229,7 @@ const MatchStyleEdit = ({
             ]}
             selected={preferGender}
             setValue={(value: any) => {
+              setPreferGender(value);
               setValues('preferGender', value);
             }}
           />
@@ -154,6 +242,7 @@ const MatchStyleEdit = ({
             ]}
             selected={slang}
             setValue={(value: any) => {
+              setSlang(value);
               setValues('slang', value);
             }}
           />
@@ -171,6 +260,7 @@ const MatchStyleEdit = ({
             ]}
             selected={allowedMoveTime}
             setValue={(value: any) => {
+              setAllowedMoveTime(value);
               setValues('allowedMoveTime', value);
             }}
           />

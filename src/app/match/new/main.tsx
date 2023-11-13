@@ -86,8 +86,8 @@ export default function Main(): any {
       'post',
       {
         type: type == 0 ? 'TravelMate' : type == 1 ? 'Dining' : 'Accommodation',
-        title: title,
-        place: place,
+        title: title ? title : '함께 여행해요',
+        place: place ? place : '파리',
         content: content,
         startDate: startDate.replace(' ', 'T') + ':00Z',
         endDate: endDate.replace(' ', 'T') + ':00Z',
@@ -104,10 +104,10 @@ export default function Main(): any {
             const matchingId = json.matchingId;
             api(
               `matching/${matchingId}/preference`,
-              'patch',
+              'put',
               {
                 alcoholAmount: [0, 1, 2, 3, 4][alcoholAmount],
-                mateAllowedAlcohol: [1, 0][mateAllowedAlcohol],
+                mateAllowedAlcohol: [1, 0, 2][mateAllowedAlcohol],
                 taste: [
                   'Cold',
                   'Hot',
@@ -122,7 +122,7 @@ export default function Main(): any {
                 preferGender: ['Male', 'Female', 'None'][preferGender],
                 smoke: [true, false][smoke],
                 preferSmoke: ['Smoke', 'Nonsmoke', 'None'][preferSmoke],
-                slang: [1, 0][slang],
+                slang: [1, 0, 2][slang],
               },
               [
                 null,
@@ -140,6 +140,14 @@ export default function Main(): any {
 
   return stylePage ? (
     <MatchStyleEdit
+      alcoholAmount={alcoholAmount}
+      mateAllowedAlcohol={mateAllowedAlcohol}
+      taste={taste}
+      allowedMoveTime={allowedMoveTime}
+      preferGender={preferGender}
+      smoke={smoke}
+      preferSmoke={preferSmoke}
+      slang={slang}
       setValues={getValues}
       onDone={() => {
         setStylePage(false);
@@ -189,7 +197,18 @@ export default function Main(): any {
         <div className="newMatchSection">제목</div>
         <input
           onChange={(e: any) => {
-            setTitle(e.target.value.substring(0, 30));
+            setTitle(
+              e.target.value.replaceAll(/[\t&|="';]/gi, '').substring(0, 30)
+            );
+          }}
+          onBlur={(e: any) => {
+            if (e.target.value.replaceAll(/[\s]/gi, '').length == 0) {
+              setTitle('');
+            } else {
+              setTitle(
+                e.target.value.replaceAll(/[\t&|="';]/gi, '').substring(0, 30)
+              );
+            }
           }}
           autoComplete="off"
           className="MatchInputText"
@@ -211,7 +230,11 @@ export default function Main(): any {
           type="datetime-local"
           onChange={(e: any) => {
             setStartDate(e.target.value);
-            console.log(e.target.value);
+          }}
+          onBlur={() => {
+            if (startDate > endDate) {
+              setEndDate(startDate);
+            }
           }}
           autoComplete="off"
           className="MatchInputText"
@@ -222,6 +245,11 @@ export default function Main(): any {
           type="datetime-local"
           onChange={(e: any) => {
             setEndDate(e.target.value);
+          }}
+          onBlur={() => {
+            if (startDate > endDate) {
+              setStartDate(endDate);
+            }
           }}
           autoComplete="off"
           className="MatchInputText"
@@ -235,9 +263,18 @@ export default function Main(): any {
               e.target.value.replaceAll(/[^\d]/gi, '').substring(0, 3)
             );
           }}
+          onBlur={(e: any) => {
+            if (Number(e.target.value.replaceAll(/[^\d]/gi, '')) <= 2) {
+              setMaxMember('3');
+            } else {
+              setMaxMember(
+                e.target.value.replaceAll(/[^\d]/gi, '').substring(0, 3)
+              );
+            }
+          }}
           autoComplete="off"
           className="MatchInputText"
-          placeholder="선택하세요"
+          placeholder="입력하세요"
           value={maxMember}
         />
         <div className="newMatchSection">여행 스타일</div>
@@ -251,30 +288,22 @@ export default function Main(): any {
             편집
           </div>
         </div>
-        <MatchStyle>
-          <div>
-            <div>🍻</div>가벼운 술
-          </div>
-          <div>
-            <div>🍱</div>함께 식사
-          </div>
-          <div>
-            <div>🚭</div>금연
-          </div>
-          <div>
-            <div>🤬</div>바른 언어
-          </div>
-          <div>
-            <div>♂︎♀︎</div>상관없음
-          </div>
-          <div>
-            <div>🚌</div>대중교통
-          </div>
-        </MatchStyle>
+        <MatchStyle
+          alcoholAmount={alcoholAmount}
+          mateAllowedAlcohol={mateAllowedAlcohol}
+          taste={taste}
+          allowedMoveTime={allowedMoveTime}
+          preferGender={preferGender}
+          smoke={smoke}
+          preferSmoke={preferSmoke}
+          slang={slang}
+        />
         <div className="newMatchSection">세부내용</div>
         <textarea
           onChange={(e: any) => {
-            setContent(e.target.value.substring(0, 3000));
+            setContent(
+              e.target.value.replaceAll(/[\t&|="';]/gi, '').substring(0, 3000)
+            );
           }}
           className="MatchText"
           placeholder="매칭에 대한 자세한 이야기를 써보세요"

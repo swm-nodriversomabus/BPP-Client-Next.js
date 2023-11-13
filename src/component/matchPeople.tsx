@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import profile0 from 'public/profile0.svg';
+import emptyProfile from 'public/empty_profile.png';
 
 interface props {
   children: string | undefined;
@@ -18,21 +18,23 @@ const MatchPerson: any = ({
   children,
   username,
   age,
+  stateMessage,
   mannerScore,
 }: {
   children: string | undefined;
   username: string;
   age: number;
+  stateMessage: string;
   mannerScore: number;
 }) => {
   return (
     <div className="MatchPerson">
       <div>
-        <Image src={profile0} alt="profile" />
+        <Image width={48} height={48} src={emptyProfile} alt="profile" />
       </div>
       <div>{username}</div>
       {/* <div>20대 초반</div> */}
-      <div>{age}</div>
+      <div>{stateMessage}</div>
       <div>Lv.{mannerScore}</div>
     </div>
   );

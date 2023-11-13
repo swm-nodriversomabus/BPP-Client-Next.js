@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import menu from 'public/menu.svg';
+import close from 'public/close.svg';
 
 const MoreMenuList: any = (Props: { list: Object | undefined }) => {
   let menuList: React.ReactElement = <></>;
@@ -56,6 +57,22 @@ const MoreButton: any = () => {
               // 설정: '/setting',
               // '고객센터 문의': '/talk/room',
               로그아웃: '/login',
+            }}
+          />
+          <Image
+            onClick={() => {
+              setMoreMenuOpen(false);
+            }}
+            src={close}
+            alt={'close'}
+            style={{
+              cursor: 'pointer',
+              display: 'block',
+              position: 'absolute',
+              float: 'right',
+              top: '11px',
+              right: '16px',
+              padding: '4px',
             }}
           />
         </div>

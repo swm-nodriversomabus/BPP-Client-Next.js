@@ -24,7 +24,9 @@ import Image from 'next/image';
 import add from 'public/add.svg';
 
 const fetcher = (url: RequestInfo | URL) =>
-  fetch(url).then((r) => {
+  fetch(url, {
+    credentials: 'include',
+  }).then((r) => {
     r.json();
     return [];
   });

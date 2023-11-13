@@ -18,9 +18,10 @@ import SockJS from 'sockjs-client';
 import Image from 'next/image';
 import newface from 'public/newface.svg';
 import Link from 'next/link';
-import profile9 from 'public/profile9.svg';
+import emptyProfile from 'public/empty_profile.png';
 import matchconfirm from 'public/matchconfirm.svg';
 import api from '@/utils/api';
+import MatchStyleEdit from '../../style/matchStyleEdit';
 
 let subs: any;
 
@@ -59,6 +60,18 @@ export default function Main({ slug }: { slug: string }): any {
   const [pending, setPending] = useState<JSON | null>(null);
   api(`matching/${slug}/pending`, 'get', {}, [pending, setPending]);
 
+  const [preference, setPreference] = useState<JSON | null>(null);
+  api(`matching/${slug}/preference`, 'get', {}, [preference, setPreference]);
+
+  const [alcoholAmount, setAlcoholAmount] = useState(0);
+  const [mateAllowedAlcohol, setMateAllowedAlcohol] = useState(0);
+  const [taste, setTaste] = useState(0);
+  const [allowedMoveTime, setAllowedMoveTime] = useState(0);
+  const [preferGender, setPreferGender] = useState(0);
+  const [smoke, setSmoke] = useState(0);
+  const [preferSmoke, setPreferSmoke] = useState(0);
+  const [slang, setSlang] = useState(0);
+
   const [messageText, setMessageText] = useState('');
   const [modalDisplay, setModalDisplay] = useState(false);
   const [modal2Display, setModal2Display] = useState(false);
@@ -71,6 +84,60 @@ export default function Main({ slug }: { slug: string }): any {
   });
 
   const router = useRouter();
+
+  useEffect(() => {
+    if (!preference) return;
+
+    setAlcoholAmount(
+      'alcoholAmount' in preference
+        ? (preference as { alcoholAmount: number }).alcoholAmount
+        : 0
+    );
+    setMateAllowedAlcohol(
+      [1, 0, 2].indexOf(
+        'mateAllowedAlcohol' in preference
+          ? (preference as { mateAllowedAlcohol: number }).mateAllowedAlcohol
+          : 1
+      )
+    );
+    setTaste(
+      ['Cold', 'Hot', 'Fatty', 'Spicy', 'Scent', 'Fishy', 'Meat'].indexOf(
+        'taste' in preference ? (preference as { taste: string }).taste : 'Cold'
+      )
+    );
+    setAllowedMoveTime(
+      Math.min(
+        'allowedMoveTime' in preference
+          ? (preference as { allowedMoveTime: number }).allowedMoveTime
+          : 0,
+        7
+      )
+    );
+    setPreferGender(
+      ['Male', 'Female', 'None'].indexOf(
+        'preferGender' in preference
+          ? (preference as { preferGender: string }).preferGender
+          : 'Male'
+      )
+    );
+    setSmoke(
+      [true, false].indexOf(
+        'smoke' in preference ? (preference as { smoke: boolean }).smoke : true
+      )
+    );
+    setPreferSmoke(
+      ['Smoke', 'Nonsmoke', 'None'].indexOf(
+        'preferSmoke' in preference
+          ? (preference as { preferSmoke: string }).preferSmoke
+          : 'Smoke'
+      )
+    );
+    setSlang(
+      [1, 0, 2].indexOf(
+        'slang' in preference ? (preference as { slang: number }).slang : 1
+      )
+    );
+  }, [preference]);
 
   return (
     <>
@@ -85,7 +152,7 @@ export default function Main({ slug }: { slug: string }): any {
         }}
       >
         <MatchScrollView>
-          <MapPreview />
+          {/* <MapPreview /> */}
           <MatchTitle
             category={
               matchInfo && 'type' in matchInfo
@@ -123,44 +190,38 @@ export default function Main({ slug }: { slug: string }): any {
                 : '00시'
             }
             endDate={
-              matchInfo && 'startDate' in matchInfo
-                ? (matchInfo as { startDate: number[] }).startDate[0] +
+              matchInfo && 'endDate' in matchInfo
+                ? (matchInfo as { endDate: number[] }).endDate[0] +
                   '년 ' +
-                  (matchInfo as { startDate: number[] }).startDate[1] +
+                  (matchInfo as { endDate: number[] }).endDate[1] +
                   '월 ' +
-                  (matchInfo as { startDate: number[] }).startDate[2] +
+                  (matchInfo as { endDate: number[] }).endDate[2] +
                   '일'
                 : '0000월 00월 00일'
             }
             endTime={
-              matchInfo && 'startDate' in matchInfo
-                ? (matchInfo as { startDate: number[] }).startDate[3] + '시'
+              matchInfo && 'endDate' in matchInfo
+                ? (matchInfo as { endDate: number[] }).endDate[3] + '시'
                 : '00시'
             }
           />
           <hr />
 
           <div className="MatchStyleHeader">선호하는 여행 스타일</div>
-          <MatchStyle>
-            <div>
-              <div>🍻</div>가벼운 술
-            </div>
-            <div>
-              <div>🍱</div>함께 식사
-            </div>
-            <div>
-              <div>🚭</div>금연
-            </div>
-            <div>
-              <div>🤬</div>바른 언어
-            </div>
-            <div>
-              <div>♂︎♀︎</div>상관없음
-            </div>
-            <div>
-              <div>🚌</div>대중교통
-            </div>
-          </MatchStyle>
+          <MatchStyle
+            alcoholAmount={
+              preference &&
+              'alcoholAmount' in preference &&
+              (preference as { alcoholAmount: number })
+            }
+            mateAllowedAlcohol={mateAllowedAlcohol}
+            taste={taste}
+            allowedMoveTime={allowedMoveTime}
+            preferGender={preferGender}
+            smoke={smoke}
+            preferSmoke={preferSmoke}
+            slang={slang}
+          />
           <hr />
           <MatchArticle>
             {matchInfo && 'content' in matchInfo
@@ -176,6 +237,7 @@ export default function Main({ slug }: { slug: string }): any {
                 (item: {
                   username: string;
                   age: number;
+                  stateMessage: string;
                   mannerScore: number;
                 }) => {
                   return (
@@ -183,6 +245,7 @@ export default function Main({ slug }: { slug: string }): any {
                       <MatchPerson
                         username={item.username}
                         age={item.age}
+                        stateMessage={item.stateMessage}
                         mannerScore={item.mannerScore}
                       ></MatchPerson>
                     </>
@@ -226,6 +289,7 @@ export default function Main({ slug }: { slug: string }): any {
                     username: string;
                     age: number;
                     mannerScore: number;
+                    stateMessage: string;
                   },
                   index: number
                 ) => {
@@ -248,11 +312,11 @@ export default function Main({ slug }: { slug: string }): any {
                         style={{ cursor: 'pointer' }}
                       >
                         <div>
-                          <Image src={profile9} alt="profile" width="48" />
+                          <Image src={emptyProfile} alt="profile" width="48" />
                         </div>
                         <div>{item.username}</div>
                         <div>{item.age}</div>
-                        <div>Lv.{item.mannerScore}</div>
+                        <div>Lv.{item.stateMessage}</div>
                       </div>
                     </>
                   );
@@ -263,28 +327,26 @@ export default function Main({ slug }: { slug: string }): any {
             <></>
           )}
         </MatchScrollView>
-        {myStatus &&
-        'text' in myStatus &&
-        (myStatus as { text: string }).text == 'Owner' ? (
-          <></>
-        ) : myStatus &&
-          'text' in myStatus &&
-          (myStatus as { text: string }).text == 'Approved' ? (
-          <></>
-        ) : myStatus &&
-          'text' in myStatus &&
-          (myStatus as { text: string }).text == 'Pending' ? (
-          <></>
-        ) : (
-          <MatchBar
-            onClick={() => {
-              setModalDisplay(true);
-            }}
-            maxMember={
-              matchInfo && 'maxMember' in matchInfo ? matchInfo.maxMember : ''
-            }
-          />
-        )}
+
+        <MatchBar
+          onClick={() => {
+            setModalDisplay(true);
+          }}
+          status={myStatus && 'text' in myStatus ? myStatus.text : ''}
+          maxMember={
+            matchInfo && 'maxMember' in matchInfo ? matchInfo.maxMember : ''
+          }
+          currentMember={
+            matchInfo && 'currentMember' in matchInfo
+              ? matchInfo.currentMember
+              : ''
+          }
+          pendingMember={
+            pending && 'length' in pending
+              ? (pending as { length: number }).length
+              : 0
+          }
+        />
         <ModalView
           display={modalDisplay}
           setDisplay={setModalDisplay}
@@ -302,26 +364,30 @@ export default function Main({ slug }: { slug: string }): any {
               [
                 null,
                 (json: JSON) => {
-                  api(`matching/${slug}`, 'get', {}, [matchInfo, setMatchInfo]);
-                  api(`matching/${slug}/status`, 'get', {}, [
-                    myStatus,
-                    setMyStatus,
-                  ]);
-                  api(`matching/${slug}/approved`, 'get', {}, [
-                    approved,
-                    setApproved,
-                  ]);
-                  api(`matching/${slug}/pending`, 'get', {}, [
-                    pending,
-                    setPending,
-                  ]);
+                  setMatchInfo(null);
+                  setMyStatus(null);
+                  setApproved(null);
+                  setPending(null);
                   setModalDisplay(false);
                 },
               ]
             );
           }}
         >
-          <textarea
+          <div
+            style={{
+              height: '70px',
+              lineHeight: '70px',
+              paddingBottom: '20px',
+              textAlign: 'center',
+              fontWeight: 'bold',
+              fontSize: '16px',
+              color: '#bbb',
+            }}
+          >
+            함께 여행하기로 신청합니다
+          </div>
+          {/* <textarea
             placeholder="신청 메시지를 보낸후, 채팅화면에서 계속 대화를 이어나갈 수 있습니다"
             style={{
               marginLeft: '24px',
@@ -340,7 +406,7 @@ export default function Main({ slug }: { slug: string }): any {
             onChange={(e) => {
               setMessageText(e.currentTarget.value);
             }}
-          ></textarea>
+          ></textarea> */}
         </ModalView>
 
         <ModalView
@@ -356,7 +422,7 @@ export default function Main({ slug }: { slug: string }): any {
             }}
           >
             <div>
-              <Image src={profile9} alt="profile" width="48" />
+              <Image src={emptyProfile} alt="profile" width="48" />
             </div>
             <div>{candidate.username}</div>
             <div>{candidate.age}</div>
@@ -385,22 +451,10 @@ export default function Main({ slug }: { slug: string }): any {
                   [
                     null,
                     () => {
-                      api(`matching/${slug}`, 'get', {}, [
-                        matchInfo,
-                        setMatchInfo,
-                      ]);
-                      api(`matching/${slug}/status`, 'get', {}, [
-                        myStatus,
-                        setMyStatus,
-                      ]);
-                      api(`matching/${slug}/approved`, 'get', {}, [
-                        approved,
-                        setApproved,
-                      ]);
-                      api(`matching/${slug}/pending`, 'get', {}, [
-                        pending,
-                        setPending,
-                      ]);
+                      setMatchInfo(null);
+                      setMyStatus(null);
+                      setApproved(null);
+                      setPending(null);
                       setModal2Display(false);
                     },
                   ]
@@ -438,6 +492,10 @@ export default function Main({ slug }: { slug: string }): any {
                   [
                     null,
                     () => {
+                      setMatchInfo(null);
+                      setMyStatus(null);
+                      setApproved(null);
+                      setPending(null);
                       setModal2Display(false);
                     },
                   ]

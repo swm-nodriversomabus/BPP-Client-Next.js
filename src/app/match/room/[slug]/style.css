@@ -151,6 +151,7 @@ hr {
     height: 48px;
     border-radius: 24px;
     background-color: #fff;
+    overflow: hidden;
   }
   & > div:nth-child(2) {
     position: relative;
@@ -180,6 +181,7 @@ hr {
     line-height: 18px;
     font-size: 12px;
     font-weight: bold;
+    border-radius: 9px;
   }
 }
 .MatchBar {
