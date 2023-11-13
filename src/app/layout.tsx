@@ -24,20 +24,35 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html className={Pretendard.className} lang="en">
-      <body style={{ background: '#fff' }}>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-          }}
-        >
-          {children}
-        </div>
-      </body>
-    </html>
+    <>
+      <link rel="icon" href="/favicon.ico" sizes="any" />
+      <link
+        rel="apple-touch-icon"
+        href="/apple-icon?<generated>"
+        type="image/<generated>"
+        sizes="<generated>"
+      />
+      <meta
+        name="viewport"
+        content="minimal-ui, width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+      />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="theme-color" content="#fff" />
+      <html className={Pretendard.className} lang="en">
+        <body style={{ background: '#fff' }}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+            }}
+          >
+            {children}
+          </div>
+        </body>
+      </html>
+    </>
   );
 }

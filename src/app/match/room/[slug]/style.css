@@ -181,6 +181,7 @@ hr {
     line-height: 18px;
     font-size: 12px;
     font-weight: bold;
+    border-radius: 9px;
   }
 }
 .MatchBar {

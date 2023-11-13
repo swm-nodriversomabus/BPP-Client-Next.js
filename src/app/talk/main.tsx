@@ -98,7 +98,8 @@ export default function Main(): any {
                     fontSize: '17px',
                     fontWeight: 'bold',
                     margin: '0',
-                    paddingTop: 'calc(50% - 110px)',
+                    paddingTop: 'calc(50vh - 210px)',
+                    height: '100px',
                     cursor: 'default',
                   }}
                 >

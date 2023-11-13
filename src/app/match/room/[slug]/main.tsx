@@ -289,6 +289,7 @@ export default function Main({ slug }: { slug: string }): any {
                     username: string;
                     age: number;
                     mannerScore: number;
+                    stateMessage: string;
                   },
                   index: number
                 ) => {
@@ -315,7 +316,7 @@ export default function Main({ slug }: { slug: string }): any {
                         </div>
                         <div>{item.username}</div>
                         <div>{item.age}</div>
-                        <div>Lv.{item.mannerScore}</div>
+                        <div>Lv.{item.stateMessage}</div>
                       </div>
                     </>
                   );

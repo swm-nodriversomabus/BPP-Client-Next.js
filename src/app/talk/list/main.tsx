@@ -23,7 +23,13 @@ const getKey = (pageIndex: any, previousPageData: any) => {
   return `${process.env.NEXT_BASE_URL}chatroom?page=${pageIndex}&size=10`;
 };
 
-const fetcher = (url: RequestInfo | URL) => fetch(url).then((r) => r.json());
+const fetcher = (url: RequestInfo | URL) => {
+  return fetch(url, {
+    credentials: 'include',
+  }).then((r) => {
+    return r.json();
+  });
+};
 
 let loadState: boolean = false;
 export default function Home(): any {
@@ -123,7 +129,7 @@ export default function Home(): any {
                     fontSize: '17px',
                     fontWeight: 'bold',
                     margin: '0',
-                    paddingTop: 'calc(50% - 20px)',
+                    paddingTop: 'calc(50vh - 140px)',
                     cursor: 'default',
                   }}
                 >
