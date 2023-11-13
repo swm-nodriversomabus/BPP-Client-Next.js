@@ -20,10 +20,22 @@ import TalkList, { TalkListItem } from '@/view/talkList';
 
 const getKey = (pageIndex: any, previousPageData: any) => {
   if (previousPageData && !previousPageData.length) return null;
-  return `${process.env.NEXT_BASE_URL}chatroom?page=${pageIndex}&size=10`;
+  return `chatroom?page=${pageIndex}&size=10`;
 };
 
-const fetcher = (url: RequestInfo | URL) => fetch(url).then((r) => r.json());
+const fetcher = (url: RequestInfo | URL) => {
+  let ret;
+  api(String(url), 'GET', {}, [
+    null,
+    (r) => {
+      ret = r;
+    },
+  ]);
+  return ret;
+  // return fetch(url).then((r) => {
+  //   return r.json();
+  // });
+};
 
 let loadState: boolean = false;
 export default function Home(): any {
