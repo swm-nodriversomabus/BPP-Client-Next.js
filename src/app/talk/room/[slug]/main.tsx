@@ -64,7 +64,7 @@ export default function Main({ slug }: { slug: string }): any {
   const isEmpty = data?.[0]?.length === 0;
   const isReachingEnd = isEmpty || (data && data[data.length - 1]?.length < 20);
 
-  const myName = localStorage.getItem('tid') == '1' ? 1 : 0;
+  const myName = 0;
   const [scrollHeight, setScrollHeight] = useState<number>(0);
 
   const [isConnected, setIsConnected] = useState<boolean>(false);
@@ -143,7 +143,6 @@ export default function Main({ slug }: { slug: string }): any {
         image: false,
         type: 'TALK',
         roomId: slug,
-        senderId: localStorage.getItem('tid') == '1' ? 1 : 0,
         content: globalChatText,
         readCount: 1,
       })
