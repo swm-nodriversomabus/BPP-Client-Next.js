@@ -209,7 +209,13 @@ export default function Main({ slug }: { slug: string }): any {
                 <ChatMessage
                   key={i++}
                   received={undefined}
-                  timestamp={msg.createdAt}
+                  timestamp={[
+                    new Date().getFullYear(),
+                    new Date().getMonth() + 1,
+                    new Date().getDate(),
+                    new Date().getHours(),
+                    new Date().getMinutes(),
+                  ]}
                 >
                   {msg.content}
                 </ChatMessage>
@@ -219,7 +225,13 @@ export default function Main({ slug }: { slug: string }): any {
                 <ChatMessage
                   key={i++}
                   received={msg.senderId.username}
-                  timestamp={msg.createdAt}
+                  timestamp={[
+                    new Date().getFullYear(),
+                    new Date().getMonth() + 1,
+                    new Date().getDate(),
+                    new Date().getHours(),
+                    new Date().getMinutes(),
+                  ]}
                 >
                   {msg.content}
                 </ChatMessage>
