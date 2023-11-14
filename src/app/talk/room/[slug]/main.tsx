@@ -22,13 +22,13 @@ import ChatMessageArea from '../chatMessageArea';
 import ChatMessage from '../chatMessage';
 import Image from 'next/image';
 import add from 'public/add.svg';
+import api from '@/utils/api';
 
 const fetcher = (url: RequestInfo | URL) =>
   fetch(url, {
     credentials: 'include',
   }).then((r) => {
-    r.json();
-    return [];
+    return r.json();
   });
 
 let loadState = false;
@@ -38,6 +38,9 @@ let subs: any;
 const globalSockData = new Array<object>();
 let globalChatText = '';
 export default function Main({ slug }: { slug: string }): any {
+  const [myInfo, setMyInfo] = useState<JSON | null>(null);
+  api('user', 'get', {}, [myInfo, setMyInfo]);
+
   const getKey = (pageIndex: any, previousPageData: any) => {
     if (previousPageData && !previousPageData.length) return null;
     const params: Record<string, string> = {
@@ -152,7 +155,14 @@ export default function Main({ slug }: { slug: string }): any {
   };
 
   const arr: Array<Array<object>> | undefined = data?.slice();
-  if (arr) arr?.reverse();
+  if (arr) {
+    arr?.reverse();
+    for (let i = 0; arr.length; i++) {
+      if (arr[i]) {
+        arr[i]?.reverse();
+      }
+    }
+  }
 
   let i = 0;
   return (
@@ -168,29 +178,48 @@ export default function Main({ slug }: { slug: string }): any {
             return msgs?.map((msg: any) => {
               if (msg.sender == myName) {
                 return (
-                  <ChatMessage key={i++} received={undefined}>
-                    {msg.message}
+                  <ChatMessage
+                    key={i++}
+                    received={undefined}
+                    timestamp={msg.createdAt}
+                  >
+                    {msg.content}
                   </ChatMessage>
                 );
               } else {
                 return (
-                  <ChatMessage key={i++} received={msg.sender}>
-                    {msg.message}
+                  <ChatMessage
+                    key={i++}
+                    received={msg.senderId.username}
+                    timestamp={msg.createdAt}
+                  >
+                    {msg.content}
                   </ChatMessage>
                 );
               }
             });
           })}
           {sockData?.map((msg: any, index) => {
-            if (msg.senderId.userId == myName) {
+            if (
+              msg.senderId.username ==
+              (myInfo && 'username' in myInfo ? myInfo.username : '')
+            ) {
               return (
-                <ChatMessage key={i++} received={undefined}>
+                <ChatMessage
+                  key={i++}
+                  received={undefined}
+                  timestamp={msg.createdAt}
+                >
                   {msg.content}
                 </ChatMessage>
               );
             } else {
               return (
-                <ChatMessage key={i++} received={myName ? '명명이' : '용용이'}>
+                <ChatMessage
+                  key={i++}
+                  received={msg.senderId.username}
+                  timestamp={msg.createdAt}
+                >
                   {msg.content}
                 </ChatMessage>
               );
@@ -202,6 +231,11 @@ export default function Main({ slug }: { slug: string }): any {
         <input
           placeholder="메시지를 입력하세요"
           onChange={chatTextOnChange}
+          onKeyDown={(e) => {
+            if (e.key == 'Enter') {
+              alert('1');
+            }
+          }}
           value={chatText}
         ></input>
         <Image src={add} alt="add" />
