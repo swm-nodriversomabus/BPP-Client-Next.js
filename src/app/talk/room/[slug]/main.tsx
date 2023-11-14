@@ -50,6 +50,7 @@ export default function Main({ slug }: { slug: string }): any {
       size: '10',
     };
     const query = new URLSearchParams(params).toString();
+    setSockData([]);
     return `${process.env.NEXT_BASE_URL}chat?${query}`;
   };
   const [chatText, setChatText] = useState('');
@@ -158,11 +159,11 @@ export default function Main({ slug }: { slug: string }): any {
   const arr: Array<Array<object>> | undefined = data?.slice(0);
   if (arr) {
     arr?.reverse();
-    for (let i = 0; i < arr.length; i++) {
-      if (arr[i]) {
-        arr[i]?.reverse();
+    arr.forEach((element) => {
+      if (element) {
+        element?.reverse();
       }
-    }
+    });
   }
 
   let i = 0;
@@ -177,7 +178,10 @@ export default function Main({ slug }: { slug: string }): any {
         <>
           {arr?.map((msgs, index) => {
             return msgs?.map((msg: any) => {
-              if (msg.sender == myName) {
+              if (
+                msg.senderId.username ==
+                (myInfo && 'username' in myInfo ? myInfo.username : '')
+              ) {
                 return (
                   <ChatMessage
                     key={i++}
