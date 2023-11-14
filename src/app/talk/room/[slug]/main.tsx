@@ -24,12 +24,13 @@ import Image from 'next/image';
 import add from 'public/add.svg';
 import api from '@/utils/api';
 
-const fetcher = (url: RequestInfo | URL) =>
-  fetch(url, {
+const fetcher = (url: RequestInfo | URL) => {
+  return fetch(url, {
     credentials: 'include',
   }).then((r) => {
     return r.json();
   });
+};
 
 let loadState = false;
 
@@ -157,7 +158,7 @@ export default function Main({ slug }: { slug: string }): any {
   const arr: Array<Array<object>> | undefined = data?.slice();
   if (arr) {
     arr?.reverse();
-    for (let i = 0; arr.length; i++) {
+    for (let i = 0; i < arr.length; i++) {
       if (arr[i]) {
         arr[i]?.reverse();
       }
