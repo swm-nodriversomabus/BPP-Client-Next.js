@@ -155,7 +155,7 @@ export default function Main({ slug }: { slug: string }): any {
     globalChatText = '';
   };
 
-  const arr: Array<Array<object>> | undefined = data?.slice();
+  const arr: Array<Array<object>> | undefined = data?.slice(0);
   if (arr) {
     arr?.reverse();
     for (let i = 0; i < arr.length; i++) {
