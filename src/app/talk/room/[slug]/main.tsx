@@ -72,8 +72,6 @@ export default function Main({ slug }: { slug: string }): any {
   const isEmpty = data?.[0]?.length === 0;
   const isReachingEnd = isEmpty || (data && data[data.length - 1]?.length < 20);
 
-  const myName = 0;
-
   const scrollRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
   let isConnectedDOM: RefObject<HTMLInputElement> =
     useRef<HTMLInputElement>(null);
@@ -112,17 +110,15 @@ export default function Main({ slug }: { slug: string }): any {
     }
   }, [data, sockData]);
 
-  useEffect(() => {
-    if (data) {
-      arr = data.slice();
-      arr?.reverse();
-      arr.forEach((element) => {
-        if (element && 'reverse' in element) {
-          element.reverse();
-        }
-      });
-    }
-  });
+  if (data) {
+    arr = data.slice();
+    arr?.reverse();
+    arr.forEach((element) => {
+      if (element && 'reverse' in element) {
+        element.reverse();
+      }
+    });
+  }
 
   const client = useRef<CompatClient>();
   const connectHandler = () => {
