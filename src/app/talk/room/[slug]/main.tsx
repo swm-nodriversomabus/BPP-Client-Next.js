@@ -114,8 +114,11 @@ export default function Main({ slug }: { slug: string }): any {
 
   const client = useRef<CompatClient>();
   const connectHandler = () => {
+    if (sock) {
+      console.log('socket close');
+      sock.close();
+    }
     client.current = Stomp.over(() => {
-      if (sock) sock.close();
       sock = new SockJS(`${process.env.NEXT_BASE_URL}ws/chat`);
       return sock;
     });
