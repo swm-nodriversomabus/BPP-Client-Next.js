@@ -90,7 +90,7 @@ export default function Main({ slug }: { slug: string }): any {
     }
   };
 
-  const arr: Array<Array<object>> | undefined = data?.slice();
+  let arr: Array<Array<object>> | undefined = [];
 
   useEffect(() => {
     if (
@@ -110,6 +110,7 @@ export default function Main({ slug }: { slug: string }): any {
       );
       loadState = false;
     }
+    arr = data?.slice();
   }, [data, sockData]);
 
   useEffect(() => {
