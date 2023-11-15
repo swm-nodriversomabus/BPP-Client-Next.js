@@ -157,14 +157,14 @@ export default function Main({ slug }: { slug: string }): any {
   };
 
   const arr: Array<Array<object>> | undefined = data?.slice(0);
-  if (arr) {
-    arr?.reverse();
-    arr.forEach((element) => {
-      if (element && 'reverse' in element) {
-        element.reverse();
-      }
-    });
-  }
+  // if (arr) {
+  //   arr?.reverse();
+  //   arr.forEach((element) => {
+  //     if (element && 'reverse' in element) {
+  //       element.reverse();
+  //     }
+  //   });
+  // }
 
   let i = 0;
   return (
