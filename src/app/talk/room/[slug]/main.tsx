@@ -41,6 +41,11 @@ let globalChatText = '';
 export default function Main({ slug }: { slug: string }): any {
   const [myInfo, setMyInfo] = useState<JSON | null>(null);
   api('user', 'get', {}, [myInfo, setMyInfo]);
+  const [chatText, setChatText] = useState('');
+  const [sockData, setSockData] = useState(new Array<object>());
+  const [scrollHeight, setScrollHeight] = useState<number>(0);
+
+  const [isConnected, setIsConnected] = useState<boolean>(false);
 
   const getKey = (pageIndex: any, previousPageData: any) => {
     if (previousPageData && !previousPageData.length) return null;
@@ -50,11 +55,9 @@ export default function Main({ slug }: { slug: string }): any {
       size: '10',
     };
     const query = new URLSearchParams(params).toString();
-    setSockData([]);
+    if (sockData.length) setSockData([]);
     return `${process.env.NEXT_BASE_URL}chat?${query}`;
   };
-  const [chatText, setChatText] = useState('');
-  const [sockData, setSockData] = useState(new Array<object>());
 
   const { data, size, setSize, mutate }: SWRInfiniteResponse = useSWRInfinite(
     getKey,
@@ -70,9 +73,6 @@ export default function Main({ slug }: { slug: string }): any {
   const isReachingEnd = isEmpty || (data && data[data.length - 1]?.length < 20);
 
   const myName = 0;
-  const [scrollHeight, setScrollHeight] = useState<number>(0);
-
-  const [isConnected, setIsConnected] = useState<boolean>(false);
 
   const scrollRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
   let isConnectedDOM: RefObject<HTMLInputElement> =
