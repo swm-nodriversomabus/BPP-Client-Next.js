@@ -315,8 +315,8 @@ export default function Main({ slug }: { slug: string }): any {
                           <Image src={emptyProfile} alt="profile" width="48" />
                         </div>
                         <div>{item.username}</div>
-                        <div>{item.age}</div>
-                        <div>Lv.{item.stateMessage}</div>
+                        <div>{item.stateMessage}</div>
+                        <div>Lv.{item.mannerScore}</div>
                       </div>
                     </>
                   );
