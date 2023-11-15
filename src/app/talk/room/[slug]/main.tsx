@@ -88,8 +88,6 @@ export default function Main({ slug }: { slug: string }): any {
     }
   };
 
-  let arr: Array<Array<object>> | undefined = data?.slice();
-
   useEffect(() => {
     if (
       scrollRef?.current &&
@@ -108,17 +106,19 @@ export default function Main({ slug }: { slug: string }): any {
       );
       loadState = false;
     }
-
-    if (data) {
-      arr = data?.slice();
-      arr?.reverse();
-      arr.forEach((element) => {
-        if (element && 'reverse' in element) {
-          element.reverse();
-        }
-      });
-    }
   }, [data, sockData]);
+
+  let arr: Array<Array<object>> | undefined = data?.slice();
+
+  if (data) {
+    arr = data?.slice();
+    arr?.reverse();
+    arr.forEach((element) => {
+      if (element && 'reverse' in element) {
+        element.reverse();
+      }
+    });
+  }
 
   const client = useRef<CompatClient>();
   const connectHandler = () => {
