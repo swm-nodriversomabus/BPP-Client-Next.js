@@ -120,7 +120,7 @@
     border: none;
     height: 54px;
     margin-left: 48px;
-    width: 100%;
+    width: calc(100% - 100px);
     padding: 10px;
   }
   & > img {

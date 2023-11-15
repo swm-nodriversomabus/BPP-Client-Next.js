@@ -4,12 +4,12 @@
 
 html,
 body {
-  touch-action: pan-x pan-y;
   overscroll-behavior-y: none;
   overflow: hidden;
 }
 
 * {
+  touch-action: pan-x pan-y;
   -webkit-user-select: none;
   user-select: none;
   box-sizing: content-box;
