@@ -88,7 +88,7 @@ export default function Main({ slug }: { slug: string }): any {
     }
   };
 
-  let arr: Array<Array<object>> | undefined = [];
+  const arr: Array<Array<object>> | undefined = data?.slice();
 
   useEffect(() => {
     if (
@@ -108,17 +108,16 @@ export default function Main({ slug }: { slug: string }): any {
       );
       loadState = false;
     }
-  }, [data, sockData]);
 
-  if (data) {
-    arr = data.slice();
-    arr?.reverse();
-    arr.forEach((element) => {
-      if (element && 'reverse' in element) {
-        element.reverse();
-      }
-    });
-  }
+    if (arr) {
+      arr?.reverse();
+      arr.forEach((element) => {
+        if (element && 'reverse' in element) {
+          element.reverse();
+        }
+      });
+    }
+  }, [data, sockData]);
 
   const client = useRef<CompatClient>();
   const connectHandler = () => {
@@ -250,7 +249,7 @@ export default function Main({ slug }: { slug: string }): any {
           onChange={chatTextOnChange}
           onKeyDown={(e) => {
             if (e.key == 'Enter') {
-              alert('1');
+              sendHandler();
             }
           }}
           value={chatText}
