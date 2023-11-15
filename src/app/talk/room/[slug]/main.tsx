@@ -55,7 +55,6 @@ export default function Main({ slug }: { slug: string }): any {
       size: '10',
     };
     const query = new URLSearchParams(params).toString();
-    if (sockData.length) setSockData([]);
     return `${process.env.NEXT_BASE_URL}chat?${query}`;
   };
 
@@ -95,7 +94,9 @@ export default function Main({ slug }: { slug: string }): any {
         scrollRef?.current?.offsetHeight + 200 &&
       !loadState
     ) {
+      // 위로 스크롤해서 이전 데이터 불러오기 trigger
       loadState = true;
+      if (sockData.length) setSockData([]);
       setSize(size + 1);
     } else if (scrollRef) {
       scrollRef.current?.scrollTo(
