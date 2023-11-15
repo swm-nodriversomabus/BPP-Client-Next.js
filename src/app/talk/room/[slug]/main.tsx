@@ -129,7 +129,10 @@ export default function Main({ slug }: { slug: string }): any {
         (message) => {
           const json = JSON.parse(message.body);
           globalSockData.push({
-            senderId: json.senderId,
+            senderId: {
+              username: json.senderId.username,
+              userId: json.senderId.userId,
+            },
             content: json.content,
           });
           const copySockData = globalSockData.slice();
