@@ -47,8 +47,6 @@ export default function Main({ slug }: { slug: string }): any {
 
   const [isConnected, setIsConnected] = useState<boolean>(false);
 
-  let arr: Array<Array<object>> | undefined = [];
-
   const getKey = (pageIndex: any, previousPageData: any) => {
     if (previousPageData && !previousPageData.length) return null;
     const params: Record<string, string> = {
@@ -92,6 +90,8 @@ export default function Main({ slug }: { slug: string }): any {
     }
   };
 
+  const arr: Array<Array<object>> | undefined = data?.slice();
+
   useEffect(() => {
     if (
       scrollRef?.current &&
@@ -111,16 +111,13 @@ export default function Main({ slug }: { slug: string }): any {
       loadState = false;
     }
 
-    if (data) {
-      arr = data.slice();
-      if (arr) {
-        arr?.reverse();
-        arr.forEach((element) => {
-          if (element && 'reverse' in element) {
-            element.reverse();
-          }
-        });
-      }
+    if (arr) {
+      arr?.reverse();
+      arr.forEach((element) => {
+        if (element && 'reverse' in element) {
+          element.reverse();
+        }
+      });
     }
   }, [data, sockData]);
 
