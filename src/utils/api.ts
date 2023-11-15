@@ -37,7 +37,6 @@ const api = (
   const BASE_URL = process.env.NEXT_BASE_URL;
   const CLIENT = process.env.NEXT_CLIENT;
 
-  // {id} 를 실제 userID 값으로 치환
   let targetURL = `${BASE_URL}${url}`;
 
   // method 의 default 값은 GET
@@ -81,7 +80,7 @@ const api = (
             if (text.length && '[{'.indexOf(text[0]) > -1) {
               state[1](JSON.parse(text));
             } else {
-              state[1](JSON.parse(`{"text": "${text}"}`));
+              state[1](JSON.parse(`{"text": "${text.replaceAll('"', '')}"}`));
             }
           });
         }
