@@ -110,11 +110,11 @@ export default function Main({ slug }: { slug: string }): any {
       );
       loadState = false;
     }
-    arr = data?.slice();
   }, [data, sockData]);
 
   useEffect(() => {
-    if (arr) {
+    if (data) {
+      arr = data.slice();
       arr?.reverse();
       arr.forEach((element) => {
         if (element && 'reverse' in element) {
