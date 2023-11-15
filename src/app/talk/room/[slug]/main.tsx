@@ -36,6 +36,8 @@ let loadState = false;
 
 let subs: any;
 
+let sock: any;
+
 const globalSockData = new Array<object>();
 let globalChatText = '';
 export default function Main({ slug }: { slug: string }): any {
@@ -112,7 +114,8 @@ export default function Main({ slug }: { slug: string }): any {
   const client = useRef<CompatClient>();
   const connectHandler = () => {
     client.current = Stomp.over(() => {
-      const sock = new SockJS(`${process.env.NEXT_BASE_URL}ws/chat`);
+      if (sock) sock.close();
+      sock = new SockJS(`${process.env.NEXT_BASE_URL}ws/chat`);
       return sock;
     });
     client.current.connect({}, () => {
