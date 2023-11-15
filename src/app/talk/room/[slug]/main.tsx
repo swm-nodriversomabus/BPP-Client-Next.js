@@ -85,6 +85,7 @@ export default function Main({ slug }: { slug: string }): any {
     ) {
       loadState = true;
       setScrollHeight(scrollRef?.current?.scrollHeight);
+      if (sockData.length) setSockData([]);
       setSize(size + 1);
     }
   };
