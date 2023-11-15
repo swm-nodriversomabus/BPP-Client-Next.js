@@ -160,8 +160,8 @@ export default function Main({ slug }: { slug: string }): any {
   if (arr) {
     arr?.reverse();
     arr.forEach((element) => {
-      if (element) {
-        element?.reverse();
+      if (element && 'reverse' in element) {
+        element.reverse();
       }
     });
   }
