@@ -38,7 +38,7 @@ let subs: any;
 
 let sock: any;
 
-const globalSockData = new Array<object>();
+let globalSockData = new Array<object>();
 let globalChatText = '';
 export default function Main({ slug }: { slug: string }): any {
   const [myInfo, setMyInfo] = useState<JSON | null>(null);
@@ -85,6 +85,7 @@ export default function Main({ slug }: { slug: string }): any {
     ) {
       loadState = true;
       setScrollHeight(scrollRef?.current?.scrollHeight);
+      globalSockData = [];
       if (sockData.length) setSockData([]);
       setSize(size + 1);
     }
@@ -99,6 +100,7 @@ export default function Main({ slug }: { slug: string }): any {
     ) {
       // 위로 스크롤해서 이전 데이터 불러오기 trigger
       loadState = true;
+      globalSockData = [];
       if (sockData.length) setSockData([]);
       setSize(size + 1);
     } else if (scrollRef) {
