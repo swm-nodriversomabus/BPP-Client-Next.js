@@ -24,14 +24,6 @@ import Image from 'next/image';
 import add from 'public/add.svg';
 import api from '@/utils/api';
 
-const fetcher = (url: RequestInfo | URL) => {
-  return fetch(url, {
-    credentials: 'include',
-  }).then((r) => {
-    return r.json();
-  });
-};
-
 let loadState = false;
 
 let subs: any;
@@ -40,6 +32,7 @@ let sock: any;
 
 let globalSockData = new Array<object>();
 let globalChatText = '';
+
 export default function Main({ slug }: { slug: string }): any {
   const [myInfo, setMyInfo] = useState<JSON | null>(null);
   api('user/id', 'get', {}, [myInfo, setMyInfo]);
@@ -48,6 +41,16 @@ export default function Main({ slug }: { slug: string }): any {
   const [scrollHeight, setScrollHeight] = useState<number>(0);
 
   const [isConnected, setIsConnected] = useState<boolean>(false);
+
+  const fetcher = (url: RequestInfo | URL) => {
+    globalSockData = [];
+    if (sockData.length) setSockData([]);
+    return fetch(url, {
+      credentials: 'include',
+    }).then((r) => {
+      return r.json();
+    });
+  };
 
   const getKey = (pageIndex: any, previousPageData: any) => {
     if (previousPageData && !previousPageData.length) return null;
@@ -60,9 +63,48 @@ export default function Main({ slug }: { slug: string }): any {
     return `${process.env.NEXT_BASE_URL}chat?${query}`;
   };
 
-  const { data, size, setSize, mutate }: SWRInfiniteResponse = useSWRInfinite(
+  const { data, size, setSize }: SWRInfiniteResponse = useSWRInfinite(
     getKey,
-    fetcher
+    fetcher,
+    {
+      revalidateOnFocus: false,
+      compare: (a, b) => {
+        if (!a && !b) return true;
+        if (a === b) {
+          if ('length' in a && 'length' in b && a.length === b.length) {
+            if (a.length === 0) {
+              return true;
+            }
+            if (
+              'length' in a[0] &&
+              'length' in b[0] &&
+              a[0].length === b[0].length
+            ) {
+              if (a[0].length === 0) {
+                return true;
+              }
+              if (!('createdAt' in a[0][0]) && !('createdAt' in b[0][0])) {
+                return true;
+              }
+              if (
+                'createdAt' in a[0][0] &&
+                'createdAt' in b[0][0] &&
+                a[0][0].createdAt[0] == b[0][0].createdAt[0] &&
+                a[0][0].createdAt[1] == b[0][0].createdAt[1] &&
+                a[0][0].createdAt[2] == b[0][0].createdAt[2] &&
+                a[0][0].createdAt[3] == b[0][0].createdAt[3] &&
+                a[0][0].createdAt[4] == b[0][0].createdAt[4] &&
+                a[0][0].createdAt[5] == b[0][0].createdAt[5] &&
+                a[0][0].createdAt[6] == b[0][0].createdAt[6]
+              ) {
+                return true;
+              }
+            }
+          }
+        }
+        return false;
+      },
+    }
   );
 
   const chatTextOnChange = (e: any) => {
