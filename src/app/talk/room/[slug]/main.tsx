@@ -108,18 +108,6 @@ export default function Main({ slug }: { slug: string }): any {
     }
   }, [data, sockData]);
 
-  let arr: Array<Array<object>> | undefined = data?.slice();
-
-  if (data) {
-    arr = data?.slice();
-    arr?.reverse();
-    arr.forEach((element) => {
-      if (element && 'reverse' in element) {
-        element.reverse();
-      }
-    });
-  }
-
   const client = useRef<CompatClient>();
   const connectHandler = () => {
     client.current = Stomp.over(() => {
@@ -176,8 +164,8 @@ export default function Main({ slug }: { slug: string }): any {
         inheritRef={scrollRef}
       >
         <>
-          {arr?.map((msgs, index) => {
-            return msgs?.map((msg: any) => {
+          {[...(data ? data : [])].reverse().map((msgs, index) => {
+            return [...(msgs ? msgs : [])].reverse().map((msg: any) => {
               if (
                 msg.senderId.userId ==
                 (myInfo && 'text' in myInfo ? myInfo.text : '')
