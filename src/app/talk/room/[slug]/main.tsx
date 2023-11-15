@@ -40,7 +40,7 @@ const globalSockData = new Array<object>();
 let globalChatText = '';
 export default function Main({ slug }: { slug: string }): any {
   const [myInfo, setMyInfo] = useState<JSON | null>(null);
-  api('user', 'get', {}, [myInfo, setMyInfo]);
+  api('user/id', 'get', {}, [myInfo, setMyInfo]);
   const [chatText, setChatText] = useState('');
   const [sockData, setSockData] = useState(new Array<object>());
   const [scrollHeight, setScrollHeight] = useState<number>(0);
@@ -179,8 +179,8 @@ export default function Main({ slug }: { slug: string }): any {
           {arr?.map((msgs, index) => {
             return msgs?.map((msg: any) => {
               if (
-                msg.senderId.username ==
-                (myInfo && 'username' in myInfo ? myInfo.username : '')
+                msg.senderId.userId ==
+                (myInfo && 'text' in myInfo ? myInfo.text : '')
               ) {
                 return (
                   <ChatMessage
@@ -206,8 +206,8 @@ export default function Main({ slug }: { slug: string }): any {
           })}
           {sockData?.map((msg: any, index) => {
             if (
-              msg.senderId.username ==
-              (myInfo && 'username' in myInfo ? myInfo.username : '')
+              msg.senderId.userId ==
+              (myInfo && 'text' in myInfo ? myInfo.text : '')
             ) {
               return (
                 <ChatMessage
