@@ -119,6 +119,8 @@ export default function Main({ slug }: { slug: string }): any {
     if (sock) {
       console.log('socket close');
       sock.close();
+      globalSockData = [];
+      if (sockData.length) setSockData([]);
     }
     client.current = Stomp.over(() => {
       sock = new SockJS(`${process.env.NEXT_BASE_URL}ws/chat`);
