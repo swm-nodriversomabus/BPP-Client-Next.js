@@ -88,7 +88,7 @@ export default function Main({ slug }: { slug: string }): any {
     }
   };
 
-  const arr: Array<Array<object>> | undefined = data?.slice();
+  let arr: Array<Array<object>> | undefined = data?.slice();
 
   useEffect(() => {
     if (
@@ -109,7 +109,8 @@ export default function Main({ slug }: { slug: string }): any {
       loadState = false;
     }
 
-    if (arr) {
+    if (data) {
+      arr = data?.slice();
       arr?.reverse();
       arr.forEach((element) => {
         if (element && 'reverse' in element) {
