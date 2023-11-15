@@ -110,7 +110,9 @@ export default function Main({ slug }: { slug: string }): any {
       );
       loadState = false;
     }
+  }, [data, sockData]);
 
+  useEffect(() => {
     if (arr) {
       arr?.reverse();
       arr.forEach((element) => {
@@ -119,7 +121,7 @@ export default function Main({ slug }: { slug: string }): any {
         }
       });
     }
-  }, [data, sockData]);
+  });
 
   const client = useRef<CompatClient>();
   const connectHandler = () => {
