@@ -9,6 +9,7 @@ import addcheck_true from 'public/addcheck_true.svg';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import TermsDocs from '@/docs/terms';
 import PrivacyDocs from '@/docs/privacy';
 
 export default function Home({
@@ -22,15 +23,14 @@ export default function Home({
 }): any {
   const [checkBox_1, setCheckBox_1] = useState(false);
   const [checkBox_2, setCheckBox_2] = useState(false);
-  const [checkBox_3, setCheckBox_3] = useState(false);
   const [nextBtnAvailable, setNextBtnAvailable] = useState(false);
   useEffect(() => {
-    if (checkBox_1 && checkBox_2 && checkBox_3) {
+    if (checkBox_1 && checkBox_2) {
       setNextBtnAvailable(true);
     } else {
       setNextBtnAvailable(false);
     }
-  }, [checkBox_1, checkBox_2, checkBox_3]);
+  }, [checkBox_1, checkBox_2]);
   const router = useRouter();
   return (
     <>
@@ -123,11 +123,9 @@ export default function Home({
               if (nextBtnAvailable) {
                 setCheckBox_1(false);
                 setCheckBox_2(false);
-                setCheckBox_3(false);
               } else {
                 setCheckBox_1(true);
                 setCheckBox_2(true);
-                setCheckBox_3(true);
               }
             }}
             src={nextBtnAvailable ? addcheck_true : addcheck}
@@ -173,7 +171,7 @@ export default function Home({
             style={{ float: 'right', marginTop: '-2px' }}
             alt="check"
           />
-          <textarea
+          <div
             style={{
               boxSizing: 'border-box',
               display: 'inline-block',
@@ -186,13 +184,13 @@ export default function Home({
               marginTop: '10px',
               padding: '0',
               resize: 'none',
-              height: '86px',
+              height: '100px',
               lineHeight: '19.5px',
+              overflowY: 'auto',
             }}
           >
-            {'여러분을 환영합니다. \n' +
-              "네이버 서비스 및 제품(이하 '서비스')을 이용해 주셔서 감사합니다. 본 약관은 다양한 네이버 서비스의 이용과 관련하여 네이버 서비스를 제공하는 네이버 주식회사(이하 '회사')"}
-          </textarea>
+            <TermsDocs />
+          </div>
         </div>
 
         <div
@@ -223,73 +221,13 @@ export default function Home({
               float: 'left',
             }}
           >
-            이용약관
+            개인정보 처리방침
           </div>
           <Image
             onClick={() => {
               setCheckBox_2(!checkBox_2);
             }}
             src={checkBox_2 ? addcheck_true : addcheck}
-            style={{ float: 'right', marginTop: '-2px' }}
-            alt="check"
-          />
-          <textarea
-            style={{
-              boxSizing: 'border-box',
-              display: 'inline-block',
-              marginLeft: '6px',
-              color: '#737373',
-              fontSize: '13px',
-              width: '100%',
-              border: 'none',
-              margin: '0',
-              marginTop: '10px',
-              padding: '0',
-              resize: 'none',
-              height: '86px',
-              lineHeight: '19.5px',
-            }}
-          >
-            {'여러분을 환영합니다. \n' +
-              "네이버 서비스 및 제품(이하 '서비스')을 이용해 주셔서 감사합니다. 본 약관은 다양한 네이버 서비스의 이용과 관련하여 네이버 서비스를 제공하는 네이버 주식회사(이하 '회사')"}
-          </textarea>
-        </div>
-
-        <div
-          style={{
-            boxSizing: 'border-box',
-            marginLeft: '20px',
-            color: '#212121',
-            fontSize: '14px',
-            width: 'calc(100% - 40px)',
-            position: 'relative',
-            display: 'inline-block',
-            lineHeight: '22px',
-            height: '150px',
-            border: 'solid 1px #EEEEF0',
-            padding: '16px',
-            marginBottom: '15px',
-          }}
-        >
-          <div style={{ color: '#FF5F49', fontSize: '16px', float: 'left' }}>
-            필수
-          </div>
-          <div
-            style={{
-              fontWeight: 'bold',
-              marginLeft: '6px',
-              color: '#212121',
-              fontSize: '16px',
-              float: 'left',
-            }}
-          >
-            이용약관
-          </div>
-          <Image
-            onClick={() => {
-              setCheckBox_3(!checkBox_3);
-            }}
-            src={checkBox_3 ? addcheck_true : addcheck}
             style={{ float: 'right', marginTop: '-2px' }}
             alt="check"
           />
@@ -314,6 +252,7 @@ export default function Home({
             <PrivacyDocs />
           </div>
         </div>
+
         <div style={{ width: '100%', height: '100px' }} />
       </ContentBox>
       <button

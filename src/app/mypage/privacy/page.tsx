@@ -4,12 +4,12 @@ import './style.css';
 import Navbar from '@/component/navigationBar';
 import ContentBox from '@/component/contentBox';
 import api from '@/utils/api';
-import TermsDocs from '@/docs/terms';
+import PrivacyDocs from '@/docs/privacy';
 
 export default function Home(): any {
   return (
     <>
-      <Navbar back=" ">이용약관</Navbar>
+      <Navbar back=" ">개인정보 처리방침</Navbar>
       <ContentBox>
         <div
           style={{
@@ -37,7 +37,7 @@ export default function Home(): any {
               float: 'left',
             }}
           >
-            이용약관
+            개인정보처리방침
           </div>
           <div
             style={{
@@ -57,7 +57,7 @@ export default function Home(): any {
               overflowY: 'auto',
             }}
           >
-            <TermsDocs />
+            <PrivacyDocs />
           </div>
         </div>
       </ContentBox>
