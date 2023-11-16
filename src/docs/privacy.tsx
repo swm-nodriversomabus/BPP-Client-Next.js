@@ -209,8 +209,8 @@ export default function PrivacyDocs(): any {
       처리하기 위하여 아래와 같이 관련 부서 및 개인정보 보호 책임자를 지정하고
       있습니다.
       <br /> 1. 개인정보 보호 책임자 성명: 신용명
-      <br /> 전화번호: 010-0000-0000
-      <br /> 이메일: xxxxxx@xxxx.xxx
+      <br /> 전화번호: 010-2352-1824
+      <br /> 이메일: tlsdydaud1@gmail.com
       <br /> <br /> 부칙
       <br /> 제1조 본 방침은 2023. 10. 17 부터 시행됩니다.
     </>

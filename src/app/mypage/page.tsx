@@ -58,9 +58,11 @@ export default function Home(): any {
           </div>{' '}
         </Link>
         <div className="MyPageListSeperator"></div>
-        {/* <div className="MyPageListItem">계정 연동</div> */}
         <Link href={'./mypage/terms'}>
-          <div className="MyPageListItem">약관 및 정책</div>
+          <div className="MyPageListItem">이용약관</div>
+        </Link>
+        <Link href={'./mypage/privacy'}>
+          <div className="MyPageListItem">개인정보 처리방침</div>
         </Link>
         {/* <div className="MyPageListItem">앱정보</div> */}
       </ContentBox>
