@@ -65,6 +65,10 @@ export default function Home(): any {
           <div className="MyPageListItem">개인정보 처리방침</div>
         </Link>
         {/* <div className="MyPageListItem">앱정보</div> */}
+        <div className="MyPageListSeperator"></div>
+        <Link href={'./mypage/delete'}>
+          <div className="MyPageListItem">서비스 탈퇴</div>
+        </Link>
       </ContentBox>
     </>
   );
