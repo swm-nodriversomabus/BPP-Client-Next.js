@@ -12,14 +12,14 @@ export default function Home(): any {
   const [confirmText, setConfirmText] = useState('');
   return (
     <>
-      <Navbar back=" ">서비스 탈퇴하기</Navbar>
+      <Navbar back=" ">여행파티 탈퇴하기</Navbar>
       <ContentBox>
         <div
           style={{
             padding: '20px',
           }}
         >
-          서비스 탈퇴를 하면, 본 계정과 연계된 정보가 모두 삭제되며 이는 돌이킬
+          서비스 탈퇴를 하면, 본 계정과 연계된 정보가 즉시 삭제되며 이는 돌이킬
           수 없습니다.
           <br />
           {`계속 진행하려면, "계정을 삭제하겠습니다" 라고 입력해주세요.`}
