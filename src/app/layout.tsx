@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Script from 'next/script';
 import localFont from 'next/font/local';
+import GoogleAnalytics from './googleAnalytics';
 
 const Pretendard = localFont({
   src: '../../public/PretendardVariable.woff2',
@@ -39,18 +40,9 @@ export default function RootLayout({
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="theme-color" content="#fff" />
       <html className={Pretendard.className} lang="en">
-        <body style={{ background: '#fff' }}>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              position: 'absolute',
-              width: '100%',
-              height: '100%',
-            }}
-          >
-            {children}
-          </div>
+        <body>
+          <div id="portraitView">{children}</div>
+          <GoogleAnalytics />
         </body>
       </html>
     </>
