@@ -38,12 +38,22 @@
   padding-left: 20px;
   font-weight: bold;
   & > .MyPageListItemLevel {
+    background-color: #e3ff49;
     position: relative;
-    margin-top: -56px;
+    margin-top: 15px;
     margin-right: 20px;
     font-size: 14px;
     font-weight: normal;
     text-align: right;
+    width: fit-content;
+    float: right;
+    right: 0px;
+    height: 26px;
+    line-height: 26px;
+    border-radius: 8px;
+    font-weight: bold;
+    padding-left: 6px;
+    padding-right: 6px;
   }
 }
 .MyPageListSeperator {
