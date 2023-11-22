@@ -1,60 +1,67 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import './style.css';
 import Navbar from '@/component/navigationBar';
 import ContentBox from '@/component/contentBox';
 import Image from 'next/image';
-import profileButtons from 'public/profileButtons.svg';
-import profile0 from 'public/profile0.svg';
-import profile1 from 'public/profile1.svg';
-import profile2 from 'public/profile2.svg';
-import profile3 from 'public/profile3.svg';
-import profile4 from 'public/profile4.svg';
-import profile5 from 'public/profile5.svg';
-import profile6 from 'public/profile6.svg';
-import profile7 from 'public/profile7.svg';
-import profile8 from 'public/profile8.svg';
-import profile9 from 'public/profile9.svg';
+import emptyProfile from 'public/empty_profile.png';
 import profile_btn_1 from 'public/profile_btn_1.svg';
 import profile_btn_2 from 'public/profile_btn_2.svg';
 import profile_btn_3 from 'public/profile_btn_3.svg';
 import api from '@/utils/api';
 import { useState } from 'react';
-
-const profileImg: Array<any> = [
-  profile0,
-  profile1,
-  profile2,
-  profile3,
-  profile4,
-  profile5,
-  profile6,
-  profile7,
-  profile8,
-  profile9,
-];
+import { useRouter } from 'next/navigation';
 
 export default function Main({ slug }: { slug: string }): any {
+  const [isImage, setIsImage] = useState(true);
+  const BASE_URL: string = process.env.NEXT_BASE_URL
+    ? process.env.NEXT_BASE_URL
+    : '';
+
   const [userInfo, setUserInfo] = useState<JSON | null>(null);
   api(`user/${slug}`, 'get', {}, [userInfo, setUserInfo]);
+
+  const Router = useRouter();
 
   return (
     <>
       <Navbar back=" "> </Navbar>
-      <Image
-        src={profile1}
-        alt="image"
-        style={{
-          width: '112px',
-          height: '112px',
-          marginLeft: '-56px',
-          marginTop: '-86px',
-          left: '50%',
-          top: '50%',
-          position: 'absolute',
-          zIndex: '99',
-        }}
-      />
+      {isImage ? (
+        <img
+          src={slug ? BASE_URL + 'user/image/' + slug : ''}
+          onError={(e) => {
+            setIsImage(false);
+          }}
+          width={112}
+          height={112}
+          alt="image"
+          style={{
+            marginLeft: '-56px',
+            marginTop: '-86px',
+            left: '50%',
+            top: '50%',
+            position: 'absolute',
+            zIndex: '99',
+            borderRadius: '100%',
+          }}
+        />
+      ) : (
+        <Image
+          src={emptyProfile}
+          width={112}
+          height={112}
+          alt="image"
+          style={{
+            marginLeft: '-56px',
+            marginTop: '-86px',
+            left: '50%',
+            top: '50%',
+            position: 'absolute',
+            zIndex: '99',
+          }}
+        />
+      )}
       <div
         style={{
           width: '100%',
@@ -104,6 +111,21 @@ export default function Main({ slug }: { slug: string }): any {
           cursor: 'pointer',
           paddingLeft: '20px',
           paddingRight: '20px',
+        }}
+        onClick={() => {
+          api(
+            'block',
+            'post',
+            {
+              blocklistUserId: slug,
+            },
+            [
+              null,
+              () => {
+                Router.push('./');
+              },
+            ]
+          );
         }}
       >
         <Image src={profile_btn_2} alt="image" />
