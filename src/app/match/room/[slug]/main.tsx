@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import './style.css';
 import Navbar from '@/component/navigationBar';
 import ContentBox from '@/component/contentBox';
@@ -22,6 +23,7 @@ import emptyProfile from 'public/empty_profile.png';
 import matchconfirm from 'public/matchconfirm.svg';
 import api from '@/utils/api';
 import MatchStyleEdit from '../../style/matchStyleEdit';
+import PendingPerson from '@/component/pendingPeople';
 
 let subs: any;
 
@@ -48,6 +50,9 @@ let isNewFace = false;
 // ],
 
 export default function Main({ slug }: { slug: string }): any {
+  const BASE_URL: string = process.env.NEXT_BASE_URL
+    ? process.env.NEXT_BASE_URL
+    : '';
   const [matchInfo, setMatchInfo] = useState<JSON | null>(null);
   api(`matching/${slug}`, 'get', {}, [matchInfo, setMatchInfo]);
   // api(
@@ -146,6 +151,8 @@ export default function Main({ slug }: { slug: string }): any {
   const [modalDisplay, setModalDisplay] = useState(false);
   const [modal2Display, setModal2Display] = useState(false);
   const [modal3Display, setModal3Display] = useState(false);
+
+  const [isImage, setIsImage] = useState(true);
 
   const [candidate, setCandidate] = useState({
     username: '',
@@ -321,7 +328,10 @@ export default function Main({ slug }: { slug: string }): any {
                         stateMessage={item.stateMessage}
                         mannerScore={item.mannerScore}
                         userId={item.userId}
-                        setModal3Display={setModal3Display}
+                        setModal3Display={(x: boolean) => {
+                          setIsImage(true);
+                          setModal3Display(x);
+                        }}
                         setCandidate={setCandidate}
                       ></MatchPerson>
                     </>
@@ -335,8 +345,7 @@ export default function Main({ slug }: { slug: string }): any {
 
           {myStatus &&
           'text' in myStatus &&
-          ((myStatus as { text: string }).text == 'Owner' ||
-            (myStatus as { text: string }).text == 'Approved') &&
+          (myStatus as { text: string }).text == 'Owner' &&
           pending &&
           'map' in pending &&
           'length' in pending &&
@@ -372,37 +381,24 @@ export default function Main({ slug }: { slug: string }): any {
                       age: number;
                       mannerScore: number;
                       stateMessage: string;
+                      userId: string;
                     },
                     index: number
                   ) => {
                     return (
                       <>
-                        <div
-                          className="MatchPerson"
-                          onClick={() => {
-                            if (
-                              myStatus &&
-                              'text' in myStatus &&
-                              (myStatus as { text: string }).text == 'Owner'
-                            ) {
-                              setModal2Display(true);
-                              const copied: any = pending;
-                              setCandidate(copied[index]);
-                            }
+                        <PendingPerson
+                          username={item.username}
+                          age={item.age}
+                          stateMessage={item.stateMessage}
+                          mannerScore={item.mannerScore}
+                          userId={item.userId}
+                          setModal2Display={(x: boolean) => {
+                            setIsImage(true);
+                            setModal2Display(x);
                           }}
-                          style={{ cursor: 'pointer' }}
-                        >
-                          <div>
-                            <Image
-                              src={emptyProfile}
-                              alt="profile"
-                              width="48"
-                            />
-                          </div>
-                          <div>{item.username}</div>
-                          <div>{item.stateMessage}</div>
-                          <div>Lv.{item.mannerScore}</div>
-                        </div>
+                          setCandidate={setCandidate}
+                        ></PendingPerson>
                       </>
                     );
                   }
@@ -508,7 +504,23 @@ export default function Main({ slug }: { slug: string }): any {
             }}
           >
             <div>
-              <Image src={emptyProfile} alt="profile" width="48" />
+              {isImage ? (
+                <img
+                  src={
+                    candidate.userId
+                      ? BASE_URL + 'user/image/' + candidate.userId
+                      : ''
+                  }
+                  onError={(e) => {
+                    setIsImage(false);
+                  }}
+                  width={48}
+                  height={48}
+                  alt="image"
+                />
+              ) : (
+                <Image src={emptyProfile} width={48} height={48} alt="image" />
+              )}
             </div>
             <div>{candidate.username}</div>
             <div>{candidate.stateMessage}</div>
@@ -623,7 +635,23 @@ export default function Main({ slug }: { slug: string }): any {
             }}
           >
             <div>
-              <Image src={emptyProfile} alt="profile" width="48" />
+              {isImage ? (
+                <img
+                  src={
+                    candidate.userId
+                      ? BASE_URL + 'user/image/' + candidate.userId
+                      : ''
+                  }
+                  onError={(e) => {
+                    setIsImage(false);
+                  }}
+                  width={48}
+                  height={48}
+                  alt="image"
+                />
+              ) : (
+                <Image src={emptyProfile} width={48} height={48} alt="image" />
+              )}
             </div>
             <div>{candidate.username}</div>
             <div>{candidate.stateMessage}</div>
