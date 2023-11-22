@@ -41,6 +41,49 @@ export default function Home(): any {
 
   const [matchOwn, setMatchOwn] = useState<JSON | null>(null);
   api('user/matching/own', 'get', {}, [matchOwn, setMatchOwn]);
+  // api(
+  //   'user/matching/own',
+  //   'test',
+  //   [
+  //     {
+  //       matchingId: 1,
+  //       writerId: 12,
+  //       type: 'TravelMate',
+  //       title: '같이 맨시티 응원하러 가실 분 구해요',
+  //       place: '맨시티',
+  //       content: '',
+  //       startDate: [2023, 11, 28, 12, 0],
+  //       endDate: [2023, 11, 28, 12, 0],
+  //       currentMember: 2,
+  //       maxMember: 5,
+  //       minusAge: 5,
+  //       plusAge: 5,
+  //       readCount: 16,
+  //       createdAt: [2023, 10, 10, 2, 45, 31, 403999000],
+  //       updatedAt: [2023, 10, 10, 2, 45, 31, 403999000],
+  //       isActive: true,
+  //     },
+  //     {
+  //       matchingId: 1,
+  //       writerId: 12,
+  //       type: 'Accomodation',
+  //       title: '저렴하게 같이 숙소쉐어해요!',
+  //       place: '숙소',
+  //       content: '',
+  //       startDate: [2023, 11, 27, 12, 0],
+  //       endDate: [2023, 11, 29, 12, 0],
+  //       currentMember: 2,
+  //       maxMember: 5,
+  //       minusAge: 5,
+  //       plusAge: 5,
+  //       readCount: 16,
+  //       createdAt: [2023, 10, 10, 2, 45, 31, 403999000],
+  //       updatedAt: [2023, 10, 10, 2, 45, 31, 403999000],
+  //       isActive: true,
+  //     },
+  //   ],
+  //   [matchOwn, setMatchOwn]
+  // );
 
   const [approved, setApproved] = useState<JSON | null>(null);
   api('user/approved', 'get', {}, [approved, setApproved]);
@@ -50,6 +93,67 @@ export default function Home(): any {
 
   const [recommend, setRecommend] = useState<JSON | null>(null);
   api('user/recommendedmatching', 'get', {}, [recommend, setRecommend]);
+  // api(
+  //   'user/recommendedmatching',
+  //   'test',
+  //   [
+  //     {
+  //       matchingId: 1,
+  //       writerId: 12,
+  //       type: 'Dining',
+  //       title: '일본 야시장 같이 가요',
+  //       place: '도톤보리',
+  //       content: '',
+  //       startDate: [2023, 11, 23, 12, 0],
+  //       endDate: [2023, 11, 23, 12, 0],
+  //       currentMember: 2,
+  //       maxMember: 3,
+  //       minusAge: 5,
+  //       plusAge: 5,
+  //       readCount: 16,
+  //       createdAt: [2023, 10, 10, 2, 45, 31, 403999000],
+  //       updatedAt: [2023, 10, 10, 2, 45, 31, 403999000],
+  //       isActive: true,
+  //     },
+  //     {
+  //       matchingId: 1,
+  //       writerId: 12,
+  //       type: 'TravelMate',
+  //       title: '독일 크리스마스 마켓',
+  //       place: '뉘른베르크',
+  //       content: '',
+  //       startDate: [2023, 12, 24, 12, 0],
+  //       endDate: [2023, 12, 25, 12, 0],
+  //       currentMember: 1,
+  //       maxMember: 2,
+  //       minusAge: 5,
+  //       plusAge: 5,
+  //       readCount: 16,
+  //       createdAt: [2023, 10, 10, 2, 45, 31, 403999000],
+  //       updatedAt: [2023, 10, 10, 2, 45, 31, 403999000],
+  //       isActive: true,
+  //     },
+  //     {
+  //       matchingId: 1,
+  //       writerId: 12,
+  //       type: 'TravelMate',
+  //       title: '세계에서 가장 빠른 2024',
+  //       place: '키리바시 공화국',
+  //       content: '',
+  //       startDate: [2023, 12, 31, 12, 0],
+  //       endDate: [2024, 1, 1, 12, 0],
+  //       currentMember: 2,
+  //       maxMember: 5,
+  //       minusAge: 5,
+  //       plusAge: 5,
+  //       readCount: 16,
+  //       createdAt: [2023, 10, 10, 2, 45, 31, 403999000],
+  //       updatedAt: [2023, 10, 10, 2, 45, 31, 403999000],
+  //       isActive: true,
+  //     },
+  //   ],
+  //   [recommend, setRecommend]
+  // );
 
   const [searchText, setSearchText] = useState('');
 

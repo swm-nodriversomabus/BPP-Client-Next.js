@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import './style.css';
@@ -16,11 +17,11 @@ export default function Home(): any {
   const [myImage, setMyImage] = useState<JSON | null>(null);
   const [username, setUsername] = useState('');
   const [stateMessage, setStateMessage] = useState('');
+  const [isImage, setIsImage] = useState(true);
 
   const imageUpload: RefObject<HTMLInputElement> =
     useRef<HTMLInputElement>(null);
   api('user', 'get', {}, [myInfo, setMyInfo]);
-  api('user/image', 'get', {}, [myImage, setMyImage]);
   useEffect(() => {
     if (!myInfo || !('username' in myInfo) || !('stateMessage' in myInfo))
       return;
@@ -79,15 +80,31 @@ export default function Home(): any {
       </Navbar>
       <ContentBox>
         <div className="MyProfile">
-          <Image
-            src={emptyProfile}
-            width={72}
-            height={72}
-            alt="image"
-            onClick={() => {
-              imageUpload.current?.click();
-            }}
-          />
+          {isImage ? (
+            <img
+              src={`${process.env.NEXT_BASE_URL}user/image`}
+              onError={(e) => {
+                setIsImage(false);
+              }}
+              width={72}
+              height={72}
+              alt="image"
+              onClick={() => {
+                imageUpload.current?.click();
+              }}
+            />
+          ) : (
+            <Image
+              src={emptyProfile}
+              width={72}
+              height={72}
+              alt="image"
+              onClick={() => {
+                imageUpload.current?.click();
+              }}
+            />
+          )}
+
           <input
             onChange={(e: any) => {
               setUsername(
@@ -109,32 +126,51 @@ export default function Home(): any {
           />
         </div>
       </ContentBox>
-      <input
-        type="file"
-        ref={imageUpload}
+      <iframe
+        name="blankFrame"
         style={{ display: 'none' }}
-        accept="image/*"
-        onChange={(e) => {
-          if (e.currentTarget.files && e.currentTarget.files.length) {
-            if (e.currentTarget.files[0]) {
-              const BASE_URL = process.env.NEXT_BASE_URL;
-              fetch(BASE_URL + 'user/image', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': e.currentTarget.files[0].type,
-                },
-                credentials: 'include',
-                body: e.currentTarget.files[0],
-              }).then((res: Response) => {
-                if (res.status == 200) {
-                  // 정상 응답 확인된 경우, 응답 받은 JSON 전달}
-                  console.log(200);
-                }
-              });
-            }
-          }
+        onLoad={() => {
+          setIsImage(false);
+          setTimeout(() => {
+            setIsImage(true);
+          }, 300);
         }}
-      />
+      ></iframe>
+      <form
+        method="post"
+        action={`${process.env.NEXT_BASE_URL}user/image`}
+        encType="multipart/form-data"
+        target="blankFrame"
+      >
+        <input
+          name="file"
+          type="file"
+          ref={imageUpload}
+          style={{ display: 'none' }}
+          accept="image/*"
+          onChange={(e) => {
+            (e.currentTarget.parentElement as any)?.submit();
+            // if (e.currentTarget.files && e.currentTarget.files.length) {
+            //   if (e.currentTarget.files[0]) {
+            //     const BASE_URL = process.env.NEXT_BASE_URL;
+            //     fetch(BASE_URL + 'user/image', {
+            //       method: 'POST',
+            //       headers: {
+            //         'Content-Type': e.currentTarget.files[0].type,
+            //       },
+            //       credentials: 'include',
+            //       body: e.currentTarget.files[0],
+            //     }).then((res: Response) => {
+            //       if (res.status == 200) {
+            //         // 정상 응답 확인된 경우, 응답 받은 JSON 전달}
+            //         console.log(200);
+            //       }
+            //     });
+            //   }
+            // }
+          }}
+        />
+      </form>
     </>
   );
 }

@@ -7,22 +7,13 @@ interface props {
   children: string | undefined;
 }
 
-const MatchPeople: any = ({ children }: props) => {
-  return (
-    <div className="MatchPeople">
-      <div>확정 동행 인원</div>
-      <div>{children}</div>
-    </div>
-  );
-};
-
-const MatchPerson: any = ({
+const PendingPerson: any = ({
   children,
   username,
   age,
   stateMessage,
   mannerScore,
-  setModal3Display,
+  setModal2Display,
   setCandidate,
   userId,
 }: {
@@ -31,7 +22,7 @@ const MatchPerson: any = ({
   age: number;
   stateMessage: string;
   mannerScore: number;
-  setModal3Display: (arg0: boolean) => void;
+  setModal2Display: (arg0: boolean) => void;
   setCandidate: (arg0: any) => void;
   userId: string;
 }) => {
@@ -42,9 +33,9 @@ const MatchPerson: any = ({
   const CLIENT: string = process.env.NEXT_CLIENT ? process.env.NEXT_CLIENT : '';
   return (
     <div
-      className="MatchPerson"
+      className="PendingPerson"
       onClick={() => {
-        setModal3Display(true);
+        setModal2Display(true);
         setCandidate({
           username: username,
           age: age,
@@ -77,5 +68,4 @@ const MatchPerson: any = ({
   );
 };
 
-export default MatchPeople;
-export { MatchPerson };
+export default PendingPerson;

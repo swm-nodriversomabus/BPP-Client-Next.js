@@ -103,20 +103,23 @@ export default function Home(): any {
         inheritRef={scrollRef}
       >
         <TalkList>
-          <div className="section">
+          <div
+            className="section"
+            style={{
+              background:
+                'linear-gradient(270deg,rgba(0, 0, 0, 0) 24px, #dad7d0 24px, rgba(0, 0, 0, 0) 50%), linear-gradient(90deg,rgba(0, 0, 0, 0) 20px, #dad7d0 20px, #dad7d0 50%)',
+            }}
+          >
             <>
               {data && 'length' in data && data.length ? (
                 data?.map((msgs, index) => {
                   return msgs?.map((msg: any) => {
-                    console.log(msg);
                     if (msg.isActive == false) return <></>;
                     return (
                       <TalkListItem
-                        img={1}
                         link={`room/${msg.chatroomId}`}
                         key={i++}
                         title={`${msg.chatroomName}`}
-                        subtitle={'last message..'}
                       />
                     );
                   });

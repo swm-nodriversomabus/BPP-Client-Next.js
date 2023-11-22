@@ -8,6 +8,7 @@
     position: absolute;
     top: 0px;
     left: 20px;
+    border-radius: 100%;
   }
   & > div {
     position: absolute;

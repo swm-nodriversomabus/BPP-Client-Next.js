@@ -31,11 +31,29 @@ let subs: any;
 let sock: any;
 
 let globalSockData = new Array<object>();
-let globalChatText = '';
+// let globalChatText = '';
 
 export default function Main({ slug }: { slug: string }): any {
   const [myInfo, setMyInfo] = useState<JSON | null>(null);
-  api('user/id', 'get', {}, [myInfo, setMyInfo]);
+  api(
+    'user/id',
+    'test',
+    {
+      userId: 1,
+      username: '기사없는소마버스',
+      gender: '남성',
+      age: 20,
+      phone: '010-1234-5566',
+      role: '0',
+      blacklist: false,
+      stateMessage: '여행은 재미있어요 할 때마다 새로운 기분이고',
+      mannerScore: 0,
+      createdAt: '2023-10-06T13:28:03.476Z',
+      updatedAt: '2023-10-06T13:28:03.476Z',
+      isActive: true,
+    },
+    [myInfo, setMyInfo]
+  );
   const [chatText, setChatText] = useState('');
   const [sockData, setSockData] = useState(new Array<object>());
   const [scrollHeight, setScrollHeight] = useState<number>(0);
@@ -51,6 +69,47 @@ export default function Main({ slug }: { slug: string }): any {
       return r.json();
     });
   };
+
+  const data_ = [
+    [
+      {
+        senderId: { username: '', userId: 0 },
+        chatroomName: '',
+        createdAt: [1, 1, 1, 13, 24, 1, 1],
+        content: '인터넷으로 찾아보니까 근처에 맛집도 정말 많아 보여요!',
+      },
+      {
+        senderId: { username: '', userId: 0 },
+        chatroomName: '',
+        createdAt: [1, 1, 1, 13, 24, 1, 1],
+        content: '진짜 너무 재밌겠다ㅎㅎ',
+      },
+      {
+        senderId: { username: '용용이', userId: 1 },
+        chatroomName: '',
+        createdAt: [1, 1, 1, 13, 23, 1, 1],
+        content: '한 2년만인가..?\n정말 오랜만에 가는거 거든요',
+      },
+      {
+        senderId: { username: '용용이', userId: 1 },
+        chatroomName: '',
+        createdAt: [1, 1, 1, 13, 23, 1, 1],
+        content: '네 저도 너무 기대돼요!!',
+      },
+      {
+        senderId: { username: '', userId: 0 },
+        chatroomName: '',
+        createdAt: [1, 1, 1, 13, 22, 1, 1],
+        content: '잘 부탁드려요 :)\n여행 생각에 벌써부터 기대되네요',
+      },
+      {
+        senderId: { username: '', userId: 0 },
+        chatroomName: '',
+        createdAt: [1, 1, 1, 13, 21, 1, 1],
+        content: '안녕하세요!',
+      },
+    ],
+  ];
 
   const getKey = (pageIndex: any, previousPageData: any) => {
     if (previousPageData && !previousPageData.length) return null;
@@ -108,7 +167,7 @@ export default function Main({ slug }: { slug: string }): any {
   );
 
   const chatTextOnChange = (e: any) => {
-    globalChatText = e.target.value;
+    // globalChatText = e.target.value;
     setChatText(e.target.value);
   };
 
@@ -196,6 +255,12 @@ export default function Main({ slug }: { slug: string }): any {
   }
 
   const sendHandler = () => {
+    // if (globalChatText.length == 0) {
+    //   return;
+    // }
+    if (chatText.length == 0) {
+      return;
+    }
     client.current?.send(
       `/pub/chat/${slug}`,
       {},
@@ -203,12 +268,13 @@ export default function Main({ slug }: { slug: string }): any {
         image: false,
         type: 'TALK',
         roomId: slug,
-        content: globalChatText,
+        // content: globalChatText,
+        content: chatText,
         readCount: 1,
       })
     );
     setChatText('');
-    globalChatText = '';
+    // globalChatText = '';
   };
 
   let i = 0;
@@ -221,7 +287,7 @@ export default function Main({ slug }: { slug: string }): any {
         inheritRef={scrollRef}
       >
         <>
-          {[...(data ? data : [])].reverse().map((msgs, index) => {
+          {[...(data_ ? data_ : [])].reverse().map((msgs, index) => {
             return [...(msgs ? msgs : [])].reverse().map((msg: any) => {
               if (
                 msg.senderId.userId ==
@@ -232,7 +298,6 @@ export default function Main({ slug }: { slug: string }): any {
                     key={i++}
                     received={undefined}
                     timestamp={msg.createdAt}
-                    userId={msg.senderId.userId}
                   >
                     {msg.content}
                   </ChatMessage>
@@ -243,7 +308,6 @@ export default function Main({ slug }: { slug: string }): any {
                     key={i++}
                     received={msg.senderId.username}
                     timestamp={msg.createdAt}
-                    userId={msg.senderId.userId}
                   >
                     {msg.content}
                   </ChatMessage>
@@ -267,7 +331,6 @@ export default function Main({ slug }: { slug: string }): any {
                     new Date().getHours(),
                     new Date().getMinutes(),
                   ]}
-                  userId={msg.senderId.userId}
                 >
                   {msg.content}
                 </ChatMessage>
@@ -284,7 +347,6 @@ export default function Main({ slug }: { slug: string }): any {
                     new Date().getHours(),
                     new Date().getMinutes(),
                   ]}
-                  userId={msg.senderId.userId}
                 >
                   {msg.content}
                 </ChatMessage>
@@ -298,8 +360,10 @@ export default function Main({ slug }: { slug: string }): any {
           placeholder="메시지를 입력하세요"
           onChange={chatTextOnChange}
           onKeyDown={(e) => {
+            console.log(e);
             if (e.key == 'Enter') {
               sendHandler();
+              setChatText('');
             }
           }}
           value={chatText}
