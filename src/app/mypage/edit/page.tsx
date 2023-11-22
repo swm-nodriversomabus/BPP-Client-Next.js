@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import './style.css';
@@ -5,7 +6,7 @@ import Navbar from '@/component/navigationBar';
 import ContentBox from '@/component/contentBox';
 import emptyProfile from 'public/empty_profile.png';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
 import api from '@/utils/api';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -13,8 +14,13 @@ import { useRouter } from 'next/navigation';
 export default function Home(): any {
   const router = useRouter();
   const [myInfo, setMyInfo] = useState<JSON | null>(null);
+  const [myImage, setMyImage] = useState<JSON | null>(null);
   const [username, setUsername] = useState('');
   const [stateMessage, setStateMessage] = useState('');
+  const [isImage, setIsImage] = useState(true);
+
+  const imageUpload: RefObject<HTMLInputElement> =
+    useRef<HTMLInputElement>(null);
   api('user', 'get', {}, [myInfo, setMyInfo]);
   useEffect(() => {
     if (!myInfo || !('username' in myInfo) || !('stateMessage' in myInfo))
@@ -74,7 +80,31 @@ export default function Home(): any {
       </Navbar>
       <ContentBox>
         <div className="MyProfile">
-          <Image src={emptyProfile} width={72} alt="image" />
+          {isImage ? (
+            <img
+              src={`${process.env.NEXT_BASE_URL}user/image`}
+              onError={(e) => {
+                setIsImage(false);
+              }}
+              width={72}
+              height={72}
+              alt="image"
+              onClick={() => {
+                imageUpload.current?.click();
+              }}
+            />
+          ) : (
+            <Image
+              src={emptyProfile}
+              width={72}
+              height={72}
+              alt="image"
+              onClick={() => {
+                imageUpload.current?.click();
+              }}
+            />
+          )}
+
           <input
             onChange={(e: any) => {
               setUsername(
@@ -96,6 +126,51 @@ export default function Home(): any {
           />
         </div>
       </ContentBox>
+      <iframe
+        name="blankFrame"
+        style={{ display: 'none' }}
+        onLoad={() => {
+          setIsImage(false);
+          setTimeout(() => {
+            setIsImage(true);
+          }, 300);
+        }}
+      ></iframe>
+      <form
+        method="post"
+        action={`${process.env.NEXT_BASE_URL}user/image`}
+        encType="multipart/form-data"
+        target="blankFrame"
+      >
+        <input
+          name="file"
+          type="file"
+          ref={imageUpload}
+          style={{ display: 'none' }}
+          accept="image/*"
+          onChange={(e) => {
+            (e.currentTarget.parentElement as any)?.submit();
+            // if (e.currentTarget.files && e.currentTarget.files.length) {
+            //   if (e.currentTarget.files[0]) {
+            //     const BASE_URL = process.env.NEXT_BASE_URL;
+            //     fetch(BASE_URL + 'user/image', {
+            //       method: 'POST',
+            //       headers: {
+            //         'Content-Type': e.currentTarget.files[0].type,
+            //       },
+            //       credentials: 'include',
+            //       body: e.currentTarget.files[0],
+            //     }).then((res: Response) => {
+            //       if (res.status == 200) {
+            //         // 정상 응답 확인된 경우, 응답 받은 JSON 전달}
+            //         console.log(200);
+            //       }
+            //     });
+            //   }
+            // }
+          }}
+        />
+      </form>
     </>
   );
 }

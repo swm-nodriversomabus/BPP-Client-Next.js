@@ -1,4 +1,5 @@
-import { UIEventHandler } from 'react';
+/* eslint-disable @next/next/no-img-element */
+import { UIEventHandler, useState } from 'react';
 import Image from 'next/image';
 import emptyProfile from 'public/empty_profile.png';
 
@@ -6,29 +7,57 @@ interface propsType {
   received: string | undefined;
   children: JSX.Element;
   timestamp: number[];
+  userId: string;
 }
 
 export default function ChatMessage({
   received,
   children,
   timestamp,
+  userId,
 }: propsType) {
   const texts = children + '';
   if (received)
     return (
-      <MessageReceived received={received} timestamp={timestamp}>
+      <MessageReceived
+        userId={userId}
+        received={received}
+        timestamp={timestamp}
+      >
         {texts}
       </MessageReceived>
     );
-  else return <MessageSent timestamp={timestamp}>{texts}</MessageSent>;
+  else
+    return (
+      <MessageSent userId={userId} timestamp={timestamp}>
+        {texts}
+      </MessageSent>
+    );
 }
 
 const MessageReceived: any = (Props: propsType) => {
+  const [isImage, setIsImage] = useState(true);
+  const BASE_URL: string = process.env.NEXT_BASE_URL
+    ? process.env.NEXT_BASE_URL
+    : '';
+
   return (
     <>
       <div className="message received">
         <div>
-          <Image width={32} src={emptyProfile} alt="image" />
+          {isImage ? (
+            <img
+              src={Props.userId ? BASE_URL + 'user/image/' + Props.userId : ''}
+              onError={(e) => {
+                setIsImage(false);
+              }}
+              width={32}
+              height={32}
+              alt="image"
+            />
+          ) : (
+            <Image src={emptyProfile} width={32} height={32} alt="image" />
+          )}
         </div>
         <div>{Props.received}</div>
         <div>

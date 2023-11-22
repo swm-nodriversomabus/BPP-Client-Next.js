@@ -96,6 +96,8 @@ export default function Main(): any {
         plusAge: 5,
         readCount: 16,
         isActive: true,
+        longitude: 126.734086,
+        latitude: 37.715133,
       },
       [
         null,

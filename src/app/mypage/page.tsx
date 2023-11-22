@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import './style.css';
@@ -12,8 +13,28 @@ import { useRouter } from 'next/navigation';
 
 export default function Home(): any {
   const router = useRouter();
+  const [isImage, setIsImage] = useState(true);
   const [myInfo, setMyInfo] = useState<JSON | null>(null);
   api('user', 'get', {}, [myInfo, setMyInfo]);
+  // api(
+  //   'user',
+  //   'test',
+  //   {
+  //     userId: 12,
+  //     username: '기사없는소마버스',
+  //     gender: '남성',
+  //     age: 20,
+  //     phone: '010-1234-5566',
+  //     role: '0',
+  //     blacklist: false,
+  //     stateMessage: '여행은 재미있어요 할 때마다 새로운 기분이고',
+  //     mannerScore: 3,
+  //     createdAt: '2023-10-06T13:28:03.476Z',
+  //     updatedAt: '2023-10-06T13:28:03.476Z',
+  //     isActive: true,
+  //   },
+  //   [myInfo, setMyInfo]
+  // );
 
   return (
     <>
@@ -28,7 +49,19 @@ export default function Home(): any {
       </Navbar>
       <ContentBox>
         <div className="MyProfile">
-          <Image src={emptyProfile} width={72} alt="image" />
+          {isImage ? (
+            <img
+              src={`${process.env.NEXT_BASE_URL}user/image`}
+              onError={(e) => {
+                setIsImage(false);
+              }}
+              width={72}
+              height={72}
+              alt="image"
+            />
+          ) : (
+            <Image src={emptyProfile} width={72} height={72} alt="image" />
+          )}
           <div>
             {myInfo && 'username' in myInfo
               ? (myInfo as { username: string }).username

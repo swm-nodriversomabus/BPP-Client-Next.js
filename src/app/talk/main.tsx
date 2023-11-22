@@ -40,13 +40,138 @@ export default function Main(): any {
   const BASE_URL = process.env.NEXT_BASE_URL;
 
   const router = useRouter();
+
   const [modalDisplay, setModalDisplay] = useState(false);
 
   const [myInfo, setMyInfo] = useState<JSON | null>(null);
   api('user', 'get', {}, [myInfo, setMyInfo]);
+  // api(
+  //   'user',
+  //   'test',
+  //   {
+  //     userId: 12,
+  //     username: '기사없는소마버스',
+  //     gender: '남성',
+  //     age: 20,
+  //     phone: '010-1234-5566',
+  //     role: '0',
+  //     blacklist: false,
+  //     stateMessage: '여행은 재미있어요 할 때마다 새로운 기분이고',
+  //     mannerScore: 0,
+  //     createdAt: '2023-10-06T13:28:03.476Z',
+  //     updatedAt: '2023-10-06T13:28:03.476Z',
+  //     isActive: true,
+  //   },
+  //   [myInfo, setMyInfo]
+  // );
 
   const [friends, setFriends] = useState<JSON | null>(null);
   api('user/friend', 'get', {}, [friends, setFriends]);
+  // api(
+  //   'user/friend',
+  //   'test',
+  //   [
+  //     {
+  //       userId: 12,
+  //       username: '용용이',
+  //       gender: '남성',
+  //       age: 20,
+  //       phone: '010-1234-5566',
+  //       role: '0',
+  //       blacklist: false,
+  //       stateMessage: '12.03-12.07 독일',
+  //       mannerScore: 0,
+  //       createdAt: '2023-10-06T13:28:03.476Z',
+  //       updatedAt: '2023-10-06T13:28:03.476Z',
+  //       isActive: true,
+  //     },
+  //     {
+  //       userId: 12,
+  //       username: '명명이',
+  //       gender: '남성',
+  //       age: 20,
+  //       phone: '010-1234-5566',
+  //       role: '0',
+  //       blacklist: false,
+  //       stateMessage: '프로젝트 마무리하느라 DM느려요~',
+  //       mannerScore: 0,
+  //       createdAt: '2023-10-06T13:28:03.476Z',
+  //       updatedAt: '2023-10-06T13:28:03.476Z',
+  //       isActive: true,
+  //     },
+  //     {
+  //       userId: 12,
+  //       username: '효나미',
+  //       gender: '남성',
+  //       age: 20,
+  //       phone: '010-1234-5566',
+  //       role: '0',
+  //       blacklist: false,
+  //       stateMessage: '내 몸에는 파란피가 흐른다',
+  //       mannerScore: 0,
+  //       createdAt: '2023-10-06T13:28:03.476Z',
+  //       updatedAt: '2023-10-06T13:28:03.476Z',
+  //       isActive: true,
+  //     },
+  //     {
+  //       userId: 12,
+  //       username: '빈지노',
+  //       gender: '남성',
+  //       age: 20,
+  //       phone: '010-1234-5566',
+  //       role: '0',
+  //       blacklist: false,
+  //       stateMessage: '하루종일 너란 버그속을 항해하는 나',
+  //       mannerScore: 0,
+  //       createdAt: '2023-10-06T13:28:03.476Z',
+  //       updatedAt: '2023-10-06T13:28:03.476Z',
+  //       isActive: true,
+  //     },
+  //     {
+  //       userId: 12,
+  //       username: '소미',
+  //       gender: '남성',
+  //       age: 20,
+  //       phone: '010-1234-5566',
+  //       role: '0',
+  //       blacklist: false,
+  //       stateMessage: 'Software',
+  //       mannerScore: 0,
+  //       createdAt: '2023-10-06T13:28:03.476Z',
+  //       updatedAt: '2023-10-06T13:28:03.476Z',
+  //       isActive: true,
+  //     },
+  //     {
+  //       userId: 12,
+  //       username: '코미',
+  //       gender: '남성',
+  //       age: 20,
+  //       phone: '010-1234-5566',
+  //       role: '0',
+  //       blacklist: false,
+  //       stateMessage: '마에스트로, 마에스트로.',
+  //       mannerScore: 0,
+  //       createdAt: '2023-10-06T13:28:03.476Z',
+  //       updatedAt: '2023-10-06T13:28:03.476Z',
+  //       isActive: true,
+  //     },
+  //     {
+  //       userId: 12,
+  //       username: '사랑해요 소마!',
+  //       gender: '남성',
+  //       age: 20,
+  //       phone: '010-1234-5566',
+  //       role: '0',
+  //       blacklist: false,
+  //       stateMessage: '고마워요 소마!',
+  //       mannerScore: 0,
+  //       createdAt: '2023-10-06T13:28:03.476Z',
+  //       updatedAt: '2023-10-06T13:28:03.476Z',
+  //       isActive: true,
+  //     },
+  //   ],
+  //   [friends, setFriends]
+  // );
 
   const setSelectList = (index: number) => {
     const obj: any =
@@ -66,8 +191,8 @@ export default function Main(): any {
         <FriendsList>
           <div className="section">
             <FriendsListItem
-              link={'./mypage'}
-              img={0}
+              link={'~mypage'}
+              img="~user/image"
               title={myInfo && 'username' in myInfo ? myInfo.username : ''}
               subtitle={
                 myInfo && 'stateMessage' in myInfo ? myInfo.stateMessage : ''
@@ -85,8 +210,8 @@ export default function Main(): any {
                       link={`talk/profile/${item.userId}`}
                       title={item.username}
                       subtitle={item.stateMessage}
-                      img={1}
-                      key={1}
+                      img={`~user/image/${item.userId}`}
+                      key={index}
                     />
                   );
                 })
@@ -134,10 +259,10 @@ export default function Main(): any {
             headers: {
               'Content-Type': 'application/json',
             },
+            credentials: 'include',
             body: JSON.stringify({
               chatroomName: '채팅방 이름 예시',
               type: 'Normal',
-              masterId: 1,
               isActive: true,
             }),
           })
@@ -153,6 +278,7 @@ export default function Main(): any {
                 headers: {
                   'Content-Type': 'application/json',
                 },
+                credentials: 'include',
                 body: JSON.stringify({
                   chatroomId: chatroomID,
                   memberIds: [1, 2, 3],

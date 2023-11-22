@@ -12,9 +12,7 @@ import emptyProfile_ from 'public/profile1.svg';
 const TalkListItem: any = (Props: {
   children: string | undefined;
   title: string | undefined;
-  subtitle: string | undefined;
   link: string | undefined;
-  img: number | undefined;
 }) => {
   const router = useRouter();
   return (
@@ -22,11 +20,9 @@ const TalkListItem: any = (Props: {
       onClick={() => {
         router.push(Props.link!);
       }}
-      className="ListItem"
+      className="TalkListItem"
     >
-      <Image src={emptyProfile} alt="profile" />
       <div>{Props.title}</div>
-      <div>{Props.subtitle}</div>
     </div>
   );
 };
