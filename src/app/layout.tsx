@@ -19,6 +19,13 @@ export const metadata: Metadata = {
   description: '기사없는소마버스',
 };
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  minimumScale: 1,
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -37,10 +44,6 @@ export default function RootLayout({
         href="/apple-icon?<generated>"
         type="image/<generated>"
         sizes="<generated>"
-      />
-      <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
       />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="theme-color" content="#fff" />
