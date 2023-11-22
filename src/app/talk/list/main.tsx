@@ -165,10 +165,10 @@ export default function Home(): any {
             headers: {
               'Content-Type': 'application/json',
             },
+            credentials: 'include',
             body: JSON.stringify({
               chatroomName: '채팅방 이름 예시',
               type: 'Normal',
-              masterId: 1,
               isActive: true,
             }),
           })
@@ -184,6 +184,7 @@ export default function Home(): any {
                 headers: {
                   'Content-Type': 'application/json',
                 },
+                credentials: 'include',
                 body: JSON.stringify({
                   chatroomId: chatroomID,
                   memberIds: [1, 2, 3],
