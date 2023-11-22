@@ -17,10 +17,6 @@ const GoogleAnalytics: any = () => {
           gtag('config', 'GA_MEASUREMENT_ID');
         `}
       </Script>
-      {/* <Script
-        async
-        src={`https://maps.googleapis.com/maps/api/js?key=${'YOUR_API_KEY'}&libraries=places&callback=initMap`}
-      /> */}
     </div>
   );
 };

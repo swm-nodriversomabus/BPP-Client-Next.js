@@ -223,6 +223,25 @@ export default function Main({ slug }: { slug: string }): any {
         <>
           {[...(data ? data : [])].reverse().map((msgs, index) => {
             return [...(msgs ? msgs : [])].reverse().map((msg: any) => {
+              let utcTime = new Date(
+                `${msg.createdAt[0]}-${(100 + msg.createdAt[1])
+                  .toString()
+                  .substring(1)}-${(100 + msg.createdAt[2])
+                  .toString()
+                  .substring(1)}T${(100 + msg.createdAt[3])
+                  .toString()
+                  .substring(1)}:${(100 + msg.createdAt[4])
+                  .toString()
+                  .substring(1)}:00`
+              );
+              utcTime = new Date(utcTime.getTime() + 1000 * 60 * 60 * 9);
+              msg.localTime = [
+                utcTime.getFullYear(),
+                utcTime.getMonth() + 1,
+                utcTime.getDate(),
+                utcTime.getHours(),
+                utcTime.getMinutes(),
+              ];
               if (
                 msg.senderId.userId ==
                 (myInfo && 'text' in myInfo ? myInfo.text : '')
@@ -231,7 +250,7 @@ export default function Main({ slug }: { slug: string }): any {
                   <ChatMessage
                     key={i++}
                     received={undefined}
-                    timestamp={msg.createdAt}
+                    timestamp={msg.localTime}
                     userId={msg.senderId.userId}
                   >
                     {msg.content}
@@ -242,7 +261,7 @@ export default function Main({ slug }: { slug: string }): any {
                   <ChatMessage
                     key={i++}
                     received={msg.senderId.username}
-                    timestamp={msg.createdAt}
+                    timestamp={msg.localTime}
                     userId={msg.senderId.userId}
                   >
                     {msg.content}
