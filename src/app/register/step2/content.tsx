@@ -126,9 +126,7 @@ export default function Home({
           placeholder="본명을 입력하세요"
           value={nameValue}
           onChange={(e: any) => {
-            setNameValue(
-              e.target.value.replaceAll(/[^0-9a-zA-Zㄱ-ㅎ가-힣 ]/gi, '')
-            );
+            setNameValue(e.target.value.replaceAll(/[\t&|="';]/gi, ''));
           }}
           maxLength={30}
         />
