@@ -20,15 +20,33 @@ const MatchPerson: any = ({
   age,
   stateMessage,
   mannerScore,
+  setModal3Display,
+  setCandidate,
+  userId,
 }: {
   children: string | undefined;
   username: string;
   age: number;
   stateMessage: string;
   mannerScore: number;
+  setModal3Display: (arg0: boolean) => void;
+  setCandidate: (arg0: any) => void;
+  userId: string;
 }) => {
   return (
-    <div className="MatchPerson">
+    <div
+      className="MatchPerson"
+      onClick={() => {
+        setModal3Display(true);
+        setCandidate({
+          username: username,
+          age: age,
+          mannerScore: mannerScore,
+          userId: userId,
+          stateMessage: stateMessage,
+        });
+      }}
+    >
       <div>
         <Image width={48} height={48} src={emptyProfile} alt="profile" />
       </div>
