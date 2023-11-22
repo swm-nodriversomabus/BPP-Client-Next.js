@@ -232,6 +232,7 @@ export default function Main({ slug }: { slug: string }): any {
                     key={i++}
                     received={undefined}
                     timestamp={msg.createdAt}
+                    userId={msg.senderId.userId}
                   >
                     {msg.content}
                   </ChatMessage>
@@ -242,6 +243,7 @@ export default function Main({ slug }: { slug: string }): any {
                     key={i++}
                     received={msg.senderId.username}
                     timestamp={msg.createdAt}
+                    userId={msg.senderId.userId}
                   >
                     {msg.content}
                   </ChatMessage>
@@ -265,6 +267,7 @@ export default function Main({ slug }: { slug: string }): any {
                     new Date().getHours(),
                     new Date().getMinutes(),
                   ]}
+                  userId={msg.senderId.userId}
                 >
                   {msg.content}
                 </ChatMessage>
@@ -281,6 +284,7 @@ export default function Main({ slug }: { slug: string }): any {
                     new Date().getHours(),
                     new Date().getMinutes(),
                   ]}
+                  userId={msg.senderId.userId}
                 >
                   {msg.content}
                 </ChatMessage>

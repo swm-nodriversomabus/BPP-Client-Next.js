@@ -210,8 +210,8 @@ export default function Main(): any {
                       link={`talk/profile/${item.userId}`}
                       title={item.username}
                       subtitle={item.stateMessage}
-                      img="~user/image"
-                      key={1}
+                      img={`~user/image/${item.userId}`}
+                      key={index}
                     />
                   );
                 })
