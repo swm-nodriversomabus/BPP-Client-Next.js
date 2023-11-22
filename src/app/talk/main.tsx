@@ -191,8 +191,8 @@ export default function Main(): any {
         <FriendsList>
           <div className="section">
             <FriendsListItem
-              link={'./mypage'}
-              img={0}
+              link={'~mypage'}
+              img="~user/image"
               title={myInfo && 'username' in myInfo ? myInfo.username : ''}
               subtitle={
                 myInfo && 'stateMessage' in myInfo ? myInfo.stateMessage : ''
@@ -210,7 +210,7 @@ export default function Main(): any {
                       link={`talk/profile/${item.userId}`}
                       title={item.username}
                       subtitle={item.stateMessage}
-                      img={1}
+                      img="~user/image"
                       key={1}
                     />
                   );
