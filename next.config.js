@@ -11,6 +11,7 @@ const nextConfig = {
     NEXT_BASE_URL: process.env.NEXT_BASE_URL,
     NEXT_CLIENT: process.env.NEXT_CLIENT,
     GOOGLEANALYTICS: process.env.GOOGLEANALYTICS,
+    GOOGLEMAPS: process.env.GOOGLEMAPS,
   },
   images: {
     remotePatterns: [

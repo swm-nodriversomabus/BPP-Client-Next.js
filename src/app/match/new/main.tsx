@@ -15,6 +15,8 @@ import { useEffect, useState } from 'react';
 import api from '@/utils/api';
 import MatchStyleEdit from '../style/matchStyleEdit';
 
+let autoComplete: any;
+
 export default function Main(): any {
   const [stylePage, setStylePage] = useState(false);
   const [type, setType] = useState(0);
@@ -49,6 +51,32 @@ export default function Main(): any {
   const [smoke, setSmoke] = useState(0);
   const [preferSmoke, setPreferSmoke] = useState(0);
   const [slang, setSlang] = useState(0);
+
+  useEffect(() => {
+    if (!window || !('google' in window)) return;
+    if (autoComplete) return;
+    const center = { lat: 50.064192, lng: -130.605469 };
+    // Create a bounding box with sides ~10km away from the center point
+    const defaultBounds = {
+      north: center.lat + 0.1,
+      south: center.lat - 0.1,
+      east: center.lng + 0.1,
+      west: center.lng - 0.1,
+    };
+    const input = document.getElementsByName(
+      'placeBinder'
+    )[0] as HTMLInputElement;
+    const options = {
+      // bounds: defaultBounds,
+      // componentRestrictions: { country: 'us' },
+      fields: ['address_components', 'geometry', 'icon', 'name'],
+      // strictBounds: false,
+      // types: ['establishment'],
+    };
+    autoComplete = new (
+      window as { google: { maps: { places: { Autocomplete: any } } } }
+    ).google.maps.places.Autocomplete(input, options);
+  }, [place]);
 
   const getValues = (name: string, value: any) => {
     switch (name) {
@@ -196,6 +224,7 @@ export default function Main(): any {
             숙소 쉐어
           </CustomOption>
         </CustomSelect>
+        {type == 2 ? <></> : <></>}
         <div className="newMatchSection">제목</div>
         <input
           onChange={(e: any) => {
@@ -219,7 +248,11 @@ export default function Main(): any {
         />
         <div className="newMatchSection">여행지</div>
         <input
+          name="placeBinder"
           onChange={(e: any) => {
+            setPlace(e.target.value.substring(0, 30));
+          }}
+          onBlur={(e: any) => {
             setPlace(e.target.value.substring(0, 30));
           }}
           autoComplete="off"

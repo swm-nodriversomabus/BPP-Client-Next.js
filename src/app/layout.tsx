@@ -24,8 +24,13 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const GOOGLEMAPS = process.env.GOOGLEMAPS;
   return (
     <>
+      <Script
+        async
+        src={`https://maps.googleapis.com/maps/api/js?key=${GOOGLEMAPS}&libraries=places&callback=initMap`}
+      />
       <link rel="icon" href="/favicon.ico" sizes="any" />
       <link
         rel="apple-touch-icon"
