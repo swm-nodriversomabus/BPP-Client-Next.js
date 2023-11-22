@@ -1,8 +1,14 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { EventHandler, ReactElement, UIEventHandler } from 'react';
+import React, {
+  EventHandler,
+  ReactElement,
+  UIEventHandler,
+  useState,
+} from 'react';
 import addcheck from 'public/addcheck.svg';
 import addcheck_true from 'public/addcheck_true.svg';
 import { useRouter } from 'next/navigation';
@@ -17,6 +23,7 @@ const FriendsListItem: any = (Props: {
   img: number | undefined;
 }) => {
   const router = useRouter();
+  const [isImage, setIsImage] = useState(true);
   return (
     <div
       onClick={() => {
@@ -24,7 +31,19 @@ const FriendsListItem: any = (Props: {
       }}
       className="ListItem"
     >
-      <Image src={emptyProfile} alt="profile" />
+      {isImage ? (
+        <img
+          src={`${process.env.NEXT_BASE_URL}user/image`}
+          onError={(e) => {
+            setIsImage(false);
+          }}
+          width={48}
+          height={48}
+          alt="image"
+        />
+      ) : (
+        <Image src={emptyProfile} width={48} height={48} alt="image" />
+      )}
       <div>{Props.title}</div>
       <div>{Props.subtitle}</div>
     </div>
