@@ -42,6 +42,38 @@ export default function Home(): any {
   const router = useRouter();
   const [notification, setNotification] = useState(null);
   api('user/notification', 'get', {}, [notification, setNotification]);
+  // api(
+  //   'user/notification',
+  //   'test',
+  //   [
+  //     {
+  //       notificationId: 1,
+  //       type: '1',
+  //       content: '[일본 야시장 같이가요] 기사없는 소마버스',
+  //       createdAt: [2023, 11, 22, 8, 53, 45],
+  //       updatedAt: [2023, 11, 22, 8, 53, 45],
+  //       isActive: true,
+  //     },
+  //     {
+  //       notificationId: 1,
+  //       type: '2',
+  //       content: '[함께 여행해요] 효나미',
+  //       createdAt: [2023, 11, 19, 8, 53, 45],
+  //       updatedAt: [2023, 11, 19, 8, 53, 45],
+  //       isActive: true,
+  //     },
+  //     {
+  //       notificationId: 1,
+  //       type: '3',
+  //       content: '[저렴하게 같이 숙소쉐어하실 분 구합...',
+  //       createdAt: [2023, 11, 17, 8, 53, 45],
+  //       updatedAt: [2023, 11, 17, 8, 53, 45],
+  //       isActive: true,
+  //     },
+  //   ],
+  //   [notification, setNotification]
+  // );
+
   return (
     <>
       <Navbar back=" ">알림</Navbar>

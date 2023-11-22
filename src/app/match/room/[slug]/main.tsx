@@ -50,15 +50,85 @@ let isNewFace = false;
 export default function Main({ slug }: { slug: string }): any {
   const [matchInfo, setMatchInfo] = useState<JSON | null>(null);
   api(`matching/${slug}`, 'get', {}, [matchInfo, setMatchInfo]);
+  // api(
+  //   `matching/${slug}`,
+  //   'test',
+  //   {
+  //     matchingId: 1,
+  //     writerId: 12,
+  //     type: 'Dining',
+  //     title: '일본 야시장 같이 가요',
+  //     place: '도톤보리',
+  //     content:
+  //       '많이 먹을 각오되신 분들만 모여봐요~\n맛있게 먹으면서 가볍게 술도 해요',
+  //     startDate: [2023, 11, 23, 18, 0],
+  //     endDate: [2023, 11, 23, 22, 0],
+  //     currentMember: 2,
+  //     maxMember: 3,
+  //     minusAge: 5,
+  //     plusAge: 5,
+  //     readCount: 16,
+  //     createdAt: [2023, 10, 10, 2, 45, 31, 403999000],
+  //     updatedAt: [2023, 10, 10, 2, 45, 31, 403999000],
+  //     isActive: true,
+  //   },
+  //   [matchInfo, setMatchInfo]
+  // );
 
   const [myStatus, setMyStatus] = useState<JSON | null>(null);
   api(`matching/${slug}/status`, 'get', {}, [myStatus, setMyStatus]);
+  // api(`matching/${slug}/status`, 'test', { text: 'Owner' }, [
+  //   myStatus,
+  //   setMyStatus,
+  // ]);
 
   const [approved, setApproved] = useState<JSON | null>(null);
   api(`matching/${slug}/approved`, 'get', {}, [approved, setApproved]);
+  // api(
+  //   `matching/${slug}/approved`,
+  //   'test',
+  //   [
+  //     {
+  //       userId: 12,
+  //       username: '효나미',
+  //       gender: '남성',
+  //       age: 20,
+  //       phone: '010-1234-5566',
+  //       role: '0',
+  //       blacklist: false,
+  //       stateMessage: '내 몸에는 파란피가 흐른다',
+  //       mannerScore: 0,
+  //       createdAt: '2023-10-06T13:28:03.476Z',
+  //       updatedAt: '2023-10-06T13:28:03.476Z',
+  //       isActive: true,
+  //     },
+  //   ],
+  //   [approved, setApproved]
+  // );
 
   const [pending, setPending] = useState<JSON | null>(null);
   api(`matching/${slug}/pending`, 'get', {}, [pending, setPending]);
+  // api(
+  //   `matching/${slug}/pending`,
+  //   'test',
+  //   [
+  //     {
+  //       userId: 12,
+  //       username: '효나미',
+  //       gender: '남성',
+  //       age: 20,
+  //       phone: '010-1234-5566',
+  //       role: '0',
+  //       blacklist: false,
+  //       stateMessage: '내 몸에는 파란피가 흐른다',
+  //       mannerScore: 0,
+  //       createdAt: '2023-10-06T13:28:03.476Z',
+  //       updatedAt: '2023-10-06T13:28:03.476Z',
+  //       isActive: true,
+  //     },
+  //   ],
+  //   [pending, setPending]
+  // );
 
   const [preference, setPreference] = useState<JSON | null>(null);
   api(`matching/${slug}/preference`, 'get', {}, [preference, setPreference]);
@@ -75,12 +145,14 @@ export default function Main({ slug }: { slug: string }): any {
   const [messageText, setMessageText] = useState('');
   const [modalDisplay, setModalDisplay] = useState(false);
   const [modal2Display, setModal2Display] = useState(false);
+  const [modal3Display, setModal3Display] = useState(false);
 
   const [candidate, setCandidate] = useState({
     username: '',
     age: 0,
     mannerScore: 0,
     userId: 0,
+    stateMessage: '',
   });
 
   const router = useRouter();
@@ -239,6 +311,7 @@ export default function Main({ slug }: { slug: string }): any {
                   age: number;
                   stateMessage: string;
                   mannerScore: number;
+                  userId: string;
                 }) => {
                   return (
                     <>
@@ -247,6 +320,9 @@ export default function Main({ slug }: { slug: string }): any {
                         age={item.age}
                         stateMessage={item.stateMessage}
                         mannerScore={item.mannerScore}
+                        userId={item.userId}
+                        setModal3Display={setModal3Display}
+                        setCandidate={setCandidate}
                       ></MatchPerson>
                     </>
                   );
@@ -283,45 +359,55 @@ export default function Main({ slug }: { slug: string }): any {
               >
                 {`새 신청(${pending.length})`}
               </div>
-              {(pending as { map: Function }).map(
-                (
-                  item: {
-                    username: string;
-                    age: number;
-                    mannerScore: number;
-                    stateMessage: string;
-                  },
-                  index: number
-                ) => {
-                  return (
-                    <>
-                      {' '}
-                      <div
-                        className="MatchPerson"
-                        onClick={() => {
-                          if (
-                            myStatus &&
-                            'text' in myStatus &&
-                            (myStatus as { text: string }).text == 'Owner'
-                          ) {
-                            setModal2Display(true);
-                            const copied: any = pending;
-                            setCandidate(copied[index]);
-                          }
-                        }}
-                        style={{ cursor: 'pointer' }}
-                      >
-                        <div>
-                          <Image src={emptyProfile} alt="profile" width="48" />
+              <div
+                style={{
+                  background: '#f0f0f2',
+                  borderRadius: '8px',
+                }}
+              >
+                {(pending as { map: Function }).map(
+                  (
+                    item: {
+                      username: string;
+                      age: number;
+                      mannerScore: number;
+                      stateMessage: string;
+                    },
+                    index: number
+                  ) => {
+                    return (
+                      <>
+                        <div
+                          className="MatchPerson"
+                          onClick={() => {
+                            if (
+                              myStatus &&
+                              'text' in myStatus &&
+                              (myStatus as { text: string }).text == 'Owner'
+                            ) {
+                              setModal2Display(true);
+                              const copied: any = pending;
+                              setCandidate(copied[index]);
+                            }
+                          }}
+                          style={{ cursor: 'pointer' }}
+                        >
+                          <div>
+                            <Image
+                              src={emptyProfile}
+                              alt="profile"
+                              width="48"
+                            />
+                          </div>
+                          <div>{item.username}</div>
+                          <div>{item.stateMessage}</div>
+                          <div>Lv.{item.mannerScore}</div>
                         </div>
-                        <div>{item.username}</div>
-                        <div>{item.stateMessage}</div>
-                        <div>Lv.{item.mannerScore}</div>
-                      </div>
-                    </>
-                  );
-                }
-              )}
+                      </>
+                    );
+                  }
+                )}
+              </div>
             </div>
           ) : (
             <></>
@@ -425,7 +511,7 @@ export default function Main({ slug }: { slug: string }): any {
               <Image src={emptyProfile} alt="profile" width="48" />
             </div>
             <div>{candidate.username}</div>
-            <div>{candidate.age}</div>
+            <div>{candidate.stateMessage}</div>
             <div>Lv.{candidate.mannerScore}</div>
           </div>
           <div
@@ -520,6 +606,73 @@ export default function Main({ slug }: { slug: string }): any {
               }}
             >
               수락하기
+            </button>
+          </div>
+        </ModalView>
+
+        <ModalView
+          display={modal3Display}
+          setDisplay={setModal3Display}
+          title="친구 추가"
+        >
+          <div
+            className="MatchPerson"
+            style={{
+              marginLeft: '20px',
+              width: 'calc(100% - 80px)',
+            }}
+          >
+            <div>
+              <Image src={emptyProfile} alt="profile" width="48" />
+            </div>
+            <div>{candidate.username}</div>
+            <div>{candidate.stateMessage}</div>
+            <div>Lv.{candidate.mannerScore}</div>
+          </div>
+          <div
+            style={{
+              marginTop: '10px',
+              marginBottom: '10px',
+              position: 'relative',
+              width: '100%',
+              height: '50px',
+            }}
+          >
+            <button
+              onClick={() => {
+                api(
+                  'friend',
+                  'post',
+                  {
+                    friendId: candidate.userId,
+                  },
+                  [
+                    null,
+                    () => {
+                      setModal3Display(false);
+                    },
+                  ]
+                );
+              }}
+              style={{
+                right: '0px',
+                display: 'block',
+                position: 'absolute',
+                float: 'right',
+                boxSizing: 'border-box',
+                cursor: 'pointer',
+                height: '50px',
+                fontSize: '16px',
+                fontWeight: 'bold',
+                border: 'none',
+                borderRadius: '8px',
+                width: 'calc(100% - 72px)',
+                marginRight: '36px',
+                background: '#8638ea',
+                color: '#fff',
+              }}
+            >
+              친구추가
             </button>
           </div>
         </ModalView>
