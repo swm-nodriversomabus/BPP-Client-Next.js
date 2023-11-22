@@ -1,0 +1,16 @@
+version: 0.0
+Resources:
+  - TargetService:
+      Type: AWS::ECS::Service
+      Properties:
+        TaskDefinition: ""
+        LoadBalancerInfo:
+            ContainerName: "prod-yeohaeng-web"
+            ContainerPort: 80
+        CapacityProviderStrategy: [
+            {
+                "CapacityProvider": "Infra-ECS-Cluster-prod-party-web-cl-b38a65f4-EC2CapacityProvider-zUWqWBuyVab4",
+                "Base": 0,
+                "Weight": 1
+            }
+          ]
