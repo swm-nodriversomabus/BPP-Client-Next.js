@@ -26,6 +26,12 @@ export default function Home(): any {
     setRecommendMatch,
   ]);
 
+  const [accommodation, setAccommodation] = useState<JSON | null>(null);
+  api('accommodation/recommended', 'get', {}, [
+    accommodation,
+    setAccommodation,
+  ]);
+
   return (
     <>
       <Navbar more></Navbar>
@@ -57,7 +63,7 @@ export default function Home(): any {
                     title={item.title}
                     place={item.place}
                     period={`${item.startDate[0]}.${item.startDate[1]}.${item.startDate[2]}~${item.endDate[0]}.${item.endDate[1]}.${item.endDate[2]}`}
-                    currentUser={1}
+                    currentUser={item.currentMember}
                     maxUser={item.maxMember}
                     key={1}
                   />
@@ -76,8 +82,9 @@ export default function Home(): any {
           <Image src={matebanner1} alt="banner" />
           <Image src={matebanner1} alt="banner" />
           <Image src={matebanner1} alt="banner" />
-        </FlickView>
-        <div className="SectionTitle">추천 숙소</div>
+        </FlickView> */}
+
+        {/* <div className="SectionTitle">추천 숙소</div>
         <FlickView>
           <Image src={accombanner1} alt="banner" />
           <Image src={accombanner1} alt="banner" />

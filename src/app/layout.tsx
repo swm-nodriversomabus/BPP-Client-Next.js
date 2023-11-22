@@ -19,23 +19,31 @@ export const metadata: Metadata = {
   description: '기사없는소마버스',
 };
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  minimumScale: 1,
+};
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const GOOGLEMAPS = process.env.GOOGLEMAPS;
   return (
     <>
+      <Script
+        async
+        src={`https://maps.googleapis.com/maps/api/js?key=${GOOGLEMAPS}&libraries=places&callback=initMap`}
+      />
       <link rel="icon" href="/favicon.ico" sizes="any" />
       <link
         rel="apple-touch-icon"
         href="/apple-icon?<generated>"
         type="image/<generated>"
         sizes="<generated>"
-      />
-      <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
       />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="theme-color" content="#fff" />
