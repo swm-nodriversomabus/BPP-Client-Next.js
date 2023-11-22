@@ -48,7 +48,7 @@ export default function Home(): any {
               borderRadius: '5px',
               width: '100%',
               fontSize: '16px',
-              backgroundColor: '#f00',
+              backgroundColor: confirmText == confirmCheck ? '#e33' : '#aaa',
               color: '#fff',
             }}
             onClick={() => {
