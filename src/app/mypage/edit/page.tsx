@@ -126,7 +126,16 @@ export default function Home(): any {
           />
         </div>
       </ContentBox>
-      <iframe name="blankFrame" style={{ display: 'none' }}></iframe>
+      <iframe
+        name="blankFrame"
+        style={{ display: 'none' }}
+        onLoad={() => {
+          setIsImage(false);
+          setTimeout(() => {
+            setIsImage(true);
+          }, 300);
+        }}
+      ></iframe>
       <form
         method="post"
         action={`${process.env.NEXT_BASE_URL}user/image`}
